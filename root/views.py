@@ -13,7 +13,7 @@ import random
 import threading
 import base64
 import requests
-from django.utils.translation import ugettext_lazy as _
+
 
 
 

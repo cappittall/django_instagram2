@@ -3,7 +3,6 @@ from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import User
 from user.models import UsersCategories
-from django.utils.translation import ugettext_lazy as _
 
 class CategoryType(models.Model):
     type_name = models.CharField(verbose_name="Type",max_length=250)
@@ -79,7 +78,7 @@ class Services(models.Model):
     packpages = models.ForeignKey(UserPackpages,on_delete=models.CASCADE,verbose_name="Kullanıcı Paketi",null=True,blank=True)
     category = models.ForeignKey(ServiceCategory,verbose_name='Kategori',on_delete=models.CASCADE)
     name = models.CharField(verbose_name="Servis İsmi",max_length=150)
-    rate = models.FloatField(default=150.0,verbose_name=_('Fiyat'))
+    rate = models.FloatField(default=150.0,verbose_name='Fiyat')
     min = models.IntegerField(default=0,verbose_name="min")
     max = models.IntegerField(default=0,verbose_name="max")
     dripfeed = models.BooleanField(default=False,verbose_name="dripfeed")

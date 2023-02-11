@@ -36,7 +36,6 @@ from core.settings import EMAIL_HOST_USER
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import EmailMessage
 from pathlib import Path
-from django.utils.translation import ugettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -70,7 +69,7 @@ def instagramGenel(request):
     instagram_accounts= InstagramAccounts.objects.all()
     
     context = {
-        'title':_('İnstagram Genel İşlemler'),
+        'title':'İnstagram Genel İşlemler',
         'start_count': InstagramAccounts.objects.count(),
         'starting':starting,
         'service_lists':choices,
@@ -170,7 +169,7 @@ def instagramGenel(request):
 @user_passes_test(lambda u: u.is_superuser)
 def instagramSiparisler(request):
     context={}
-    context['title']=_('İşlem durumu... ')
+    context['title']='İşlem durumu... '
     context['successful_log_data']=OrderList.objects.filter(user=request.user.profil)
     return render(request,'custom_admin/instagram_tools/successful.html', context)
 
@@ -225,7 +224,7 @@ def dashboardView(request):
 
 
         context = {
-            'title':_('Kullanıcı Verileri'),
+            'title':'Kullanıcı Verileri',
             'erkek':erkekUsers,
             'kadin':kadinUsers,
             'total':len(users),
@@ -410,7 +409,7 @@ def savePhotoView(request):
             starting = True
 
         context = {
-            'title':_('Fotoğraf Kaydetme'),
+            'title':'Fotoğraf Kaydetme',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -541,7 +540,7 @@ def sendWatchLiveView(request):
     
 
         context = {
-            'title':_('Watch Live Stream'),
+            'title':'Watch Live Stream',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -715,7 +714,7 @@ def sendLikeLiveView(request):
     
 
         context = {
-            'title':_('Like Live Stream'),
+            'title':'Like Live Stream',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -802,7 +801,7 @@ def sendCommentLiveView(request):
             starting = True
 
         context = {
-            'title':_('Canlı Yayın Yorum'),
+            'title':'Canlı Yayın Yorum',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -971,7 +970,7 @@ def sendDMMessageView(request):
             starting = True
 
         context = {
-            'title':_('DM Mesaj Gönder'),
+            'title':('DM Mesaj Gönder'),
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -1419,7 +1418,7 @@ def sendDMTopluMessageView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM Toplu Mesaj Gönder'),
+            'title':'DM Toplu Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -1500,7 +1499,7 @@ def sendDMReelTopluMessageView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM Reel Video Toplu Mesaj Gönder'),
+            'title':'DM Reel Video Toplu Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -1581,7 +1580,7 @@ def sendDMIgTvTopluMessageView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM IGTV Toplu Mesaj Gönder'),
+            'title':'DM IGTV Toplu Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -1664,7 +1663,7 @@ def sendDMVideoTopluMessageView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM Video Toplu Mesaj Gönder'),
+            'title':'DM Video Toplu Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -1745,7 +1744,7 @@ def sendDMResimTopluMessageView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM Resim Toplu Mesaj Gönder'),
+            'title':'DM Resim Toplu Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -1900,7 +1899,7 @@ def sendPostLikeView(request):
             starting = True
 
         context = {
-            'title':_('Beğeni Gönder'),
+            'title':'Beğeni Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -2070,7 +2069,7 @@ def sendPostCommentView(request):
             starting = True
 
         context = {
-            'title':_('Yorum Gönder'),
+            'title':'Yorum Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -2231,7 +2230,7 @@ def sendFollowView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('Takipçi Gönder'),
+            'title':'Takipçi Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -2291,7 +2290,7 @@ def clearAccountsView(request):
             error_users = InstagramCookies.objects.filter(active=False)
             
         context = {
-            'title':_('Hesap Temizliği'),
+            'title':'Hesap Temizliği',
             'accountsChecked':accountsChecked,
             'error_users':error_users,
         }
@@ -2373,7 +2372,7 @@ def usersActivePasifView(request):
 
         get_user_categories = UsersCategories.objects.all()
         context = {
-            'title':_('Kullanıcıları Aktif Yap'),
+            'title':'Kullanıcıları Aktif Yap',
             'get_user_categories':get_user_categories,
             'startingActive':startingActive,
             'user_categories_data':zip(get_users_categories,category_users_len),
@@ -2401,7 +2400,7 @@ def loginView(request):
                 return redirect('custom_admin:dashboard')
 
         context = {
-            'title':_('Admin Login')
+            'title':'Admin Login'
         }
 
         return render(request, "custom_admin/login.html", context)
@@ -2450,7 +2449,7 @@ def successfulValueView(request):
         for x in successful_log_data:
             total_value += x.successful_value
         context = {
-            'title':_('Başarılı İşlem Kayıtları'),
+            'title':'Başarılı İşlem Kayıtları',
             'successful_log_data':successful_log_data,
             'total_value':total_value,
         }
@@ -2487,7 +2486,7 @@ def successfulValueEditView(request):
                         return redirect('custom_admin:successful-value-edit')
 
         context = {
-            'title':_('Başarılı İşlem Kayıtları'),
+            'title':'Başarılı İşlem Kayıtları',
             'successful_log_data':successful_log_data,
             'total_value':total_value,
         }
@@ -2513,7 +2512,7 @@ def successfulValueEditServiceView(request,id):
             return redirect('custom_admin:successful-value-edit')
 
     context = {
-        'title':_('İşlem Kaydını Düzenle'),
+        'title':'İşlem Kaydını Düzenle',
         'get_service_log':get_service_log,
     }
 
@@ -2551,7 +2550,7 @@ def apiOrdersView(request):
 
         context = {
             'orders':p_orders,
-            'title':_('Api Sipariş Yönetimi'),
+            'title':'Api Sipariş Yönetimi',
             'q':q,
         }
 
@@ -2600,7 +2599,7 @@ def instagramUsersList(request):
         context = {
             'users':zip(p_users,p_oi,p_oii),
             'p_users':p_users,
-            'title':_('Instagram Kullanıcı Listesi'),
+            'title':'Instagram Kullanıcı Listesi',
             "q":q,
             'deleteUsers':deleteUsers,
         }
@@ -2652,7 +2651,7 @@ def usersCategoriesUserList(request,id):
 
 
         context = {
-            'title': get_user_cat.category_name + " " +_('Kategorisi Kullanıcı Listesi'),
+            'title': get_user_cat.category_name + " " +'Kategorisi Kullanıcı Listesi',
             'users':p_users,
             'p_users':p_users,
             'deleteUsers':deleteUsers,
@@ -2677,7 +2676,7 @@ def editUserPackpagesView(request,id):
 
             return redirect('custom_admin:user-packpages')
         context = {
-            'title':_('Kullanıcı Paketi Düzenle') + '{}'.format(packpages.name),
+            'title':'Kullanıcı Paketi Düzenle' + '{}'.format(packpages.name),
             'form':form,
         }
         return render(request,'custom_admin/edit-packpages.html',context)    
@@ -2728,7 +2727,7 @@ def userPackpagesView(request):
             return redirect('custom_admin:user-packpages')            
 
         context = {
-            'title':_('Api Kullanıcı Paketleri'),
+            'title':'Api Kullanıcı Paketleri',
             'genders':genders_db,
             'country_codes':country_codes_db,
             'all_packpages':all_packpages,
@@ -2762,7 +2761,7 @@ def usersDataView(request):
             countryCodeList.append(mydict)
 
         context = {
-            'title':_('Kullanıcı Verileri'),
+            'title':'Kullanıcı Verileri',
             'erkek':erkekUsers,
             'kadin':kadinUsers,
             'total':erkekUsers+kadinUsers,
@@ -2810,7 +2809,7 @@ def servicesview(request):
         
         context = {
             
-            'title':_('Servisler'),
+            'title':'Servisler',
             'user_packpages_db':user_packpages_db,
             'category_db':category_db,
             'services':all_services,
@@ -2831,7 +2830,7 @@ def editServicesView(request,id):
 
             return redirect('custom_admin:services')
         context = {
-            'title':_('Servis Düzenle') + " " +  '{}'.format(service.name),
+            'title':'Servis Düzenle' + " " +  '{}'.format(service.name),
             'service':service,
             'form':form,
         }
@@ -2861,7 +2860,7 @@ def apiSettingsView(request):
 
         context = {
             'api_key': createdkey,
-            'title':_('Api Ayarları')
+            'title':'Api Ayarları'
         }
         return render(request, 'custom_admin/api-settings.html', context)
     else:
@@ -3026,7 +3025,7 @@ def importUsersView(request):
         context = {
             'importUsers': importUsers,
             'loadingFile':loadingFile,
-            'title':_('Kullanıcıları İçe Aktar'),
+            'title':'Kullanıcıları İçe Aktar',
             'form':form,
             'fileData':fileData,
             'get_user_categories':get_user_categories,
@@ -3181,7 +3180,7 @@ def exportUsersView(request):
 
         context = {
             'importing': importing,
-            'title':_('Kullanıcıları Dışa Aktar'),
+            'title':'Kullanıcıları Dışa Aktar',
             'genders':genders_db,
             'get_user_categories':get_user_categories,
             'country_codes':country_codes_db,
@@ -3212,7 +3211,7 @@ def seoSettingsView(request):
             return redirect('custom_admin:seo-settings')
 
         context = {
-            'title':_('Seo Ayarları'),
+            'title':'Seo Ayarları',
             'last_seo':last_seo,
             'filesForm':filesForm,
         }
@@ -3255,7 +3254,7 @@ def smtpSettingsView(request):
                 mailError = True
 
         context = {
-            'title':_('SMTP Mail Ayarları'),
+            'title':'SMTP Mail Ayarları',
             'smtp_form':smtp_form,
             'smtp_test_status':smtp_test_status,
             'mailError':mailError,
@@ -3291,7 +3290,7 @@ def homeManagerView(request):
             return redirect('custom_admin:home-manager')
 
         context = {
-            'title':_('Ana Sayfa Yönetimi'),
+            'title':'Ana Sayfa Yönetimi',
             'last_home':last_home,
         }
 
@@ -3531,7 +3530,7 @@ def addProxyView(request):
 
         p_all_proxy = paginator.get_page(page)
         context = {
-            'title':_('Service Proxy'),
+            'title':'Service Proxy',
             'addStatus':addStatus,
             'all_proxy':p_all_proxy,
             'deleteStatus':deleteStatus,
@@ -3551,7 +3550,7 @@ def webApiContactView(request):
     allHosts = HostKeys.objects.all()
 
     context = {
-        'title':_('Web Api İletişimleri'),
+        'title':'Web Api İletişimleri',
         'hosts':allHosts,
     }
 
@@ -3642,7 +3641,7 @@ def webApiContactManage(request,host):
             t.start()
             
         context = {
-            'title':_('Web Api İletişimleri'),
+            'title':'Web Api İletişimleri',
             'host':host,
             'userinfo':userinfo,
             'userReq':userReq,
@@ -3693,7 +3692,7 @@ def notLoginUsersView(request):
 
 
         context = {
-            'title':_('Girişte Hata ile Karşılaşan Yeni Hesaplar'),
+            'title':'Girişte Hata ile Karşılaşan Yeni Hesaplar',
             'allNotLogins':allNotLogins,
             'allNotLoginsChallenge':allNotLoginsChallenge,
             'updateModel':updateModel,
@@ -3754,7 +3753,7 @@ def notLoginOldUsersView(request):
 
 
         context = {
-            'title':_('Girişte Hata ile Karşılaşan Eski Hesaplar'),
+            'title':'Girişte Hata ile Karşılaşan Eski Hesaplar',
             'allNotLogins':allNotLogins,
             'allNotLoginsChallenge':allNotLoginsChallenge,
             'allNotLoginsCheckpoint':allNotLoginsCheckpoint,
@@ -3825,7 +3824,7 @@ def getUserFollowDataView(request):
 
 
         context = {
-            'title':_('Kullanıcı Takipçi Verilerini Çek'),
+            'title':'Kullanıcı Takipçi Verilerini Çek',
             'process':process,
             'all_process':all_process,
         }
@@ -3864,7 +3863,7 @@ def sendAutoPostLikeView(request):
 
         allAutoLikeUsers = AutoLikeUser.objects.all()
         context = {
-            'title':_('Oto Beğeni Emri Oluştur'),
+            'title':'Oto Beğeni Emri Oluştur',
             'starting':starting,
             'auto':allAutoLikeUsers,
         }
@@ -3891,7 +3890,7 @@ def articleView(request):
             return redirect('custom_admin:article')
 
         context = {
-            'title':_('Makale'),
+            'title':'Makale',
             'last_article':last_article,
             'form':form,
         }
@@ -4003,7 +4002,7 @@ def mentionControlView(request):
 
 
         context = {
-            'title':_('Mention Control'),
+            'title':'Mention Control',
             'form':form,
             'mentionControls':mentionControls,
             'file_error':file_error,
@@ -4121,7 +4120,7 @@ def usersScannerView(request):
 
 
         context = {
-            'title':_('Kullanıcıları Tarama'),
+            'title':'Kullanıcıları Tarama',
             'form':form,
             'usersscannerdata':usersscannerdata,
             'file_error':file_error,
@@ -4165,7 +4164,7 @@ def updateTxtCookieView(request):
 
 
         context = {
-            'title':_('Cookie TXT Yenile'),
+            'title':'Cookie TXT Yenile',
             'working':working,
         }
 
@@ -4199,7 +4198,7 @@ def sendAutoFollowView(request):
 
         allAutoFollowUsers = AutoFollowUser.objects.all()
         context = {
-            'title':_('Oto Takip Edileni Takip'),
+            'title':'Oto Takip Edileni Takip',
             'auto':allAutoFollowUsers,
         }
 
@@ -4386,7 +4385,7 @@ def sendIgtvLinkDmView(request):
 
             
         context = {
-            'title':_('Igvtv Link Mesaj Toplu DM'),
+            'title':'Igvtv Link Mesaj Toplu DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -4782,7 +4781,7 @@ def sendReelLinkDmView(request):
 
             
         context = {
-            'title':_('ReeL Video Ve Link Mesaj Toplu DM'),
+            'title':'ReeL Video Ve Link Mesaj Toplu DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -5079,7 +5078,7 @@ def sendProfilMessageDmView(request):
 
             
         context = {
-            'title':_('Profil + Mesaj DM'),
+            'title':'Profil + Mesaj DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -5173,7 +5172,7 @@ def sendProfilMessageDmLinkView(request):
 
             
         context = {
-            'title':_('Profil + Mesaj + Link DM'),
+            'title':'Profil + Mesaj + Link DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -5357,7 +5356,7 @@ def sendPostVideoLinkDmView(request):
 
             
         context = {
-            'title':_('Post Video Ve Link Mesaj Toplu DM'),
+            'title':'Post Video Ve Link Mesaj Toplu DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -5546,7 +5545,7 @@ def sendPostImageLinkDmView(request):
 
             
         context = {
-            'title':_('Post Resim Ve Link Mesaj Toplu DM'),
+            'title':'Post Resim Ve Link Mesaj Toplu DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -5669,7 +5668,7 @@ def affirmationsView(request):
 
 
         context = {
-            'title':_('Api Sipariş Onaylamaları'),
+            'title':'Api Sipariş Onaylamaları',
             'affirmations_list':affirmations_list,
         }
 
@@ -5700,7 +5699,7 @@ def userCategoryView(request):
                         return redirect('custom_admin:user-categories')
 
         context = {
-            'title':_('Kullanıcı Kategorileri'),
+            'title':'Kullanıcı Kategorileri',
             'user_categories_list':user_categories_list,
             'form':form,
         }
@@ -5722,7 +5721,7 @@ def editUserCategoryView(request,id):
 
 
         context = {
-            'title':_('Kullanıcı Kategori Düzenle'),
+            'title':'Kullanıcı Kategori Düzenle',
             'form':form,
         }
 
@@ -5910,7 +5909,7 @@ def sendDMTopluMessageFollowersView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM Toplu Takipçi Taramalı Mesaj Gönder'),
+            'title':'DM Toplu Takipçi Taramalı Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -6088,7 +6087,7 @@ def sendDMResimTopluMessageFollowersView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM Resim Toplu Takipçi Taramalı Mesaj Gönder'),
+            'title':'DM Resim Toplu Takipçi Taramalı Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -6271,7 +6270,7 @@ def sendDMVideoTopluMessageFollowersView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM Video Toplu Takipçi Taramalı Mesaj Gönder'),
+            'title':'DM Video Toplu Takipçi Taramalı Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -6458,7 +6457,7 @@ def sendDMIgtvTopluMessageFollowersView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM IGTV Toplu Takipçi Taramalı Mesaj Gönder'),
+            'title':'DM IGTV Toplu Takipçi Taramalı Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -6642,7 +6641,7 @@ def sendDMReelTopluMessageFollowersView(request):
             print('order oluşturuldu.',user_order.status)
             starting = True
         context = {
-            'title':_('DM Reel Video Toplu Takipçi Taramalı Mesaj Gönder'),
+            'title':'DM Reel Video Toplu Takipçi Taramalı Mesaj Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -6829,7 +6828,7 @@ def sendPostImageLinkDmFollowersView(request):
 
             
         context = {
-            'title':_('Post Resim Ve Link Mesaj Toplu Kullanıcı Takipçi Taramalı DM'),
+            'title':'Post Resim Ve Link Mesaj Toplu Kullanıcı Takipçi Taramalı DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -7019,7 +7018,7 @@ def sendPostVideoLinkDmFollowersView(request):
 
             
         context = {
-            'title':_('Post Video Ve Link Mesaj Toplu Kullanıcı Takipçi Taramalı DM'),
+            'title':'Post Video Ve Link Mesaj Toplu Kullanıcı Takipçi Taramalı DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -7210,7 +7209,7 @@ def sendPostIGTVLinkDmFollowersView(request):
 
             
         context = {
-            'title':_('IGTV+Mesaj Ve Link+Mesaj Toplu Kullanıcı Takipçi Taramalı DM'),
+            'title':'IGTV+Mesaj Ve Link+Mesaj Toplu Kullanıcı Takipçi Taramalı DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -7399,7 +7398,7 @@ def sendPostReelLinkDmFollowersView(request):
 
             
         context = {
-            'title':_('ReelVideo Mesaj Ve Link Mesaj Toplu Kullanıcı Takipçi Taramalı DM'),
+            'title':'ReelVideo Mesaj Ve Link Mesaj Toplu Kullanıcı Takipçi Taramalı DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -7493,7 +7492,7 @@ def sendProfilMessageDmFollowersView(request):
 
             
         context = {
-            'title':_('Profil + Mesaj Kullanıcı Takipçi Taramalı DM'),
+            'title':'Profil + Mesaj Kullanıcı Takipçi Taramalı DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -7686,7 +7685,7 @@ def sendProfilMessageDmLinkFollowersView(request):
 
             
         context = {
-            'title':_('Profil + Mesaj + Link Kullanıcı Takipçi Taramalı DM'),
+            'title':'Profil + Mesaj + Link Kullanıcı Takipçi Taramalı DM',
             'formatError':formatError,
             'starting':starting,
             'get_user_categories':get_user_categories,
@@ -7874,7 +7873,7 @@ def sendProfileVisitView(request):
                 
             starting = True
         context = {
-            'title':_('Profil Ziyareti Gönder'),
+            'title':'Profil Ziyareti Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
@@ -8004,7 +8003,7 @@ def sendVideoView(request):
                 
             starting = True
         context = {
-            'title':_('Video İzleme Gönder'),
+            'title':'Video İzleme Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
         }
