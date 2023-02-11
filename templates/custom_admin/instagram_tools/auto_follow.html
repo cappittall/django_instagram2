@@ -1,0 +1,94 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+  <form method="POST">
+    {% csrf_token %}
+        <div class="field">
+            <label>{% trans "Kullanıcı" %}*</label>
+            <div class="control">
+                <input type="text" required name="username" class="form-control">
+            </div>
+        </div>
+    
+        <div class="field">
+            <label>{% trans "Takipçi Miktarı" %}*</label>
+            <div class="control">
+                <input type="number" required name="quantity" min="1" class="form-control">
+            </div>
+        </div>
+     
+     <div style="text-align: center;"><br>
+        <button type="submit" name="btnAutoFollow" class="btn btn-primary">{% trans "Oto Takipçi Emri Ver" %}</button>
+     </div>
+     
+    </form>
+
+</div>
+</div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">{% trans "Aktif Emirler" %}</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>{% trans "Kullanıcı" %}</th>
+              <th>{% trans "Başlangıç Tarihi" %}</th>
+              <th>{% trans "Takipçi Miktarı" %}</th>
+              <th>{% trans "Emri İptal Et" %}</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+              {% for a in auto %}
+            <tr>
+              <td>{{ a.id }}</td> 
+              <td>{{ a.username }}</td>
+              <td>{{ a.date }}</td>
+              <td>{{ a.quantity }}</td>
+              <td>
+                <form method="POST">
+                  {% csrf_token %}
+                <button name="btnDelete{{a.id}}" class="btn btn-danger">{% trans "Sil" %}</button>
+                </form>
+              </td>
+          
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+  {% endblock %}
+
+

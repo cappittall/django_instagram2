@@ -1,0 +1,135 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+
+
+ <div class="container-fluid">
+   <form action="" method="POST">
+
+  
+  <div class="form-group">
+    {% csrf_token %}
+    <label for="packpagesName">{% trans 'Paket Adı' %}</label>
+    <input type="text" class="form-control" name="packpageName" required id="packpagesName" placeholder="{% trans 'Paket adı' %}...">
+  </div>
+  <div class="form-group">
+    <label>Cinsiyet</label>
+    <select name="selectGender" class="form-control">
+      <option value selected>----------</option>
+
+      {% for x in genders %}
+      <option value="{{ x.id }}">{% if x.name == "1" %}{% trans 'Erkek' %}{% else %}{% trans 'Kadın' %}{% endif %}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label>{% trans 'Ülke Kodu' %}</label>
+    <select name="selectCountry" class="form-control">
+      <option value selected>----------</option>
+      {% for x in country_codes %}
+      <option value="{{ x.id }}">{{ x.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <label>{% trans 'Kullanıcı Kategorileri' %}</label>
+<select name="user_category" class="form-control style="width: 100%;" multiple id="">
+  {% for x in user_categories_list %}
+  <option value="{{ x.id }}">{{ x.category_name }}</option>
+  {% endfor %}
+</select><br>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-4">
+    <button type="submit"  class="btn btn-block btn-default" name="btnCreate">{% trans 'Paketi Oluştur' %}</button>
+      </div>
+    </div>
+    </div>
+  </form>
+ </div>
+ <div class="row">
+   <div class="col-6"></div>
+   <div class="col-6 text-right">
+    <a href="{% url 'custom_admin:dashboard' %}"  class="btn btn-block btn-default" name="btnCreate">{% trans 'Kullanıcı Verileri' %}</a><br>
+   </div>
+
+
+ </div>
+
+ <div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">{% trans 'Aktif Kullanıcı Paketleri' %}</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>{% trans 'Paket Adı' %} </th>
+              <th>{% trans 'Kullanıcı Kategorileri' %}</th>
+              <th>{% trans 'Ülke Kodu' %}</th>
+              <th>{% trans 'Cinsiyet' %}</th>
+              <th>{% trans 'Düzenle' %}</th>
+              <th>{% trans 'Sil' %}</th>
+
+            </tr>
+          </thead>
+          <tbody>
+              {% for packpage in all_packpages %}
+            <tr>
+              <td>{{ packpage.name }}</td>
+              <td  class="text-center">
+                
+                {% if packpage.category.all %}
+                {% for cat in packpage.category.all %}{{ cat }}{% if forloop.last %}{% else %},{% endif %}{% endfor %}
+                {% else %}
+                -
+                {% endif %}
+              </td>
+              <td class="text-center">{% if  packpage.country_code %}
+                {{ packpage.country_code.name }}
+              {% else %}
+                  -
+              {% endif %}
+              </td>
+              <td class="text-center">
+                {% if  packpage.country_code %}
+                {{ packpage.gender.name }}
+              {% else %}
+                  -
+              {% endif %}
+              </td>
+              <td><a href="{% url 'custom_admin:edit-user-packpages' id=packpage.id %}" class="btn btn-block btn-warning">{% trans 'Düzenle' %}</a></td>
+              <td>
+                <form method="POST">
+                  {% csrf_token %}
+                <button type="submit" name="btn{{ packpage.id }}" class="btn btn-block btn-danger">{% trans 'Sil' %}</button>
+                </form>
+               </td>
+           
+            </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+     
+  </div>
+
+</div>
+{% endblock %}

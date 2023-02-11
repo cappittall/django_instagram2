@@ -1,0 +1,126 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Kullanıcılar' %}</h3>
+        </div>
+        <!-- /.card-header -->
+
+        <div class="card-body">
+          {% if deleteUsers %}
+          <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-info"></i> {% trans 'Başarılı' %}!</h5>
+            {% trans 'Tüm kullanıcılar silindi' %}.
+          </div>
+          {% endif %}
+          <div class="row">
+              <div class="col-6">
+          <form method="GET">
+                <input class="form-control" style="width: 100%;" name="q" type="search" placeholder="{% trans 'kullanıcı adı' %}..." aria-label="Search">
+          </form>
+             
+              </div>
+              <div class="col-6">
+                {% if q %} 
+                <a href="{% url 'custom_admin:users-list' %}"  class="btn btn-block btn-default" >{% trans 'Tümünü Listele' %}</a>
+                {% else %}
+                <form method="POST">
+                  {% csrf_token %}
+                  <button class="btn btn-block btn-danger" name="btndDelete" >{% trans 'Tüm Kullanıcıları Sil' %}</a>
+                </form>
+                {% endif %}
+
+              </div>
+
+            </div>
+            <br>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>{% trans 'Kullanıcı Adı' %}</th>
+                <th>{% trans 'Parola' %}</th>
+                <th>{% trans 'Ülke Kodu' %}</th>
+                <th>{% trans 'Telefon' %}</th>
+                <th>{% trans 'Email' %}</th>
+                <th>{% trans 'Cinsiyet' %}</th>
+                <th>{% trans 'Kullanıcı Tipi' %}</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for user,oi,oii in users %}
+              <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ oii.default_password }}</td>
+                <td>{{ oi.country_code }}</td>
+                <td>{{ oi.phone }}</td>
+                <td>{% if user.email %}
+                  {{ user.email }}{% else %}-{% endif %}</td>
+                <td>{{ oi.gender }}</td>
+                <td class="text-center">
+                    {% if  oi.default_user  %}
+                    <span class="badge bg-info">{% trans 'Instagram Kullanıcısı' %}</span>
+                {% else %}
+                <span class="badge bg-danger">{% trans 'Bot Kullanıcısı' %}</span>
+                {% endif %}
+            </td>
+              </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix">
+          <ul class="pagination pagination-sm m-0 float-left">
+            {% if p_users.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ p_users.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"> {% trans 'Geri' %} </a>
+              </li>
+                {% endif %}
+
+                <li class="page-item">
+                    <a class="page-link">
+                      {{ p_users.number }} / {{ p_users.paginator.num_pages }}
+                    </a>
+              
+            </li>
+
+            {% if p_users.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ p_users.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"> {% trans 'İleri' %} </a>
+                </li>
+                <li class="page-item">
+                <a class="page-link" href="?page={{ p_users.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ p_users.paginator.num_pages }}</a>
+            </li>
+                {% endif %}
+          </ul>
+        </div>
+      </div>
+      <!-- /.card -->
+      <!-- /.card -->
+    </div>
+
+    <!-- /.col -->
+  </div>
+{% endblock %}

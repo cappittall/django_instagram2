@@ -1,0 +1,62 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if loadingFile %}
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> {% trans 'Başarılı' %}!</h5>
+    Dosya eklendi.
+  </div>
+  {% endif %}
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{ form }}
+
+<button type="submit" class="btn btn-primary" name="addFolder">{% trans 'Dosya Ekle' %}</button>
+</form><br>
+
+
+
+{% if importUsers %}
+<div class="alert alert-info alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+  <h5><i class="icon fas fa-info"></i> {% trans 'Bilgi' %}!</h5>
+  {% trans 'Kullanıcılar aktarılıyor' %}...
+</div>
+{% endif %}
+  <form method="POST">
+  {% csrf_token %}
+
+      <label>Kullanıcı veri dosyasını seç*</label>
+      <select name="fileName" required class="form-control">
+        <option value selected>----------</option>
+        {% for x in fileData %}
+        <option value="{{ x.id }}">{{ x.file }}</option>
+        {% endfor %}
+      </select><br>
+
+      <label>{% trans 'Kullanıcı kategorileri' %}</label>
+      
+              <select name="user_category" style="width: 100%;" multiple id="">
+                {% for x in get_user_categories %}
+                <option value="{{ x.id }}">{{ x.category_name }}</option>
+                {% endfor %}
+              </select>
+  <button type="submit" class="btn btn-primary" name="btnImport">{% trans 'Seçili Dosyayı İçeri Aktar' %}</button>
+
+    </form>
+{% endblock %}

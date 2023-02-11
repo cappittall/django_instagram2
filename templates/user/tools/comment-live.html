@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block header %}
+{% include 'header_main.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div id="posts-feed" class="container">
+    <div class="settings-wrapper is-full">
+        <!-- /partials/settings/sections/general-settings.html -->
+        <div id="general-settings" class="settings-section is-active">
+            <div class="settings-panel">
+    
+                <div class="title-wrap">
+                
+                    <h2>{{ title }}</h2>
+                </div>
+                <br><br>
+                {% if starting %}
+                <strong>Process started.</strong> Do not leave the page to follow the transactions...
+                {% else %}
+{% if request.user.otherinfo.balance > 0 %}
+<form method="POST">
+{% csrf_token %}
+<div class="field">
+    <label>Username*</label>
+    <div class="control">
+        <input type="text" required name="username" class="input">
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+
+var lines = 99999999999;
+var linesUsed = $('#linesUsed{{ item.id }}');
+
+$('#countMe{{item.id}}').keydown(function(e) {
+
+newLines = $(this).val().split("\n").length;
+linesUsed.text(newLines);
+
+if(e.keyCode == 13 && newLines >= lines) {
+    linesUsed.css('color', 'red');
+    return false;
+}
+else {
+    linesUsed.css('color', '');
+}
+});
+});
+</script>
+<div class="field">
+    <label>Comments*</label>
+    <div class="control">
+        <textarea class="textarea comment-textarea" required id="countMe" name="comments" rows="8" placeholder="add sending comments..."></textarea>
+    </div>
+</div>
+
+Quantity&nbsp; : &nbsp;&nbsp;<span id="linesUsed">0</span>
+<div style="text-align: center;">
+<button type="submit" name="btnSend" class="button is-solid primary-button raised">Start Submission</button>
+</div>
+
+</form>
+{% else %}
+<p>insufficient credit.</p>
+{% endif %}
+{% endif %}
+            
+            </div>
+
+
+
+    </div>
+</div>
+
+
+{% endblock %}

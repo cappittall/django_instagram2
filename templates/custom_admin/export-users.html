@@ -1,0 +1,64 @@
+{% extends 'custom_admin/base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <form action="" method="POST">
+ 
+      {% csrf_token %}
+   
+   <div class="form-group">
+     <label>{% trans 'Cinsiyet' %}</label>
+     <select name="selectGender" class="form-control">
+       <option value selected>----------</option>
+       {% for x in genders %}
+       <option value="{{ x.id }}">{% if x.name == "1" %}{% trans 'Erkek' %}{% else %}{% trans 'Kadın' %}{% endif %}</option>
+       {% endfor %}
+     </select>
+   </div>
+   <div class="form-group">
+     <label>{% trans 'Ülke Kodu' %}</label>
+     <select name="selectCountry" class="form-control">
+       <option value selected>----------</option>
+       {% for x in country_codes %}
+       <option value="{{ x.id }}">{{ x.name }}</option>
+       {% endfor %}
+     </select>
+   </div><br>
+   <label>{% trans 'Kullanıcı kategorileri' %}</label>
+      
+   <select required class="form-control" name="user_category" style="width: 100%;" multiple id="">
+     {% for x in get_user_categories %}
+     <option value="{{ x.id }}">{{ x.category_name }}</option>
+     {% endfor %}
+   </select>
+   <div class="custom-control custom-checkbox">
+    <input class="custom-control-input" name="deleteUser" type="checkbox" id="refill">
+    <label for="refill" class="custom-control-label">{% trans 'Kulanıcıları Silme İşlemi' %}</label>
+  </div>
+   <div class="form-group">
+     <div class="row">
+       <div class="col-12">
+     <button type="submit"  class="btn btn-default" name="btnExport">{% trans 'Kullanıcıları Dışa Akta' %}r</button>
+     <button type="submit"  class="btn btn-default" name="btnExportUserPass">{% trans 'Kullanıcıları user:pass olarak Dışa Aktar' %}</button> &nbsp;&nbsp; 
+       </div>
+     </div>
+     </div>
+   </form>
+  </div>
+
+
+{% endblock %}

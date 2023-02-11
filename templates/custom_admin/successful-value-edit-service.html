@@ -1,0 +1,56 @@
+{% extends 'custom_admin/base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                  <th>{% trans 'Servis' %} ID</th>
+                  <th>{% trans 'Servis Adı' %}</th>
+                    <th>{% trans 'Başarılı İşlem' %}</th>
+                    <th>{% trans 'Silinecek Başarılı İşlem Sayısı' %}</th>
+                    <th>{% trans 'İşlem' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ get_service_log.service_id }}</td>
+                <td>{{ get_service_log.service_name }}</td>
+                <td>{{ get_service_log.successful_value }}</td>
+                <td>
+                    <input type="number" min="0" max="{{get_service_log.successful_value}}" name="value" class="form-control" id="value">
+                </td>
+                <td><button name="btnSave" type="submit" class="btn btn-primary">{% trans 'Kaydet' %}</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+        </div>
+   
+      </div>
+      <!-- /.card -->
+      <!-- /.card -->
+    </div>
+  </div>
+{% endblock %}

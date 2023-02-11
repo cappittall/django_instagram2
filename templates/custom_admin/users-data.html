@@ -1,0 +1,91 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Cinsiyet Verileri' %}</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th >{% trans 'Toplam Kullanıcılar' %}</th>
+                <th >{% trans 'Kadın Kullanıcılar' %}</th>
+                <th>{% trans 'Erkek Kullanıcılar' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ total }}</td>
+                <td>{{ kadin }}</td>
+                <td>{{ erkek }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+     
+      </div>
+      <!-- /.card -->
+      <!-- /.card -->
+    </div>
+  
+  </div>
+    
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Ülke Kodu Ve Cinsiyet Verileri' %}</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                  <th>{% trans 'Ülke Kodu' %}</th>
+                  <th>{% trans 'Toplam Kullanıcı' %}</th>
+                <th >{% trans 'Kadın Kullanıcılar' %}</th>
+                <th>{% trans 'Erkek Kullanıcılar' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              {% for x in countryCodeList %}
+              <tr>
+                <td>{{ x.country_code }}</td>
+                <td>{{ x.total_user }}</td>
+                <td>{{ x.kadin_user }}</td>
+                <td>{{ x.erkek_user }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+   
+      </div>
+      <!-- /.card -->
+      <!-- /.card -->
+    </div>
+  </div>
+{% endblock %}

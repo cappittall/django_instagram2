@@ -1,0 +1,98 @@
+[
+    {
+        "model": "api.Services",
+        "pk": 1,
+        "fields": {
+            "name": "Kullanıcı takip etme",
+            "comm": "usersToFollow"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 2,
+        "fields": {
+            "name": "Gönderi beğenme",
+            "comm": "postLikes"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 3,
+        "fields": {
+            "name": "Gönderi yorum",
+            "comm": "postComments"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 4,
+        "fields": {
+            "name": "Resim hikaye paylaşma",
+            "comm": "postShares"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 5,
+        "fields": {
+            "name": "Video hikaye paylaşma",
+            "comm": "videoShares"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 6,
+        "fields": {
+            "name": "Canlı Seyret",
+            "comm": "liveWatches"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 7,
+        "fields": {
+            "name": "Canlı yayın beğenme",
+            "comm": "liveBroadCastLikes"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 8,
+        "fields": {
+            "name": "Canlı yayın yorum",
+            "comm": "liveBroadCastComments"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 8,
+        "fields": {
+            "name": "Tek kullanıcıya DM",
+            "comm": "singleUserDMs"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 8,
+        "fields": {
+            "name": "1GB internet kullanımı",
+            "comm": "internetusage1GB"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 8,
+        "fields": {
+            "name": "Resim post paylaşma-reklam",
+            "comm": "advertImageShare"
+        }
+    },
+    {
+        "model": "api.Services",
+        "pk": 8,
+        "fields": {
+            "name": "Video post paylaşma-reklam",
+            "comm": "advertVideoShare"
+        }
+    }
+]

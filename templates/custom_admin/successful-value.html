@@ -1,0 +1,53 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                  <th>{% trans 'Servis' %} ID</th>
+                  <th>{% trans 'Servis Adı' %}</th>
+                <th >{% trans 'Başarılı İşlem' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              {% for x in successful_log_data %}
+              <tr>
+                <td>{{ x.service_id }}</td>
+                <td>{{ x.service_name }}</td>
+                <td>{{ x.successful_value }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <br>
+          <span>
+            {% trans 'Toplam Başarılı İşlem' %} : <b>{{ total_value }}</b>
+          </span>
+        </div>
+   
+      </div>
+      <!-- /.card -->
+      <!-- /.card -->
+    </div>
+  </div>
+{% endblock %}

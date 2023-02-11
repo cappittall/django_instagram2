@@ -1,0 +1,82 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if file_error %}
+  <div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5> {% trans 'Hata' %}!</h5>
+    {% trans 'Bu kayıt için dosya bulunamadı' %}.
+  </div>
+  {% endif %}
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{ form }}
+<button type="submit" class="btn btn-primary" name="addFolder">{% trans 'Dosya Ekle' %}</button>
+</form><br>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">{% trans 'Mention Kontrol Listesi' %}</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>{% trans 'Dosya' %}</th>
+              <th>{% trans 'Tarih' %}</th>
+              <th>{% trans 'Sorunlu Kullanıcılar' %}</th>
+              <th>{% trans 'Sorunsuz Kullanıcılar' %}</th>
+              <th>{% trans 'Durum' %}</th>
+              <th>{% trans 'Sil' %}</th>
+
+            </tr>
+          </thead>
+          <tbody class="text-center">
+              {% for m in mentionControls %}
+            <tr>
+              <td>{{ m.id }}</td> 
+              <td>{{ m.rootfile.name }}</td>
+              <td>{{ m.date }}</td>
+              <td>{% if m.status %}  <form method="POST">
+                {% csrf_token %}
+              <button name="errorUsersData{{ m.id }}" type="submit" class="btn btn-default">{% trans 'Verileri İndir' %} (.txt)</button>
+              </form>{% endif %}</td>
+              <td>{% if m.status %}  <form method="POST">
+                {% csrf_token %}
+              <button name="successUsersData{{ m.id }}" type="submit" class="btn btn-default">{% trans 'Verileri İndir' %} (.txt)</button>
+              </form>{% endif %}</td>
+              <td>{% if m.status %}<span style="color: green;">{% trans 'Tamamlandı' %}</span>{% else %}<span style="color:lightskyblue">{% trans 'İşlem Devam Ediyor' %}</span>{% endif %}</td>
+              <td>{% if m.status %}  <form method="POST">
+                {% csrf_token %}
+              <button name="delete{{ m.id }}" type="submit" class="btn btn-danger">{% trans 'Sil' %}</button>
+              </form>{% endif %}</td>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">{{ title }}</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+      
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+{% if accountsChecked %}
+<div class="alert alert-info alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+  <h5><i class="icon fas fa-info"></i> {% trans 'Bilgi' %}!</h5>
+  {% trans 'Hesaplar sınanıyor' %}... ({% trans 'ölü hesaplar buraya düşecektir' %}.)
+</div>
+{% endif %}
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6">
+        <h3 class="card-title">{% trans 'Hata İle Karşılaşmış Hesaplar Listesi' %}</h3>
+          </div>
+
+          <div class="col-md-6 text-right">
+            <form method="POST">
+              {% csrf_token %}
+              <button class="btn btn-primary" name="btnCheckAccounts">{% trans 'Hatalı Hespaları Sına' %}</button>
+            </form>
+            {% if error_users %}
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-default">
+              {% trans 'Hesapları Temizle' %}
+            </button>
+          {% endif %}
+
+          </div>
+
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>{% trans 'Kullanıcı Adı' %}</th>
+              <th>{% trans 'Parola' %}</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for oi in error_users %}
+            <tr>
+              <td>{{ oi.user.id }}</td>
+              <td>{{ oi.user.username }}</td>
+              <td>{{ oi.default_password }}</td>
+          <tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+              <ul class="pagination pagination-sm m-0 float-left">
+                {% if orders.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">1</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ orders.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"> {% trans 'Geri' %} </a>
+                  </li>
+                    {% endif %}
+    
+                    <li class="page-item">
+                        <a class="page-link">
+                          {{ orders.number }} / {{ orders.paginator.num_pages }}
+                        </a>
+                  
+                </li>
+    
+                {% if orders.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ orders.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"> {% trans 'İleri' %} </a>
+                    </li>
+                    <li class="page-item">
+                    <a class="page-link" href="?page={{ orders.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ orders.paginator.num_pages }}</a>
+                </li>
+                    {% endif %}
+              </ul>
+            </div>
+
+            <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">{% trans 'Hesapları Temizle' %}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div>
+                        <p>{% trans 'Hata İle Karşılaşan Hesaplar Silinecek' %}</p>
+
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Kapat' %}</button>
+                    <form method="POST">
+                      {% csrf_token %}
+                    <button type="submit" name="btnDeleteAccounts" class="btn btn-danger">{% trans 'Onayla' %}</button>
+                    </form>
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+    </div>
+    <!-- /.card -->
+    <!-- /.card -->
+  </div>
+
+  <!-- /.col -->
+</div>
+
+{% endblock %}

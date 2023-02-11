@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+{% include 'header_main.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="page-placeholder">
+    <div class="placeholder-content">
+        <img class="light-image" src="{% static 'assets/img/illustrations/placeholders/2.svg' %}" alt="" />
+        <img class="dark-image" src="{% static 'assets/img/illustrations/placeholders/2-dark.svg' %}" alt="" />
+        <h3>{{ homeData.title }}</h3>
+        <p class="is-large">{{ homeData.explanation }}
+        </p>
+        <div class="buttons is-centered">
+            <a href="{{ homeData.button1_link }}" class="button is-solid accent-button raised">{{ homeData.button1 }}</a>
+            <a href="{{ homeData.button2_link }}" class="button is-solid">{{ homeData.button2 }}</a>
+        </div>
+    </div>
+</div>
+
+<div>
+    {{ article.content|safe }}
+</div>
+{% endblock %}

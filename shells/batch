@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Toplu saklama 
+# http POST http://127.0.0.1:8000/api-token-auth/ "username"="${user}"  "password"="${pass}"
+# curl  -X POST http://127.0.0.1:8000/api-token-auth/  -u "${user}":"${pass}"
+
+for i in $(seq 1 20)
+
+do
+name="Products-$i"
+max_count=$(expr 100 + $i)
+min_count="${RANDOM:0:1}"
+order_count="${RANDOM:0:2}"  # Generate 0-100 random
+price="${RANDOM:0:1}.${RANDOM:0:1}" # Generate 0-10 random int
+
+echo "Bodyimmm : $name, $max_count, $min_count, $order_count, $price"
+
+gen_body()
+{
+ cat <<EOF
+{
+  "name": "$name",
+  "max_count": "$max_count",
+  "min_count": "$min_count",
+  "order_count": "$order_count",
+  "price": "$price",
+}
+EOF
+}
+
+
+ 
+echo "body: ${gen_body}"
+
+curl -i \
+-H "Accept: application/json" \
+-H "Content-Type:application/json" \
+-H "Authorization: Token 2df41cac788667ae512f727c81627f67d745a905" \
+-X POST --data '{"name":"'$name'",  "max_count":"'$max_count'","min_count":"'$min_count'","order_count":"'$order_count'",  "price":"'$price'"}'      http://127.0.0.1:8000/products/ 
+
+
+sleep 1
+
+echo "Random number $i"
+
+done

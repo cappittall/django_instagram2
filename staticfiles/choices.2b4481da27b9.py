@@ -1,0 +1,21 @@
+choices = {
+'usersToFollow':'Takip et',
+'postLikes':'Post beğenme',
+'postComments':'Post yorum',
+#'postSaves' :'Post sakla',
+#'multiUserDMs': 'Çoklu Dm mesaj',
+#'singleUserDMs': 'Dm mesaj',
+#'commentLikes':'Yorum beğenme',
+#'reelsLikes': 'Reels beğenme',
+#'reelsComments': 'Reels yorum',
+#'igTVLikes': 'Ig TV beğen',
+#'igTVComments':'Ig Tv yorum',
+#'liveBroadCastLikes': 'Canlı Broadcast beğenme',
+#'liveBroadCastComments':'Calı Bradcast yorum',
+'postShares': 'Post paylaşma',
+'videoShares':'Video paylaşma',
+#'storyShares': 'Story paylaşma',
+#'spams':'Spam',
+#'suicideSpams':'İntihar Spam!',
+'liveWatches':'Canlı Seyret'
+}

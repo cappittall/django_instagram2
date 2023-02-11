@@ -1,0 +1,60 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+  {% if starting %}
+  <strong>{% trans "İşlem başladı" %}.</strong>
+  {% else %}
+<form method="POST">
+{% csrf_token %}
+<div class="field">
+<label>{% trans "KullanıcıAdı" %}*</label>
+<div class="control">
+<input type="text" required name="username" class="form-control">
+</div>
+</div>
+
+<div class="field">
+<label>{% trans "Ziyaret Miktarı" %}*</label>
+<div class="control">
+<input type="number" required name="quantity" min="1" class="form-control">
+</div>
+</div>
+<br>
+<label>{% trans "Kullanıcı kategorileri" %}</label>
+<select name="user_category" required style="width: 100%;" multiple id="">
+  {% for x in get_user_categories %}
+  <option value="{{ x.id }}">{{ x.category_name }}</option>
+  {% endfor %}
+</select>
+<div style="text-align: center;"><br>
+<button type="submit" name="btnStart" class="btn btn-primary">{% trans "İşlemi Başlat" %}</button>
+
+</div>
+
+</form>
+
+{% endif %}
+</div>
+</div>
+</div>
+
+  {% endblock %}

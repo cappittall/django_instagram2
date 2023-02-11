@@ -1,0 +1,347 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+<div class="card">
+    <div class="card-body">
+      <div class="text-center">
+
+    
+ 
+<br>
+</div>
+</div>
+</div>
+
+<div class="container-fluid">
+
+<div class="row">
+  <div class="col-md-12">
+  <div class="card">
+    <div class="card-body">
+      <h3>{% trans 'API Dökümanı' %}</h3>
+      <table class="table table-bordered">
+        <thead>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="width: 35%;">HTTP METHOD</td>
+            <td>POST</td>
+          </tr>
+          <tr>
+            <td>API URL</td>
+            <td>https://{{ request.get_host }}/api/get_services/ </td>
+          </tr>
+          <tr>
+            <td>API KEY</td>
+            <td>
+              <div class="row">
+                <div class="col-9">
+                  {% if api_key %}
+                  <p class="text-info">{{ api_key }}</p>
+                  {% endif %}
+                </div>
+                <div class="col-3 text-right">
+                  <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-default" name="btnCreate">{% if api_key %}Yeni Oluştur{% else %}Oluştur{% endif %}</button>
+                </form>
+                </div>
+
+              </div>
+             
+                 
+            </td>
+          </tr>
+          <tr>
+            <td>Response Format</td>
+            <td>JSON</td>
+          </tr>
+        </tbody>
+      </table>
+<br>
+      <h3>Service List</h3>
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Parameters</th>
+          <th>Description</th>
+
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="width: 35%;">KEY</td>
+            <td>Your API KEY</td>
+          </tr>
+          <tr>
+            <td>action</td>
+            <td>services</td>
+          </tr>
+        </tbody>
+      </table><br>
+      <h3>Example Response</h3>
+      <div class="card">
+        <div class="card-body">
+          <pre>
+          [
+          {
+              "service": 1,
+              "name": "Followers",
+              "type": "Default",
+              "category": "First Category",
+              "rate": "0.90",
+              "min": "50",
+              "max": "10000",
+              "refill": true
+          },
+          {
+              "service": 2,
+              "name": "Comments",
+              "type": "Custom Comments",
+              "category": "Second Category",
+              "rate": "8",
+              "min": "10",
+              "max": "1500",
+              "refill": false
+          }
+      ]
+    </pre>
+        </div>
+      </div>
+
+      <h3>Add order [Default]</h3>
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Parameters</th>
+          <th>Description</th>
+
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="width: 35%;">key</td>
+            <td>Your API KEY</td>
+          </tr>
+          <tr>
+            <td>action</td>
+            <td>add</td>
+          </tr>
+          <tr>
+            <td>service</td>
+            <td>Service ID</td>
+          </tr>
+          <tr>
+            <td>link</td>
+            <td>Link to page</td>
+          </tr>
+          <tr>
+            <td>quantity</td>
+            <td>Needed quantity</td>
+          </tr>
+          <tr>
+            <td>runs (optional)</td>
+            <td>Runs to deliver</td>
+          </tr>
+          <tr>
+            <td>interval (optional)</td>
+            <td>Interval in minutes</td>
+          </tr>
+        </tbody>
+      </table><br>
+      <h3>Example Response</h3>
+      <div class="card">
+        <div class="card-body">
+          
+          <pre>{
+              "order": 23501
+          }</pre>
+    
+        </div>
+      </div><br>
+      <h3>Add order [Custom Comments]</h3>
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Parameters</th>
+          <th>Description</th>
+
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="width: 35%;">key</td>
+            <td>Your API KEY</td>
+          </tr>
+          <tr>
+            <td>action</td>
+            <td>add</td>
+          </tr>
+          <tr>
+            <td>service</td>
+            <td>Service ID</td>
+          </tr>
+          <tr>
+            <td>link</td>
+            <td>Link to page</td>
+          </tr>
+          <tr>
+            <td>quantity</td>
+            <td>Needed quantity</td>
+          </tr>
+          <tr>
+            <td>comments</td>
+            <td>Comments list separated by \r\n or \n</td>
+          </tr>
+        
+        </tbody>
+      </table>
+      <h3>Example Response</h3>
+      <div class="card">
+        <div class="card-body">
+          
+          <pre>{
+              "order": 23501
+          }</pre>
+    
+        </div><br>
+    </div>
+    <h3>Order status</h3>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Parameters</th>
+        <th>Description</th>
+
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="width: 35%;">key</td>
+          <td>Your API KEY</td>
+        </tr>
+        <tr>
+          <td>action</td>
+          <td>status</td>
+        </tr>
+        <tr>
+          <td>order</td>
+          <td>Order ID</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>Example Response</h3>
+    <div class="card">
+      <div class="card-body">
+        <pre>{
+            "charge": "0.27819",
+            "start_count": "3572",
+            "status": "Partial",
+            "remains": "157",
+            "currency": "TRY"
+        }</pre>
+      </div><br>
+  </div>
+
+  <h3>Multiple orders status</h3>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Parameters</th>
+      <th>Description</th>
+
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="width: 35%;">key</td>
+        <td>Your API KEY</td>
+      </tr>
+      <tr>
+        <td>action</td>
+        <td>status</td>
+      </tr>
+      <tr>
+        <td>orders</td>
+        <td>Order IDs separated by comma</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Example Response</h3>
+  <div class="card">
+    <div class="card-body">
+      <pre>{
+        "1": {
+            "charge": "0.27819",
+            "start_count": "3572",
+            "status": "Partial",
+            "remains": "157",
+            "currency": "TRY"
+        },
+        "10": {
+            "error": "Incorrect order ID"
+        },
+        "100": {
+            "charge": "1.44219",
+            "start_count": "234",
+            "status": "In progress",
+            "remains": "10",
+            "currency": "TRY"
+        }
+    }</pre>
+    </div><br>
+</div>
+
+
+<h3>User balance</h3>
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th>Parameters</th>
+    <th>Description</th>
+
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="width: 35%;">key</td>
+      <td>Your API KEY</td>
+    </tr>
+    <tr>
+      <td>action</td>
+      <td>balance</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Example Response</h3>
+<div class="card">
+  <div class="card-body">
+    <pre>{
+      "balance": "100.84292",
+      "currency": "TRY"
+  }</pre>
+  </div><br>
+</div>
+
+
+  </div>
+  
+</div>
+</div>
+{% endblock %}

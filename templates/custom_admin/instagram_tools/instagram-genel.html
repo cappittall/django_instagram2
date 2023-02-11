@@ -1,0 +1,167 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 id="title" class="m-0">{{ title }}  </h1> 
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+{% if starting %}
+    <strong>{% trans 'İşlem başladı' %}.</strong>
+{% else %}
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div style="position:absolute; top:0; right:0; margin:20px;" id="start_count" name="start_count">
+    {{ start_count }} Kişi
+</div>
+<input type="hidden" name="start_count_input" value="{{ start_count }}">
+<br/>
+<label>{% trans 'İşlem Türü' %}</label>
+<select name="islem_turu" required  style="width: 100%;" id="service_lists">
+    {% for key, value in service_lists.items %}
+    <option value="{{ key }}">{{ value }} </option>
+    {% endfor %}
+</select>
+<br><br>
+<div class="field">
+    <label>{% trans 'Kullanıcı veya post linki (Tam link)' %}*</label>
+    <div class="control">
+        <input type="text"  name="link" class="form-control">
+    </div>
+</div>
+<br>
+<div class="field" id="follower_quantity">
+    <label>{% trans 'Takçipçi Miktarı' %}*</label>
+    <div class="control">
+        <input id="takipci_quantity" type="number" value="0" name="takipci_quantity" class="form-control">
+    </div>
+</div>
+<br>
+
+<div class="field">
+    <label>{% trans 'Ülke Kodu (Örn:90)' %}*</label>
+    <div class="control">
+        <input id="country_code" type="number"  name="country_code" min="1" class="form-control">
+    </div>
+</div>
+  <br>
+
+
+
+<!--Text area input -->
+<div class="field" id="commentsDiv" style="display:none">
+    <label>{% trans 'Comment listesi' %}*</label>
+    <div class="control">
+        <textarea id="comments" name="comments"  class="form-control"></textarea>
+    </div>
+</div>
+<br>
+
+
+
+<div id="load_file" class="field" style="display:none" >
+    <label id="loadfilelabel" >{% trans 'dosyasını yükle' %}*</label>
+    <div class="control">
+        <input id="file" type="file"  name="file"  class="form-control">
+    </div>
+</div>
+<br>
+<!--Write error message in red -->
+{% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+{% endif %}
+
+<div style="text-align: center;"><br>
+<button type="submit" name="btnStart" class="btn btn-primary">{% trans 'İşlemi Başlat' %}</button>
+
+</div>
+
+</form>
+
+{% endif %}
+
+</div>
+</div>
+</div>
+<script>
+    document.getElementById('country_code').oninput = function() {
+        var country_code = document.getElementById('country_code').value;
+        var country_code = country_code=='' ? null : country_code;
+        var instagram_accounts = JSON.parse('{{ instagram_accounts|escapejs }}')
+        console.log(instagram_accounts, '>',country_code,'<')
+        if (country_code == null) {
+            document.getElementById('count').innerHTML = instagram_accounts.length + ' Kişi'; 
+            return;
+        } 
+        // filter instagram accounts by country code
+        var filtered_accounts = instagram_accounts.filter(function(account) {
+            return account.country_code == country_code;
+        });
+        // write filtered length to context['title'] rendered above
+        document.getElementById('start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+        document.getElementById("start_count_input").value = filtered_accounts.length;
+       
+    };
+
+    const selectElement = document.getElementById('service_lists');
+    selectElement.addEventListener('change', function() {
+         
+        if (this.value=="usersToFollow" || this.value=="postLikes" ) {
+            document.getElementById('load_file').style.display = 'none';
+            document.getElementById('comments').required = false;
+            document.getElementById('commentsDiv').style.display = 'none';
+
+        } else if (this.value=="postComments" || this.value=="liveBroadCastComments") {
+            document.getElementById('load_file').style.display = 'none';
+            document.getElementById('follower_quantity').style.display = 'none';
+            document.getElementById('commentsDiv').style.display = 'block';
+            document.getElementById('comments').required = true;
+
+        } else if (this.value == 'postShares' || this.value=="videoShares") {
+            var text = (this.value=="postShares")? "Resim" : "Video"
+            document.getElementById('loadfilelabel').innerHTML =  text + ' dosyasını yükle';
+            document.getElementById('load_file').style.display = 'block';
+            document.getElementById('comments').required = true;
+            document.getElementById('commentsDiv').style.display = 'block';
+
+        } else if (this.value=="advertImageShare" || this.value=="advertVideoShare"){
+            document.getElementById('loadfilelabel').innerHTML =  'Resim veya Video dosyasını yükle';
+            document.getElementById('load_file').style.display = 'block';
+            document.getElementById('comments').required = false;
+            document.getElementById('commentsDiv').style.display = 'none';
+
+        } else if (this.value=="liveWatches" || this.value=="liveBroadCastLikes" ) {
+            document.getElementById('load_file').style.display = 'none';
+            document.getElementById('comments').required = false;
+            document.getElementById('commentsDiv').style.display = 'none';
+
+        } else if (this.value=="advertImageShare" || this.value=="advertVideoShare" ) {
+            var text = (this.value=="advertImageShare")? "Resim" : "Video"
+            document.getElementById('loadfilelabel').innerHTML =  text + ' dosyasını yükle';
+            document.getElementById('load_file').style.display = 'block';
+            document.getElementById('commentsDiv').style.display = 'block';
+            document.getElementById('comments').required = true;
+        }
+
+    });
+
+</script>
+
+  {% endblock %}

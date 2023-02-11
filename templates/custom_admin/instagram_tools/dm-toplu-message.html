@@ -1,0 +1,89 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+  {% if starting %}
+  <strong>{% trans "İşlem başladı" %}.</strong>
+  {% else %}
+  <form method="POST">
+    {% csrf_token %}
+    <script>
+      $(document).ready(function(){
+  
+  var lines = 99999999999;
+  var linesUsed = $('#linesUsed');
+  
+  $('#countMe').keydown(function(e) {
+  
+  newLines = $(this).val().split("\n").length;
+  linesUsed.text(newLines);
+  
+  if(e.keyCode == 13 && newLines >= lines) {
+      linesUsed.css('color', 'red');
+      return false;
+  }
+  else {
+      linesUsed.css('color', '');
+  }
+  });
+  });
+  </script>
+    <div class="field">
+        <label>{% trans "Kullanıcı adları" %}*</label>
+        <div class="control">
+          <textarea class="form-control" required id="countMe"  name="users" rows="8" placeholder="{% trans 'kullanıcı adları' %}..."></textarea>
+        </div>
+        {% trans "Toplam Kullanıcı" %}&nbsp; : &nbsp;&nbsp;<span id="linesUsed">0</span>
+
+    </div>
+
+        <label>Link*</label>
+    <div class="field">
+      <div class="control">
+
+            <input type="text" required name="link" placeholder="link" class="form-control">
+            </div>
+    </div>
+    <label>{% trans "Mesaj" %}*</label>
+    <div class="field">
+        <div class="control">
+            <textarea class="form-control" required  name="message" rows="8" placeholder="{% trans 'mesaj içeriği' %}..."></textarea>
+        </div>
+    </div>
+    <br>
+    <label>{% trans "Kullanıcı kategorileri" %}</label>
+    <select name="user_category" required style="width: 100%;" multiple id="">
+      {% for x in get_user_categories %}
+      <option value="{{ x.id }}">{{ x.category_name }}</option>
+      {% endfor %}
+    </select>
+    <div style="text-align: center;">
+      <br>
+    <button type="submit" name="btnSend" class="btn btn-primary">{% trans "İşlemi Başlat" %}</button>
+    </div>
+    
+    </form>
+
+{% endif %}
+</div>
+</div>
+</div>
+
+  {% endblock %}

@@ -1,0 +1,155 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  {% if updateModel %}
+  <div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> {% trans 'Bilgi' %}!</h5>
+    {% trans 'Temizlendi' %}.
+  </div>
+  {% endif %}
+  {% if addStatus %}
+  <div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> {% trans 'Bilgi' %}!</h5>
+    {% trans 'Kullanıcılar giriş için işleme alındı' %}...
+  </div>
+  {% endif %}
+
+
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="card card-primary card-outline card-outline-tabs">
+        <div class="card-header p-0 border-bottom-0">
+          <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">{% trans 'Challenge Veren Kullanıcılar' %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">{% trans 'Checkpoint Veren Kullanıcılar' %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="custom-tabs-four-profile2-tab" data-toggle="pill" href="#custom-tabs-four-profile2" role="tab" aria-controls="custom-tabs-four-profile2" aria-selected="false">{% trans 'login_required Veren Kullanıcılar' %}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="tab-content" id="custom-tabs-four-tabContent">
+            <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+              <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>{% trans 'Challenge Veren Kullanıcılar' %}</label>
+                    <textarea readonly id="challenge_users" class="form-control"name="users" cols="30" rows="10">{% for x in challenge_users %}{{ x.username }}:{{x.instagramcookies.default_password}}&#13;&#10;{% endfor %}</textarea>
+                  </div>
+                  <button type="submit" name="btnDeleteChallenge" class="btn btn-danger">{% trans 'Challenge Kullanıcıları Temizle' %}</button>&nbsp;&nbsp;<input type="button" class="btn btn-default" id="dwn-btn-challenge" value="Challenge Veren Kullanıcıları İndir"/>&nbsp;&nbsp;
+                  <span id="error_span_challenge" class="text-danger"></span>
+            </form>
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+              <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>{% trans 'Checkpoint Veren Kullanıcılar' %}</label>
+                    <textarea readonly id="checkpoint_users" class="form-control"name="users" cols="30" rows="10">{% for x in checkpoint_users %}{{ x.username }}:{{x.instagramcookies.default_password}}&#13;&#10;{% endfor %}</textarea>
+                  </div>
+                  <button type="submit" name="btnDeleteCheckpoint" class="btn btn-danger">{% trans 'Checkpoint Kullanıcıları Temizle' %}</button>&nbsp;&nbsp;<input type="button" class="btn btn-default" id="dwn-btn-checkpoint" value="Checkpoint Veren Kullanıcıları İndir"/>&nbsp;&nbsp;
+                  <span id="error_span_checkpoint" class="text-danger"></span>
+            </form>
+            </div>
+
+            <div class="tab-pane fade" id="custom-tabs-four-profile2" role="tabpanel" aria-labelledby="custom-tabs-four-profile2-tab">
+              <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>{% trans 'login_required Veren Kullanıcılar' %}</label>
+                    <textarea readonly id="login_required_users" class="form-control"name="users" cols="30" rows="10">{% for x in login_required_users %}{{ x.username }}:{{x.instagramcookies.default_password}}&#13;&#10;{% endfor %}</textarea>
+                  </div>
+                  <button type="submit" {% if login_required_users %}{%else%}disabled{% endif %} name="btnreLogin_login_required" class="btn btn-primary">{% trans 'Kullanıcıları Tekar Giriş Yaptır' %}</button>&nbsp;&nbsp;<button type="submit" name="btnDeletelogin_required" class="btn btn-danger">{% trans 'login_required Kullanıcıları Temizle' %}</button>&nbsp;&nbsp;<input type="button" class="btn btn-default" id="dwn-btn-login_required" value="login_required Veren Kullanıcıları İndir"/>&nbsp;&nbsp;
+                  <span id="error_span_login_required" class="text-danger"></span>
+            </form>
+            </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div>
+
+<script>
+  function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+// Start file download.
+document.getElementById("dwn-btn-challenge").addEventListener("click", function(){
+    // Generate download of hello.txt file with some content
+    var error_span_challenge = document.getElementById("error_span_challenge");
+    var text = document.getElementById("challenge_users").value;
+    var filename = "challenge_users.txt";
+    if (text){
+      download(filename, text);
+    }
+    else{
+      error_span_challenge.textContent = "{% trans 'İndirilecek kullanıcı yok' %}!";
+    }
+
+}, false);
+
+document.getElementById("dwn-btn-checkpoint").addEventListener("click", function(){
+    var error_span_checkpoint = document.getElementById("error_span_checkpoint");
+
+    var text = document.getElementById("checkpoint_users").value;
+    var filename = "checkpoint_users.txt";
+    if (text){
+      download(filename, text);
+    }
+    else{
+        error_span_checkpoint.textContent = "{% trans 'İndirilecek kullanıcı yok' %}!";
+    }
+}, false);
+
+document.getElementById("dwn-btn-login_required").addEventListener("click", function(){
+    var error_span_checkpoint = document.getElementById("error_span_login_required");
+
+    var text = document.getElementById("login_required_users").value;
+    var filename = "login_required.txt";
+    if (text){
+      download(filename, text);
+    }
+    else{
+        error_span_checkpoint.textContent = "{% trans 'İndirilecek kullanıcı yok' %}!";
+    }
+}, false);
+</script>
+
+
+
+
+
+{% endblock %}

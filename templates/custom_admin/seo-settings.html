@@ -1,0 +1,67 @@
+{% extends 'custom_admin/base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+
+  
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+
+{% if last_seo %}
+    <form enctype="multipart/form-data"  method="POST">
+      {% csrf_token %}
+   <div class="form-group">
+    {{ filesForm|crispy }}
+  </div>
+   <div class="form-group">
+    <div class="row">
+     <div class="col-4">
+     </div>
+      <div class="col-4">
+    <button type="submit"  class="btn btn-block btn-primary" name="lastSeoUpdate">{% trans 'Kaydet' %}</button>
+      </div>
+      <div class="col-4">
+     </div>
+    </div>
+    </div>
+    </form>
+    {% else %}
+
+    <form method="POST" enctype="multipart/form-data" >
+      {% csrf_token %}
+   <div class="form-group">
+     {{ filesForm|crispy }}
+   </div>
+   <div class="form-group">
+    <div class="row">
+     <div class="col-4">
+     </div>
+      <div class="col-4">
+    <button type="submit"  class="btn btn-block btn-primary" name="seoCreate">{% trans 'Oluştur' %}</button>
+      </div>
+      <div class="col-4">
+     </div>
+    </div>
+    </div>
+    </form>
+
+    {% endif %}
+    </div>
+    </div>
+    </div>
+{% endblock %}

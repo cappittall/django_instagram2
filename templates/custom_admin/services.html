@@ -1,0 +1,179 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  {% if addStatus %}
+  <div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> {% trans 'Bilgi' %}!</h5>
+    {% trans 'Servis Oluşturuldu' %}.
+  </div>
+  {% endif %}
+  {% if deleteStatus %}
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> {% trans 'Başarılı' %}!</h5>
+    {% trans 'Servis silindi' %}.
+  </div>
+  {% endif %}
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+
+
+    <form action="" method="POST">
+      {% csrf_token %}
+ 
+   
+   <div class="form-group">
+    <label for="name">{% trans 'Servis İsmi' %}</label>
+    <input type="text" class="form-control" name="name" required id="name" placeholder="{% trans 'Paket adı' %}...">
+   </div>
+     <div class="form-group">
+      <label>{% trans 'Kullanıcı Paketi' %}</label>
+      <select name="user_packpages" class="form-control">
+        <option value selected>----------</option>
+        {% for x in user_packpages_db %}
+        <option value="{{ x.id }}">{{ x.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    
+   <div class="form-group">
+     <div class="row">
+       <div class="col-12">
+        <label>{% trans 'Kategori' %}</label>
+        <select name="category" required class="form-control">
+          <option value selected>----------</option>
+          {% for x in category_db %}
+          <option value="{{ x.id }}">{{ x.category_name }}</option>
+          {% endfor %}
+        </select>
+       </div>
+   
+     </div>
+   </div>
+   <div class="form-group">
+    <div class="row">
+   
+      <div class="col-md-6">
+        <label for="min">Min</label>
+        <input type="number" class="form-control" name="min" required id="min" placeholder="min...">
+      </div>
+      <div class="col-md-6">
+        <label for="max">Max</label>
+        <input type="number" class="form-control" name="max" required id="max" placeholder="max...">
+      </div>
+      <div class="col-md-12">
+        <label for="rate">{% trans 'Fiyat' %}</label>
+        <input type="number" class="form-control" name="rate" required id="rate" placeholder="{% trans 'Fiyat' %}...">
+      </div>
+    </div>
+   </div>
+  </div>
+  <div class="form-group">
+    <div class="row">
+     <div class="col-4">
+     </div>
+      <div class="col-4">
+    <button type="submit"  class="btn btn-block btn-primary" name="btnCreate">{% trans 'Servis Oluştur' %}</button>
+      </div>
+      <div class="col-4">
+     </div>
+    </div>
+    </div>
+
+
+   </form>
+  </div>
+</div>
+</div>
+ 
+  <div class="row">
+   <div class="col-md-12">
+     <div class="card">
+       <div class="card-header">
+         <h3 class="card-title">{% trans 'Aktif Servisler' %}</h3>
+       </div>
+       <!-- /.card-header -->
+       <div class="card-body">
+         <table class="table table-bordered">
+           <thead>
+             <tr>
+               <th>ID</th>
+               <th >{% trans 'Servis İsmi' %}</th>
+               <th>{% trans 'Kullanıcı Paketi' %}</th>
+               <th>{% trans 'Kategori' %}</th>
+               <th>Type</th>
+               <th>Min</th>
+               <th>Max</th>
+               <th>{% trans 'Fiyat' %}</th>
+               <th>{% trans 'Düzenle' %}</th>
+               <th>{% trans 'Sil' %}</th>
+ 
+             </tr>
+           </thead>
+           <tbody>
+               {% for service in services %}
+             <tr>
+               <td>{{ service.service }}</td>
+               <td>{{ service.name }}</td>
+               <td class="text-center">{% if  service.packpages %}
+                 {{ service.packpages.name }}
+               {% else %}
+                   -
+               {% endif %}
+               </td>
+               <td class="text-center">
+                {{service.category.category_name  }}
+               </td>
+               <td class="text-center">
+                {{service.category.category_type.type_name  }}
+               </td>
+               <td class="text-center">
+                {{service.min  }}
+               </td>
+               <td class="text-center">
+                {{service.max  }}
+               </td>
+               <td class="text-center">
+                {{service.rate  }}
+               </td>
+               <td><a href="{% url 'custom_admin:edit-services' id=service.service %}" class="btn btn-block btn-warning">{% trans 'Düzenle' %}</a></td>
+               <td>
+                 <form method="POST">
+                   {% csrf_token %}
+                 <button type="submit" name="btn{{ service.service }}" class="btn btn-block btn-danger">{% trans 'Sil' %}</button>
+                 </form>
+                </td>
+            
+             </tr>
+               {% endfor %}
+           </tbody>
+         </table>
+       </div>
+     
+     </div>
+     <!-- /.card -->
+     <!-- /.card -->
+   </div>
+ 
+   <!-- /.col -->
+ </div>
+{% endblock %}

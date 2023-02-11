@@ -1,0 +1,136 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+  {% if starting %}
+  <strong>{% trans 'İşlem başladı' %}.</strong>
+  {% else %}
+<form method="POST">
+{% csrf_token %}
+<div class="field">
+<label>{% trans 'Kullanıcı Adı' %}*</label>
+<div class="control">
+<input type="text" required name="username" class="form-control">
+</div>
+</div>
+<div style="text-align: center;"><br>
+<button type="submit" name="btnStart" class="btn btn-primary">{% trans 'İşlemi Başlat' %}</button>
+
+</div>
+
+</form>
+
+{% endif %}
+</div>
+</div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">{% trans 'Geçmiş İşlemler' %}</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>{% trans 'Kullanıcı' %}</th>
+              <th>{% trans 'Takipçi Kullanıcı Adları' %}</th>
+              <th>{% trans 'Takipçi Kullanıcı Idleri' %}</th>
+              <th>{% trans 'İşlem Tarihi' %}</th>
+              <th>{% trans 'İşlem Durumu' %}</th>
+              <th>{% trans 'Çekinlen Takipçiler' %}</th>
+              <th>{% trans 'Api Siparişi' %}</th>
+              <th>{% trans 'Sistem Mail İletimi' %}</th>
+              <th>{% trans 'Api Sipariş Maili' %}</th>
+              <th>{% trans 'İşlemi Durdur' %}</th>
+              <th>{% trans 'İşlem Kayıtlarını Sil' %}</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+              {% for process in all_process %}
+            <tr>
+              <td>{{ process.id }}</td> 
+              <td>{{ process.username }}</td>
+              <td>{% if process.success or process.cancelled %}  <form method="POST">
+                {% csrf_token %}
+              <button name="downloadUsernameData{{ process.id }}" class="btn btn-default">{% trans 'Verileri İndir' %} (.txt)</button>
+              </form>{% endif %}</td>
+              <td> {% if process.success or process.cancelled %} <form method="POST">
+                {% csrf_token %}
+              <button name="downloadUseridData{{ process.id }}" class="btn btn-default">{% trans 'Verileri İndir' %} (.txt)</button>
+              </form>{% endif %}</td>
+              <td>{{ process.date }}</td>
+              <td>{% if process.success %}{% trans 'Tamamlandı' %}{% elif process.cancelled %}{% trans 'İşlem Durduruldu' %}{% else %}{% trans 'İşlem Devam Ediyor' %}{% endif %}</td>
+              <td>{{ process.usersValue }}</td>
+              <td>
+                {% if process.api_order %}
+                <img src="{% static 'img/icon-yes.svg' %}" class="img-fluid" width="20" alt="">
+                {% else %}
+                <img src="{% static 'img/icon-no.svg' %}" class="img-fluid" width="20" alt="">
+                
+                {% endif %}
+              </td>
+              <td>
+                {% if process.sending_mail %}
+                <img src="{% static 'img/icon-yes.svg' %}" class="img-fluid" width="20" alt="">
+                {% else %}
+                <img src="{% static 'img/icon-no.svg' %}" class="img-fluid" width="20" alt="">
+                
+                {% endif %}
+              </td>
+              <td>
+                {% if process.api_contact_mail %}
+                {{ process.api_contact_mail }}
+                {% else %}
+                <img src="{% static 'img/icon-no.svg' %}" class="img-fluid" width="20" alt="">
+                {% endif %}
+              </td>
+              <td>
+                {% if process.success == False and process.cancelled == False %}
+                <form method="POST">
+                  {% csrf_token %}
+                <button name="btnCancel{{process.id}}" class="btn btn-dark">{% trans 'Durdur' %}</button>
+                </form>
+                {% endif %}
+              </td>
+              <td>{% if process.success or process.cancelled %}
+                <form method="POST">
+                  {% csrf_token %}
+                <button name="btnDelete{{process.id}}" class="btn btn-danger">{% trans 'Sil' %}</button>
+                </form>
+                {% endif %}</td>
+
+            </form>
+            </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+  {% endblock %}

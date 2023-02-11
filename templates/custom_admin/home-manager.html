@@ -1,0 +1,99 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+<div class="container-fluid">
+    <form method="POST">
+        {% csrf_token %}
+        {% if last_home %}
+           <div class="form-group">
+            <label for="title">{% trans 'Başlık' %}</label>
+            <input type="text" class="form-control" name="title" required id="title" value="{{ last_home.title }}" >
+           </div>
+           <div class="form-group">
+            <label for="explanation">{% trans 'Açıklama' %}</label>
+            <input type="text" class="form-control" name="explanation" required id="explanation" value="{{ last_home.explanation }}" >
+           </div>
+           <div class="form-group">
+            <label for="button1">{% trans '1. Buton İsmi' %}</label>
+            <input type="text" class="form-control" name="button1" required id="button1" value="{{ last_home.button1 }}">
+           </div>
+           <div class="form-group">
+            <label for="button1_link">{% trans '1. Buton Link' %}</label>
+            <input type="text" class="form-control" name="button1_link" required id="button1_link" value="{{ last_home.button1_link }}">
+           </div>
+           <div class="form-group">
+            <label for="button2">{% trans '2. Buton İsmi' %}</label>
+            <input type="text" class="form-control" name="button2" required id="button2" value="{{ last_home.button2 }}" >
+           </div>
+           <div class="form-group">
+            <label for="button2_link">{% trans '2.Buton Link' %}</label>
+            <input type="text" class="form-control" name="button2_link" required id="button2_link" value="{{ last_home.button2_link }}" >
+           </div>
+           <div class="form-group">
+            <div class="row">
+             <div class="col-4">
+             </div>
+              <div class="col-4">
+            <button type="submit"  class="btn btn-block btn-primary" name="lastHomeUpdate">{% trans 'Kaydet' %}</button>
+              </div>
+              <div class="col-4">
+             </div>
+            </div>
+            </div>
+            {% else %}
+
+            <div class="form-group">
+              <label for="title">{% trans 'Başlık' %}</label>
+              <input type="text" class="form-control" name="title" required id="title">
+             </div>
+             <div class="form-group">
+              <label for="explanation">{% trans 'Açıklama' %}</label>
+              <input type="text" class="form-control" name="explanation" required id="explanation">
+             </div>
+             <div class="form-group">
+              <label for="button1">{% trans '1. Buton İsmi' %}</label>
+              <input type="text" class="form-control" name="button1" required id="button1">
+             </div>
+             <div class="form-group">
+              <label for="button1_link">{% trans '1. Buton Link' %}</label>
+              <input type="text" class="form-control" name="button1_link" required id="button1_link">
+             </div>
+             <div class="form-group">
+              <label for="button2">{% trans '2. Buton İsmi' %}</label>
+              <input type="text" class="form-control" name="button2" required id="button2">
+             </div>
+             <div class="form-group">
+              <label for="button2_link">{% trans '2.Buton Link' %}</label>
+              <input type="text" class="form-control" name="button2_link" required id="button2_link">
+             </div>
+             <div class="form-group">
+              <div class="row">
+               <div class="col-4">
+               </div>
+                <div class="col-4">
+              <button type="submit"  class="btn btn-block btn-primary" name="btnCreate">{% trans 'Kaydet' %}</button>
+                </div>
+                <div class="col-4">
+               </div>
+              </div>
+              </div>
+
+            {% endif %}
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Cinsiyet Verileri' %}</h3>
+        </div>
+    
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th >{% trans 'Toplam Kullanıcılar' %}</th>
+                <th >{% trans 'Bilinmeyen Kullanıcılar' %}</th>
+                <th >{% trans 'Kadın Kullanıcılar' %}</th>
+                <th>{% trans 'Erkek Kullanıcılar' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ total }}</td>
+                <td>{{ anonym }}</td>
+                <td>{{ kadin }}</td>
+                <td>{{ erkek }}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+
+     
+      </div>
+
+    </div>
+  
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Kullanıcı Tipi Verileri' %}</h3>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th >{% trans 'Bot Kullanıcılar' %}</th>
+                <th>{% trans 'Gerçek Kullanıcılar' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ bot }}</td>
+                <td>{{ reel }}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+
+     
+      </div>
+
+    </div>
+  </div>
+    
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Ülke Kodu Ve Cinsiyet Verileri' %}</h3>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                  <th>{% trans 'Ülke Kodu' %}</th>
+                  <th>{% trans 'Toplam Kullanıcı' %}</th>
+                <th >{% trans 'Kadın Kullanıcılar' %}</th>
+                <th>{% trans 'Erkek Kullanıcılar' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              {% for x in countryCodeList %}
+              <tr>
+                <td>{{ x.country_code }}</td>
+                <td>{{ x.total_user }}</td>
+                <td>{{ x.kadin_user }}</td>
+                <td>{{ x.erkek_user }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+   
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Kullanıcı Kategorileri Verileri' %}</h3>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                  <th>{% trans 'Kategori' %}</th>
+                  <th>{% trans 'Toplam Kullanıcı' %}</th>
+                  <th>{% trans 'Challenge Kullanıcı' %}</th>
+                  <th>{% trans 'Feedback Kullanıcı' %}</th>
+                  <th>{% trans 'Checkpoint Kullanıcı' %}</th>
+                  <th>{% trans 'login_required Kullanıcı' %}</th>
+                  <th>{% trans 'Aktif Kullanıcı' %}</th>
+                  <th>{% trans 'Pasif Kullanıcı' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              {% for x,y in user_categories_data %}
+              <tr>
+                <td><a href="{% url 'custom_admin:cat-user-list' id=x.id %}">{{ x.category_name }}</a></td>
+                <td>{{ y.total_users }}</td>
+                <td>{{ y.challenge_users }}</td>
+                <td>{{ y.feedback_users }}</td>
+                <td>{{ y.checkpoint_users }}</td>
+                <td>{{ y.login_required_users }}</td>
+                <td>{{ y.active_users }}</td>
+                <td>{{ y.pasif_users }}</td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+   
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Yeniden Giriş Yapması Gerken Kullanıcı Sayısı' %} (login_required)</h3>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                  <th>{% trans 'login_required Kullanıcılar' %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ login_required_users }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+   
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

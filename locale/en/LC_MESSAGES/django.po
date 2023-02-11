@@ -1,0 +1,1922 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-13 01:13+0300\n"
+"PO-Revision-Date: 2022-05-11 02:25+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0\n"
+
+#: .\core\settings.py:118
+msgid "Türkçe"
+msgstr "Turkish"
+
+#: .\core\settings.py:119
+msgid "İnglizce"
+msgstr "English"
+
+#: .\custom_admin\views.py:323 .\templates\custom_admin\base.html:134
+msgid "Fotoğraf Kaydetme"
+msgstr "Photo Save"
+
+#: .\custom_admin\views.py:548
+msgid "Watch Live Stream"
+msgstr "Watch Live Stream"
+
+#: .\custom_admin\views.py:808
+msgid "Like Live Stream"
+msgstr "Watch Live Stream"
+
+#: .\custom_admin\views.py:1092 .\templates\custom_admin\base.html:152
+msgid "Canlı Yayın Yorum"
+msgstr "Watch Live Comment"
+
+#: .\custom_admin\views.py:1381
+msgid "DM Mesaj Gönder"
+msgstr "DM Send Message"
+
+#: .\custom_admin\views.py:2517
+msgid "DM Toplu Mesaj Gönder"
+msgstr "DM Mass Message Send"
+
+#: .\custom_admin\views.py:2598
+msgid "DM Reel Video Toplu Mesaj Gönder"
+msgstr "DM Reel Video Mass Send Message"
+
+#: .\custom_admin\views.py:2679
+msgid "DM IGTV Toplu Mesaj Gönder"
+msgstr "DM İGTV Video Mass Send Message"
+
+#: .\custom_admin\views.py:2762
+msgid "DM Video Toplu Mesaj Gönder"
+msgstr "DM Video Mass Send Message"
+
+#: .\custom_admin\views.py:2843
+msgid "DM Resim Toplu Mesaj Gönder"
+msgstr "DM Photo Mass Send Message"
+
+#: .\custom_admin\views.py:3090
+msgid "Beğeni Gönder"
+msgstr "Like Send"
+
+#: .\custom_admin\views.py:3383
+msgid "Yorum Gönder"
+msgstr "Comment Send"
+
+#: .\custom_admin\views.py:3640
+msgid "Takipçi Gönder"
+msgstr "Follow send"
+
+#: .\custom_admin\views.py:3801 .\templates\custom_admin\base.html:505
+msgid "Hesap Temizliği"
+msgstr "Account Clear"
+
+#: .\custom_admin\views.py:3883 .\templates\custom_admin\base.html:401
+msgid "Kullanıcıları Aktif Yap"
+msgstr "Make Users Active"
+
+#: .\custom_admin\views.py:3938 .\custom_admin\views.py:4556
+#: .\templates\custom_admin\user-packpages.html:67
+msgid "Kullanıcı Verileri"
+msgstr "User Data"
+
+#: .\custom_admin\views.py:3972
+msgid "Admin Login"
+msgstr "Admin Login"
+
+#: .\custom_admin\views.py:4225
+msgid "Instagram Bot Kullanıcı Ekle"
+msgstr "Add Instagram Bot User"
+
+#: .\custom_admin\views.py:4244 .\custom_admin\views.py:4281
+#: .\templates\custom_admin\base.html:377
+msgid "Başarılı İşlem Kayıtları"
+msgstr "Successful Transaction Records"
+
+#: .\custom_admin\views.py:4307
+msgid "İşlem Kaydını Düzenle"
+msgstr "Edit Transaction Record"
+
+#: .\custom_admin\views.py:4345 .\templates\custom_admin\base.html:441
+msgid "Api Sipariş Yönetimi"
+msgstr "API Order Management"
+
+#: .\custom_admin\views.py:4394 .\templates\custom_admin\base.html:329
+msgid "Instagram Kullanıcı Listesi"
+msgstr "Instagram User List"
+
+#: .\custom_admin\views.py:4446
+msgid "Kategorisi Kullanıcı Listesi"
+msgstr "Category User List"
+
+#: .\custom_admin\views.py:4471
+msgid "Kullanıcı Paketi Düzenle"
+msgstr "Edit User Package"
+
+#: .\custom_admin\views.py:4522 .\templates\custom_admin\base.html:385
+msgid "Api Kullanıcı Paketleri"
+msgstr "API User Packages"
+
+#: .\custom_admin\views.py:4602
+msgid "Servisler"
+msgstr "Services"
+
+#: .\custom_admin\views.py:4623
+msgid "Servis Düzenle"
+msgstr "Edit Service"
+
+#: .\custom_admin\views.py:4653 .\templates\custom_admin\base.html:369
+msgid "Api Ayarları"
+msgstr "API Settings"
+
+#: .\custom_admin\views.py:4814 .\templates\custom_admin\base.html:489
+msgid "Kullanıcıları İçe Aktar"
+msgstr "Import Users"
+
+#: .\custom_admin\views.py:4969 .\templates\custom_admin\base.html:497
+msgid "Kullanıcıları Dışa Aktar"
+msgstr "Export Users"
+
+#: .\custom_admin\views.py:5000
+msgid "Seo Ayarları"
+msgstr "Seo settings"
+
+#: .\custom_admin\views.py:5043
+msgid "SMTP Mail Ayarları"
+msgstr "SMTP Mail Settings"
+
+#: .\custom_admin\views.py:5079 .\templates\custom_admin\base.html:529
+msgid "Ana Sayfa Yönetimi"
+msgstr "Home Management"
+
+#: .\custom_admin\views.py:5319
+msgid "Service Proxy"
+msgstr "Service Proxy"
+
+#: .\custom_admin\views.py:5339 .\custom_admin\views.py:5430
+msgid "Web Api İletişimleri"
+msgstr "Web API Communications"
+
+#: .\custom_admin\views.py:5481
+msgid "Girişte Hata ile Karşılaşan Yeni Hesaplar"
+msgstr "New Accounts Facing Login Error"
+
+#: .\custom_admin\views.py:5542
+msgid "Girişte Hata ile Karşılaşan Eski Hesaplar"
+msgstr "Old Accounts Facing Login Error"
+
+#: .\custom_admin\views.py:5636
+msgid "Kullanıcı Takipçi Verilerini Çek"
+msgstr "Pull User Followers Data"
+
+#: .\custom_admin\views.py:5675
+msgid "Oto Beğeni Emri Oluştur"
+msgstr "Create Auto Like Order"
+
+#: .\custom_admin\views.py:5702 .\templates\custom_admin\base.html:521
+msgid "Makale"
+msgstr "Article"
+
+#: .\custom_admin\views.py:5855
+msgid "Mention Control"
+msgstr "Mention Control"
+
+#: .\custom_admin\views.py:6015
+msgid "Kullanıcıları Tarama"
+msgstr "Scanning Users"
+
+#: .\custom_admin\views.py:6059
+msgid "Cookie TXT Yenile"
+msgstr "Cookie TXT Refresh"
+
+#: .\custom_admin\views.py:6093 .\templates\custom_admin\base.html:109
+msgid "Oto Takip Edileni Takip"
+msgstr "Auto Follow What is Followed"
+
+#: .\custom_admin\views.py:6400
+msgid "Igvtv Link Mesaj Toplu DM"
+msgstr "Igvtv Link Message Bulk DM"
+
+#: .\custom_admin\views.py:6917
+msgid "ReeL Video Ve Link Mesaj Toplu DM"
+msgstr "ReeL Video And Link Message Bulk DM"
+
+#: .\custom_admin\views.py:7541 .\templates\custom_admin\base.html:194
+msgid "Profil + Mesaj DM"
+msgstr "Profile + Message DM"
+
+#: .\custom_admin\views.py:7635 .\templates\custom_admin\base.html:234
+#: .\templates\custom_admin\base.html:320
+msgid "Profil + Mesaj + Link DM"
+msgstr "Profile + Message + Link DM"
+
+#: .\custom_admin\views.py:7940
+msgid "Post Video Ve Link Mesaj Toplu DM"
+msgstr "Post Video And Link Message Bulk DM"
+
+#: .\custom_admin\views.py:8247
+msgid "Post Resim Ve Link Mesaj Toplu DM"
+msgstr "Post Picture And Link Message Bulk DM"
+
+#: .\custom_admin\views.py:8370 .\templates\custom_admin\base.html:449
+msgid "Api Sipariş Onaylamaları"
+msgstr "API Order Confirmations"
+
+#: .\custom_admin\views.py:8401 .\templates\custom_admin\base.html:409
+#: .\templates\custom_admin\user-category-list.html:15
+#: .\templates\custom_admin\user-packpages.html:49
+#: .\templates\custom_admin\user-packpages.html:85
+msgid "Kullanıcı Kategorileri"
+msgstr "User Categories"
+
+#: .\custom_admin\views.py:8423
+msgid "Kullanıcı Kategori Düzenle"
+msgstr "Edit User Category"
+
+#: .\custom_admin\views.py:8469
+msgid "Hatalı Kullanıcılar"
+msgstr "Incorrect Users"
+
+#: .\custom_admin\views.py:8668
+msgid "DM Toplu Takipçi Taramalı Mesaj Gönder"
+msgstr "Send DM Bulk Follower Scan Message"
+
+#: .\custom_admin\views.py:8846
+msgid "DM Resim Toplu Takipçi Taramalı Mesaj Gönder"
+msgstr "DM Picture Bulk Follower Scan Send Message"
+
+#: .\custom_admin\views.py:9144
+msgid "DM Video Toplu Takipçi Taramalı Mesaj Gönder"
+msgstr "Send DM Video Bulk Follower Interlace Message"
+
+#: .\custom_admin\views.py:9454
+msgid "DM IGTV Toplu Takipçi Taramalı Mesaj Gönder"
+msgstr "Send DM IGTV Bulk Follower Scan Message"
+
+#: .\custom_admin\views.py:9754
+msgid "DM Reel Video Toplu Takipçi Taramalı Mesaj Gönder"
+msgstr "Send DM Real Video Bulk Follower Scan Message"
+
+#: .\custom_admin\views.py:9941
+msgid "Post Resim Ve Link Mesaj Toplu Kullanıcı Takipçi Taramalı DM"
+msgstr "Post Picture And Link Message Bulk User Follower Scan DM"
+
+#: .\custom_admin\views.py:10131
+msgid "Post Video Ve Link Mesaj Toplu Kullanıcı Takipçi Taramalı DM"
+msgstr "Post Video And Link Message Bulk User Follower Scan DM"
+
+#: .\custom_admin\views.py:10322
+msgid "IGTV+Mesaj Ve Link+Mesaj Toplu Kullanıcı Takipçi Taramalı DM"
+msgstr "IGTV+Message And Link+Message Bulk User Follower Scan DM"
+
+#: .\custom_admin\views.py:10511
+msgid "ReelVideo Mesaj Ve Link Mesaj Toplu Kullanıcı Takipçi Taramalı DM"
+msgstr "Reels Video Message And Link Message Bulk User Follower Scan DM"
+
+#: .\custom_admin\views.py:10605
+msgid "Profil + Mesaj Kullanıcı Takipçi Taramalı DM"
+msgstr "Profile + Message User Follower Scan DM"
+
+#: .\custom_admin\views.py:10798
+msgid "Profil + Mesaj + Link Kullanıcı Takipçi Taramalı DM"
+msgstr "Profile + Message + Link User Follower Scan DM"
+
+#: .\custom_admin\views.py:11014
+msgid "Profil Ziyareti Gönder"
+msgstr "Submit Profile Visit"
+
+#: .\custom_admin\views.py:11187
+msgid "Video İzleme Gönder"
+msgstr "Submit Video Watch"
+
+#: .\templates\custom_admin\active-pasif-users.html:16
+#: .\templates\custom_admin\add_proxy.html:31
+#: .\templates\custom_admin\add_proxy.html:40
+#: .\templates\custom_admin\cat-user-list.html:31
+#: .\templates\custom_admin\import-users.html:21
+#: .\templates\custom_admin\instagram-users-list.html:31
+#: .\templates\custom_admin\services.html:29
+#: .\templates\custom_admin\smtp-settings.html:33
+msgid "Başarılı"
+msgstr "Successful"
+
+#: .\templates\custom_admin\active-pasif-users.html:17
+msgid "İglili kullanıcılar aktif hale getiriliyor"
+msgstr "Relevant users are activated"
+
+#: .\templates\custom_admin\active-pasif-users.html:22
+#: .\templates\custom_admin\dashboard.html:125
+msgid "Kullanıcı Kategorileri Verileri"
+msgstr "User Categories Data"
+
+#: .\templates\custom_admin\active-pasif-users.html:30
+#: .\templates\custom_admin\dashboard.html:132
+#: .\templates\custom_admin\services.html:61
+#: .\templates\custom_admin\services.html:118
+msgid "Kategori"
+msgstr "Category"
+
+#: .\templates\custom_admin\active-pasif-users.html:31
+#: .\templates\custom_admin\dashboard.html:97
+#: .\templates\custom_admin\dashboard.html:133
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message.html:53
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message.html:53
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message.html:53
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message.html:53
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message.html:53
+#: .\templates\custom_admin\instagram_tools\igtvlinkdm.html:54
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm.html:54
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm.html:54
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm.html:54
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink.html:54
+#: .\templates\custom_admin\instagram_tools\reelvideolinkdm.html:54
+#: .\templates\custom_admin\users-data.html:67
+msgid "Toplam Kullanıcı"
+msgstr "Total Users"
+
+#: .\templates\custom_admin\active-pasif-users.html:32
+#: .\templates\custom_admin\dashboard.html:134
+msgid "Challenge Kullanıcı"
+msgstr "Challenge User"
+
+#: .\templates\custom_admin\active-pasif-users.html:33
+#: .\templates\custom_admin\dashboard.html:135
+msgid "Feedback Kullanıcı"
+msgstr "Feedback User"
+
+#: .\templates\custom_admin\active-pasif-users.html:34
+#: .\templates\custom_admin\dashboard.html:136
+msgid "Checkpoint Kullanıcı"
+msgstr "Checkpoint User"
+
+#: .\templates\custom_admin\active-pasif-users.html:35
+#: .\templates\custom_admin\dashboard.html:137
+msgid "login_required Kullanıcı"
+msgstr "login_required User"
+
+#: .\templates\custom_admin\active-pasif-users.html:36
+#: .\templates\custom_admin\dashboard.html:138
+msgid "Aktif Kullanıcı"
+msgstr "Active User"
+
+#: .\templates\custom_admin\active-pasif-users.html:37
+#: .\templates\custom_admin\dashboard.html:139
+msgid "Pasif Kullanıcı"
+msgstr "Passive User"
+
+#: .\templates\custom_admin\active-pasif-users.html:84
+msgid "Aktif Yapılacak Hesaplar"
+msgstr "Active Accounts"
+
+#: .\templates\custom_admin\active-pasif-users.html:86
+msgid "Tüm Hesaplar"
+msgstr "All Accounts"
+
+#: .\templates\custom_admin\active-pasif-users.html:87
+msgid "Challenge Hesaplar"
+msgstr "Challenge Accounts"
+
+#: .\templates\custom_admin\active-pasif-users.html:88
+msgid "Feedback Hesaplar"
+msgstr "Feedback Accounts"
+
+#: .\templates\custom_admin\active-pasif-users.html:89
+msgid "Checkpoint Hesaplar"
+msgstr "Checkpoint Accounts"
+
+#: .\templates\custom_admin\active-pasif-users.html:92
+#: .\templates\custom_admin\add_instagram_users.html:41
+#: .\templates\custom_admin\cat-user-list.html:85
+#: .\templates\custom_admin\export-users.html:41
+#: .\templates\custom_admin\import-users.html:52
+#: .\templates\custom_admin\instagram_tools\comment-live.html:64
+#: .\templates\custom_admin\instagram_tools\dm-message.html:64
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message-followers.html:61
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message.html:71
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message-followers.html:61
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message.html:64
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message-followers.html:61
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message.html:64
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message-followers.html:61
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message.html:64
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message-followers.html:61
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message.html:64
+#: .\templates\custom_admin\instagram_tools\igtvlinkdm.html:65
+#: .\templates\custom_admin\instagram_tools\like-live.html:42
+#: .\templates\custom_admin\instagram_tools\postigtvlinkdm-followers.html:61
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm-followers.html:61
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm.html:65
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm-followers.html:61
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm.html:65
+#: .\templates\custom_admin\instagram_tools\profile-visit.html:42
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm-followers.html:62
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm.html:65
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink-followers.html:61
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink.html:65
+#: .\templates\custom_admin\instagram_tools\reellinkdm-followers.html:61
+#: .\templates\custom_admin\instagram_tools\reelvideolinkdm.html:65
+#: .\templates\custom_admin\instagram_tools\savephotos.html:42
+#: .\templates\custom_admin\instagram_tools\send-follow.html:42
+#: .\templates\custom_admin\instagram_tools\send-postcomment.html:66
+#: .\templates\custom_admin\instagram_tools\send-postlike.html:42
+#: .\templates\custom_admin\instagram_tools\video-view.html:42
+#: .\templates\custom_admin\instagram_tools\watch-live.html:49
+msgid "Kullanıcı kategorileri"
+msgstr "User categories"
+
+#: .\templates\custom_admin\active-pasif-users.html:99
+msgid "İlgili Kullanıcıları Aktif Yap"
+msgstr "Activate Related Users"
+
+#: .\templates\custom_admin\add_cookie_data_txt.html:22
+#: .\templates\custom_admin\add_proxy.html:22
+#: .\templates\custom_admin\clear-accounts.html:21
+#: .\templates\custom_admin\error-users.html:22
+#: .\templates\custom_admin\error-users.html:29
+#: .\templates\custom_admin\import-users.html:37
+#: .\templates\custom_admin\notlogin-old-users.html:22
+#: .\templates\custom_admin\notlogin-users.html:22
+#: .\templates\custom_admin\services.html:22
+msgid "Bilgi"
+msgstr "Information"
+
+#: .\templates\custom_admin\add_cookie_data_txt.html:23
+msgid "Txt dosyası için cookieler mevcut kullanıcılar ile güncelleniyor"
+msgstr "Updating cookies for txt file with existing users"
+
+#: .\templates\custom_admin\add_cookie_data_txt.html:32
+msgid "Cookie TXT Dosyasını Yenile"
+msgstr "Refresh Cookie TXT File"
+
+#: .\templates\custom_admin\add_instagram_users.html:23
+msgid "Kullanıcılar eklenmek için işleme alındı."
+msgstr "Users are processed for inclusion."
+
+#: .\templates\custom_admin\add_instagram_users.html:30
+#: .\templates\custom_admin\cat-user-list.html:23
+#: .\templates\custom_admin\instagram-users-list.html:23
+msgid "Kullanıcılar"
+msgstr "Users"
+
+#: .\templates\custom_admin\add_instagram_users.html:31
+msgid "kullanıcılar"
+msgstr "users"
+
+#: .\templates\custom_admin\add_instagram_users.html:33
+msgid "Hesap Türü"
+msgstr "Account type"
+
+#: .\templates\custom_admin\add_instagram_users.html:35
+msgid "Yeni Hesap"
+msgstr "New account"
+
+#: .\templates\custom_admin\add_instagram_users.html:37
+msgid "Eski Hesap"
+msgstr "Old account"
+
+#: .\templates\custom_admin\add_instagram_users.html:48
+#: .\templates\custom_admin\add_proxy.html:106
+msgid "Ekle"
+msgstr "Add"
+
+#: .\templates\custom_admin\add_proxy.html:11
+msgid "Mevcut Server IP"
+msgstr "Current Server IP"
+
+#: .\templates\custom_admin\add_proxy.html:23
+msgid "Proxyler ekleniyor"
+msgstr "Adding proxies"
+
+#: .\templates\custom_admin\add_proxy.html:32
+msgid "Proxy silindi"
+msgstr "Proxy deleted"
+
+#: .\templates\custom_admin\add_proxy.html:41
+msgid "Tüm Proxyler silindi"
+msgstr "All Proxies deleted"
+
+#: .\templates\custom_admin\add_proxy.html:48
+#: .\templates\custom_admin\add_proxy.html:146
+#: .\templates\custom_admin\add_proxy.html:200
+msgid "Login Öncesi Proxy"
+msgstr "Proxy Before Login"
+
+#: .\templates\custom_admin\add_proxy.html:52
+msgid "Login Öncesi Proxy Tipi"
+msgstr "Proxy Type Before Login"
+
+#: .\templates\custom_admin\add_proxy.html:54
+#: .\templates\custom_admin\add_proxy.html:66
+#: .\templates\custom_admin\add_proxy.html:78
+#: .\templates\custom_admin\add_proxy.html:90
+#: .\templates\custom_admin\add_proxy.html:101
+#: .\templates\custom_admin\add_proxy.html:137
+msgid "İp Port Proxy"
+msgstr "IP Port Proxy"
+
+#: .\templates\custom_admin\add_proxy.html:55
+#: .\templates\custom_admin\add_proxy.html:67
+#: .\templates\custom_admin\add_proxy.html:79
+#: .\templates\custom_admin\add_proxy.html:91
+#: .\templates\custom_admin\add_proxy.html:102
+#: .\templates\custom_admin\add_proxy.html:138
+#: .\templates\custom_admin\add_proxy.html:185
+msgid "Şifreli Proxy"
+msgstr "userpass proxy"
+
+#: .\templates\custom_admin\add_proxy.html:60
+#: .\templates\custom_admin\add_proxy.html:145
+#: .\templates\custom_admin\add_proxy.html:192
+msgid "Login Proxy"
+msgstr "Login Proxy"
+
+#: .\templates\custom_admin\add_proxy.html:64
+msgid "Login Proxy Tipi"
+msgstr "Login Proxy Type"
+
+#: .\templates\custom_admin\add_proxy.html:72
+#: .\templates\custom_admin\add_proxy.html:147
+#: .\templates\custom_admin\add_proxy.html:194
+msgid "İşlem Proxy"
+msgstr "Process Proxy"
+
+#: .\templates\custom_admin\add_proxy.html:76
+msgid "İşlem Proxy Tipi"
+msgstr "Transaction Proxy Type"
+
+#: .\templates\custom_admin\add_proxy.html:84
+#: .\templates\custom_admin\add_proxy.html:148
+#: .\templates\custom_admin\add_proxy.html:196
+msgid "Oto İşlem Proxy"
+msgstr "Auto Process Proxy"
+
+#: .\templates\custom_admin\add_proxy.html:88
+msgid "Oto İşlem Proxy Tipi"
+msgstr "Auto Process Proxy Type"
+
+#: .\templates\custom_admin\add_proxy.html:95
+#: .\templates\custom_admin\add_proxy.html:149
+#: .\templates\custom_admin\add_proxy.html:198
+msgid "Video İzleme Proxy"
+msgstr "Video Surveillance Proxy"
+
+#: .\templates\custom_admin\add_proxy.html:99
+msgid "Video İzleme Proxy Tipi"
+msgstr "Video Surveillance Proxy Type"
+
+#: .\templates\custom_admin\add_proxy.html:117
+msgid "Proxy Listesi"
+msgstr "Proxy List"
+
+#: .\templates\custom_admin\add_proxy.html:122
+msgid "Tüm Proxyleri Sil"
+msgstr "Delete All Proxies"
+
+#: .\templates\custom_admin\add_proxy.html:129
+msgid "Filtrele"
+msgstr "filter"
+
+#: .\templates\custom_admin\add_proxy.html:134
+msgid "Proxy tipi"
+msgstr "Proxy type"
+
+#: .\templates\custom_admin\add_proxy.html:136
+#: .\templates\custom_admin\add_proxy.html:144
+#: .\templates\custom_admin\notlogin-old-users.html:35
+#: .\templates\custom_admin\notlogin-users.html:35
+msgid "Tümü"
+msgstr "All"
+
+#: .\templates\custom_admin\add_proxy.html:142
+msgid "Kullanım alanı"
+msgstr "Usage area"
+
+#: .\templates\custom_admin\add_proxy.html:158
+msgid "Uygula"
+msgstr "Apply"
+
+#: .\templates\custom_admin\add_proxy.html:167
+msgid "Proxy"
+msgstr "proxy"
+
+#: .\templates\custom_admin\add_proxy.html:168
+msgid "Proxy Tipi"
+msgstr "Proxy Type"
+
+#: .\templates\custom_admin\add_proxy.html:169
+msgid "Proxy Kullanım Tipi"
+msgstr "Proxy Usage Type"
+
+#: .\templates\custom_admin\add_proxy.html:170
+#: .\templates\custom_admin\add_proxy.html:206
+#: .\templates\custom_admin\get-user-followdata.html:120
+#: .\templates\custom_admin\instagram_tools\auto_follow.html:78
+#: .\templates\custom_admin\mention-control.html:49
+#: .\templates\custom_admin\mention-control.html:70
+#: .\templates\custom_admin\services.html:123
+#: .\templates\custom_admin\services.html:154
+#: .\templates\custom_admin\user-category-list.html:28
+#: .\templates\custom_admin\user-category-list.html:39
+#: .\templates\custom_admin\user-packpages.html:89
+#: .\templates\custom_admin\user-packpages.html:122
+#: .\templates\custom_admin\users-scanner.html:48
+#: .\templates\custom_admin\users-scanner.html:65
+msgid "Sil"
+msgstr "Delete"
+
+#: .\templates\custom_admin\add_proxy.html:183
+msgid "Ip Port Proxy"
+msgstr "Ip Port Proxy"
+
+#: .\templates\custom_admin\add_proxy.html:187
+msgid "Local Proxy"
+msgstr "Local Proxy"
+
+#: .\templates\custom_admin\add_proxy.html:225
+#: .\templates\custom_admin\api-contact.html:56
+#: .\templates\custom_admin\api-orders.html:102
+#: .\templates\custom_admin\cat-user-list.html:105
+#: .\templates\custom_admin\clear-accounts.html:79
+#: .\templates\custom_admin\instagram-users-list.html:98
+msgid "Geri"
+msgstr "Back"
+
+#: .\templates\custom_admin\add_proxy.html:238
+#: .\templates\custom_admin\api-contact.html:68
+#: .\templates\custom_admin\api-orders.html:115
+#: .\templates\custom_admin\cat-user-list.html:118
+#: .\templates\custom_admin\clear-accounts.html:92
+#: .\templates\custom_admin\instagram-users-list.html:111
+msgid "İleri"
+msgstr "Next"
+
+#: .\templates\custom_admin\api-contact-manage.html:25
+msgid "kullanıcılar db ye aktarılıyor"
+msgstr "users are imported into database"
+
+#: .\templates\custom_admin\api-contact-manage.html:30
+msgid "Gerçek Kullanıcı Sayısını Getir"
+msgstr "Get Real Number of Users"
+
+#: .\templates\custom_admin\api-contact-manage.html:34
+msgid "için gerçek kullanıcı sayısı"
+msgstr "actual number of users for"
+
+#: .\templates\custom_admin\api-contact-manage.html:40
+msgid "Kullanıcı Verilerini Db"
+msgstr "User Data Db"
+
+#: .\templates\custom_admin\api-contact.html:23
+msgid "Host Listesi"
+msgstr "Host List"
+
+#: .\templates\custom_admin\api-contact.html:30
+msgid "Host"
+msgstr "Host"
+
+#: .\templates\custom_admin\api-contact.html:31
+#: .\templates\custom_admin\successful-value-edit-service.html:32
+msgid "İşlem"
+msgstr "Process"
+
+#: .\templates\custom_admin\api-contact.html:40
+msgid "İşlem Yap"
+msgstr "Take a Transaction"
+
+#: .\templates\custom_admin\api-order-affirmations.html:19
+msgid "Siparişler öncelik sırasına göre sıralanmaktadır"
+msgstr "Orders are listed in order of priority."
+
+#: .\templates\custom_admin\api-order-affirmations.html:24
+#: .\templates\custom_admin\successful-value-edit-service.html:28
+#: .\templates\custom_admin\successful-value-edit.html:28
+#: .\templates\custom_admin\successful-value.html:26
+msgid "Servis"
+msgstr "Service"
+
+#: .\templates\custom_admin\api-order-affirmations.html:25
+#: .\templates\custom_admin\instagram_tools\comment-live.html:61
+#: .\templates\custom_admin\instagram_tools\dm-message.html:61
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message-followers.html:54
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message-followers.html:54
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message-followers.html:54
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message-followers.html:54
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message-followers.html:54
+#: .\templates\custom_admin\instagram_tools\postigtvlinkdm-followers.html:54
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm-followers.html:54
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm-followers.html:54
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm-followers.html:55
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink-followers.html:54
+#: .\templates\custom_admin\instagram_tools\reellinkdm-followers.html:54
+#: .\templates\custom_admin\instagram_tools\send-postcomment.html:62
+msgid "Miktar"
+msgstr "Quantity"
+
+#: .\templates\custom_admin\api-order-affirmations.html:26
+msgid "Media Link"
+msgstr "Media Link"
+
+#: .\templates\custom_admin\api-order-affirmations.html:27
+msgid "Media Mesajı"
+msgstr "Media Message"
+
+#: .\templates\custom_admin\api-order-affirmations.html:28
+msgid "Link"
+msgstr "Link"
+
+#: .\templates\custom_admin\api-order-affirmations.html:29
+msgid "Link Mesajı"
+msgstr "Link Message"
+
+#: .\templates\custom_admin\api-order-affirmations.html:30
+msgid "Emir Tarihi"
+msgstr "Order Date"
+
+#: .\templates\custom_admin\api-order-affirmations.html:31
+#: .\templates\custom_admin\api-order-affirmations.html:50
+msgid "İptal Et"
+msgstr "Cancel"
+
+#: .\templates\custom_admin\api-order-affirmations.html:32
+#: .\templates\custom_admin\api-order-affirmations.html:56
+#: .\templates\custom_admin\clear-accounts.html:123
+msgid "Onayla"
+msgstr "Approve"
+
+#: .\templates\custom_admin\api-orders.html:23
+msgid "Siparişler"
+msgstr "Orders"
+
+#: .\templates\custom_admin\api-orders.html:28
+msgid "hedef ara"
+msgstr "search for destination"
+
+#: .\templates\custom_admin\api-orders.html:34
+#: .\templates\custom_admin\instagram-users-list.html:44
+msgid "Tümünü Listele"
+msgstr "List All"
+
+#: .\templates\custom_admin\api-orders.html:46
+msgid "Sipariş Tipi"
+msgstr "Order Type"
+
+#: .\templates\custom_admin\api-orders.html:47
+msgid "Api Servis"
+msgstr "API Service"
+
+#: .\templates\custom_admin\api-orders.html:48
+msgid "İşlem Başlangıç Sayısı"
+msgstr "Number of Transaction Starts"
+
+#: .\templates\custom_admin\api-orders.html:49
+msgid "Başarılı İşlem Miktarı"
+msgstr "Successful Transaction Amount"
+
+#: .\templates\custom_admin\api-orders.html:50
+msgid "Fiyat"
+msgstr "Price"
+
+#: .\templates\custom_admin\api-orders.html:50
+msgid "Adet"
+msgstr "Piece"
+
+#: .\templates\custom_admin\api-orders.html:51
+#: .\templates\custom_admin\mention-control.html:48
+#: .\templates\custom_admin\users-scanner.html:47
+msgid "Durum"
+msgstr "Status"
+
+#: .\templates\custom_admin\api-orders.html:52
+msgid "Başarısız İşlem Sayısı"
+msgstr "Number of Failed Transactions"
+
+#: .\templates\custom_admin\api-orders.html:53
+msgid "Hedef"
+msgstr "Aim"
+
+#: .\templates\custom_admin\api-orders.html:54
+#: .\templates\custom_admin\api-orders.html:85
+msgid "İade"
+msgstr "Return"
+
+#: .\templates\custom_admin\api-orders.html:63
+msgid "Kullanıcı Siparişi"
+msgstr "User Order"
+
+#: .\templates\custom_admin\api-orders.html:63
+#: .\templates\custom_admin\get-user-followdata.html:63
+msgid "Api Siparişi"
+msgstr "API Order"
+
+#: .\templates\custom_admin\api-orders.html:70
+msgid "İşlem Başladı"
+msgstr "Process Started"
+
+#: .\templates\custom_admin\api-orders.html:72
+#: .\templates\custom_admin\get-user-followdata.html:84
+#: .\templates\custom_admin\mention-control.html:67
+#: .\templates\custom_admin\users-scanner.html:62
+msgid "Tamamlandı"
+msgstr "Completed"
+
+#: .\templates\custom_admin\api-orders.html:74
+msgid "Bekliyor"
+msgstr "Waiting"
+
+#: .\templates\custom_admin\api-orders.html:76
+msgid "Iade Yapıldı"
+msgstr "Returned"
+
+#: .\templates\custom_admin\api-settings.html:37
+msgid "API Dökümanı"
+msgstr "API Documentation"
+
+#: .\templates\custom_admin\article.html:38
+#: .\templates\custom_admin\edit-user-category.html:16
+#: .\templates\custom_admin\home-manager.html:52
+#: .\templates\custom_admin\home-manager.html:89
+#: .\templates\custom_admin\seo-settings.html:36
+#: .\templates\custom_admin\smtp-settings.html:58
+#: .\templates\custom_admin\successful-value-edit-service.html:44
+#: .\templates\custom_admin\user-category-list.html:66
+msgid "Kaydet"
+msgstr "Save"
+
+#: .\templates\custom_admin\article.html:58
+#: .\templates\custom_admin\seo-settings.html:55
+msgid "Oluştur"
+msgstr "Create"
+
+#: .\templates\custom_admin\base.html:8
+msgid "Harici Admin Paneli"
+msgstr "External Admin Panel"
+
+#: .\templates\custom_admin\base.html:76
+msgid "Panel"
+msgstr "Panel"
+
+#: .\templates\custom_admin\base.html:84
+msgid "Instagram İşlemleri"
+msgstr "Instagram Transactions"
+
+#: .\templates\custom_admin\base.html:91
+msgid "Profil Ziyaret"
+msgstr "Profile Visit"
+
+#: .\templates\custom_admin\base.html:97
+msgid "Video İzleme"
+msgstr "Video Watching"
+
+#: .\templates\custom_admin\base.html:103
+msgid "Takipçi Gönderme"
+msgstr "Follow Send"
+
+#: .\templates\custom_admin\base.html:115
+msgid "Beğeni Gönderme"
+msgstr "Like Send"
+
+#: .\templates\custom_admin\base.html:121
+msgid "Oto Beğeni Gönderme"
+msgstr "Auto Like Send"
+
+#: .\templates\custom_admin\base.html:127
+msgid "Yorum Gönderme"
+msgstr "Comments Send"
+
+#: .\templates\custom_admin\base.html:140
+msgid "Canlı Yayın İzlenme"
+msgstr "Live broadcast viewing"
+
+#: .\templates\custom_admin\base.html:146
+msgid "Canlı Yayın Beğeni"
+msgstr "Live Broadcast Likes"
+
+#: .\templates\custom_admin\base.html:158
+msgid "DM Mesaj Gönderme"
+msgstr "Sending a DM Message"
+
+#: .\templates\custom_admin\base.html:164
+#: .\templates\custom_admin\base.html:250
+msgid "DM Toplu Link Mesaj"
+msgstr "DM Bulk Link Message"
+
+#: .\templates\custom_admin\base.html:170
+#: .\templates\custom_admin\base.html:256
+msgid "DM Toplu Resimli Mesaj"
+msgstr "DM Bulk Picture Message"
+
+#: .\templates\custom_admin\base.html:176
+#: .\templates\custom_admin\base.html:262
+msgid "DM Toplu Videolu Mesaj"
+msgstr "DM Bulk Video Message"
+
+#: .\templates\custom_admin\base.html:182
+#: .\templates\custom_admin\base.html:268
+msgid "DM Toplu IGTV Mesaj"
+msgstr "DM Bulk IGTV Message"
+
+#: .\templates\custom_admin\base.html:188
+msgid "DM Toplu Reel Video Mesaj"
+msgstr "DM Bulk Real Video Message"
+
+#: .\templates\custom_admin\base.html:203
+msgid "Instagram Özel İşlemler"
+msgstr "Instagram Private Actions"
+
+#: .\templates\custom_admin\base.html:210
+msgid "Igtv Link Mesaj Toplu DM"
+msgstr "Igtv Link Message Bulk DM"
+
+#: .\templates\custom_admin\base.html:216
+#: .\templates\custom_admin\base.html:314
+msgid "Reel Link Mesaj Toplu DM"
+msgstr "Reel Link Message Bulk DM"
+
+#: .\templates\custom_admin\base.html:222
+#: .\templates\custom_admin\base.html:302
+msgid "Video Link Mesaj Toplu DM"
+msgstr "Video Link Message Bulk DM"
+
+#: .\templates\custom_admin\base.html:228
+#: .\templates\custom_admin\base.html:296
+msgid "Resim Link Mesaj Toplu DM"
+msgstr "Picture Link Message Bulk DM"
+
+#: .\templates\custom_admin\base.html:243
+msgid "Takipçi Taramalı İşlemler"
+msgstr "Follower Scan Transactions"
+
+#: .\templates\custom_admin\base.html:274
+msgid "DM Toplu Reel Mesaj"
+msgstr "DM Bulk Real Message"
+
+#: .\templates\custom_admin\base.html:280
+msgid "Profil + Mesaj DM<"
+msgstr "Profile + Message DM"
+
+#: .\templates\custom_admin\base.html:289
+msgid "Takipçi Taramalı Özel İşlemler"
+msgstr "Special Transactions with Follower Scan"
+
+#: .\templates\custom_admin\base.html:308
+msgid "IGTV Link Mesaj Toplu DM"
+msgstr "IGTV Link Message Bulk DM"
+
+#: .\templates\custom_admin\base.html:337
+msgid "Instagram Kullanıcı Ekle"
+msgstr "Add Instagram User"
+
+#: .\templates\custom_admin\base.html:345
+msgid "Kullanıcı Takipçilerini Çek"
+msgstr "Pull User Followers"
+
+#: .\templates\custom_admin\base.html:353
+msgid "Login Olamamış Yeni Hesaplar"
+msgstr "New Accounts That Have Not Login"
+
+#: .\templates\custom_admin\base.html:361
+msgid "Login Olamamış Eski Hesaplar"
+msgstr "Old Accounts That Couldn't Login"
+
+#: .\templates\custom_admin\base.html:393
+msgid "Api Servis Oluşturma"
+msgstr "API Service Creation"
+
+#: .\templates\custom_admin\base.html:417
+msgid "SEO ve Genel ayarlar"
+msgstr "SEO and General settings"
+
+#: .\templates\custom_admin\base.html:425
+msgid "Mail SMTP Ayarları"
+msgstr "Mail SMTP Settings"
+
+#: .\templates\custom_admin\base.html:433
+msgid "Proxy Ayarları"
+msgstr "Proxy Settings"
+
+#: .\templates\custom_admin\base.html:457
+msgid "Web-Api Veri Aktarımı"
+msgstr "Web-Api Data Transfer"
+
+#: .\templates\custom_admin\base.html:465
+msgid "Mention Kontrol"
+msgstr "Mention Control"
+
+#: .\templates\custom_admin\base.html:473
+msgid "Kullanıcı Tarama"
+msgstr "User Scan"
+
+#: .\templates\custom_admin\base.html:481
+msgid "Hata Veren Kullanıcılar"
+msgstr "Users with Error"
+
+#: .\templates\custom_admin\base.html:513
+msgid "Cookie TXT Yenileme"
+msgstr "Cookie TXT Refresh"
+
+#: .\templates\custom_admin\cat-user-list.html:32
+msgid "Seçili kullanıcılar silindi"
+msgstr "Selected users deleted"
+
+#: .\templates\custom_admin\cat-user-list.html:39
+msgid "Seçili kullanıcılar"
+msgstr "Selected users"
+
+#: .\templates\custom_admin\cat-user-list.html:39
+msgid "seçili kategorilere aktarılıyor"
+msgstr "transferring to selected categories"
+
+#: .\templates\custom_admin\cat-user-list.html:49
+#: .\templates\custom_admin\clear-accounts.html:55
+#: .\templates\custom_admin\get-user-followdata.html:29
+#: .\templates\custom_admin\instagram-users-list.html:59
+#: .\templates\custom_admin\login.html:32
+msgid "Kullanıcı Adı"
+msgstr "User name"
+
+#: .\templates\custom_admin\cat-user-list.html:50
+#: .\templates\custom_admin\clear-accounts.html:56
+#: .\templates\custom_admin\instagram-users-list.html:60
+#: .\templates\custom_admin\login.html:38
+msgid "Parola"
+msgstr "Password"
+
+#: .\templates\custom_admin\cat-user-list.html:51
+#: .\templates\custom_admin\dashboard.html:96
+#: .\templates\custom_admin\export-users.html:33
+#: .\templates\custom_admin\instagram-users-list.html:61
+#: .\templates\custom_admin\user-packpages.html:41
+#: .\templates\custom_admin\user-packpages.html:86
+#: .\templates\custom_admin\users-data.html:66
+msgid "Ülke Kodu"
+msgstr "Country code"
+
+#: .\templates\custom_admin\cat-user-list.html:52
+#: .\templates\custom_admin\instagram-users-list.html:62
+msgid "Telefon"
+msgstr "Phone"
+
+#: .\templates\custom_admin\cat-user-list.html:53
+#: .\templates\custom_admin\instagram-users-list.html:63
+#: .\templates\custom_admin\smtp-settings.html:87
+msgid "Email"
+msgstr "E-mail"
+
+#: .\templates\custom_admin\cat-user-list.html:54
+#: .\templates\custom_admin\export-users.html:24
+#: .\templates\custom_admin\instagram-users-list.html:64
+#: .\templates\custom_admin\user-packpages.html:87
+msgid "Cinsiyet"
+msgstr "Gender"
+
+#: .\templates\custom_admin\cat-user-list.html:55
+#: .\templates\custom_admin\instagram-users-list.html:65
+msgid "Kullanıcı Tipi"
+msgstr "User Type"
+
+#: .\templates\custom_admin\cat-user-list.html:71
+#: .\templates\custom_admin\instagram-users-list.html:80
+msgid "Instagram Kullanıcısı"
+msgstr "Instagram User"
+
+#: .\templates\custom_admin\cat-user-list.html:73
+msgid "Bot Kullanıcı"
+msgstr "Bot User"
+
+#: .\templates\custom_admin\cat-user-list.html:82
+msgid "Seçili Kullanıcıları Sil"
+msgstr "Delete Selected Users"
+
+#: .\templates\custom_admin\cat-user-list.html:91
+msgid "Seçili Kullanıcıları Seçilen Kategorilere Ata"
+msgstr "Assign Selected Users to Selected Categories"
+
+#: .\templates\custom_admin\clear-accounts.html:22
+msgid "Hesaplar sınanıyor"
+msgstr "Accounts being tested"
+
+#: .\templates\custom_admin\clear-accounts.html:22
+msgid "ölü hesaplar buraya düşecektir"
+msgstr "dead accounts will go here"
+
+#: .\templates\custom_admin\clear-accounts.html:31
+msgid "Hata İle Karşılaşmış Hesaplar Listesi"
+msgstr "List of Accounts Encountered with Error"
+
+#: .\templates\custom_admin\clear-accounts.html:37
+msgid "Hatalı Hespaları Sına"
+msgstr "Test Incorrect Calculations"
+
+#: .\templates\custom_admin\clear-accounts.html:41
+#: .\templates\custom_admin\clear-accounts.html:105
+msgid "Hesapları Temizle"
+msgstr "Clear Accounts"
+
+#: .\templates\custom_admin\clear-accounts.html:113
+msgid "Hata İle Karşılaşan Hesaplar Silinecek"
+msgstr "Accounts Encountering an Error Will Be Deleted"
+
+#: .\templates\custom_admin\clear-accounts.html:120
+#: .\templates\custom_admin\smtp-settings.html:91
+#: .\templates\custom_admin\user-category-list.html:72
+msgid "Kapat"
+msgstr "Close"
+
+#: .\templates\custom_admin\dashboard.html:23
+#: .\templates\custom_admin\users-data.html:24
+msgid "Cinsiyet Verileri"
+msgstr "Gender Data"
+
+#: .\templates\custom_admin\dashboard.html:30
+#: .\templates\custom_admin\users-data.html:31
+msgid "Toplam Kullanıcılar"
+msgstr "Total Users"
+
+#: .\templates\custom_admin\dashboard.html:31
+msgid "Bilinmeyen Kullanıcılar"
+msgstr "Unknown Users"
+
+#: .\templates\custom_admin\dashboard.html:32
+#: .\templates\custom_admin\dashboard.html:98
+#: .\templates\custom_admin\users-data.html:32
+#: .\templates\custom_admin\users-data.html:68
+msgid "Kadın Kullanıcılar"
+msgstr "Female Users"
+
+#: .\templates\custom_admin\dashboard.html:33
+#: .\templates\custom_admin\dashboard.html:99
+#: .\templates\custom_admin\users-data.html:33
+#: .\templates\custom_admin\users-data.html:69
+msgid "Erkek Kullanıcılar"
+msgstr "Male Users"
+
+#: .\templates\custom_admin\dashboard.html:57
+msgid "Kullanıcı Tipi Verileri"
+msgstr "User Type Data"
+
+#: .\templates\custom_admin\dashboard.html:64
+msgid "Bot Kullanıcılar"
+msgstr "Bot Users"
+
+#: .\templates\custom_admin\dashboard.html:65
+msgid "Gerçek Kullanıcılar"
+msgstr "Real Users"
+
+#: .\templates\custom_admin\dashboard.html:89
+#: .\templates\custom_admin\users-data.html:59
+msgid "Ülke Kodu Ve Cinsiyet Verileri"
+msgstr "Country Code And Gender Data"
+
+#: .\templates\custom_admin\dashboard.html:169
+msgid "Yeniden Giriş Yapması Gerken Kullanıcı Sayısı"
+msgstr "Number of Users Required to Re-login"
+
+#: .\templates\custom_admin\dashboard.html:176
+msgid "login_required Kullanıcılar"
+msgstr "login_required Users"
+
+#: .\templates\custom_admin\edit-packpages.html:34
+msgid "Paketi Güncelle"
+msgstr "Update Package"
+
+#: .\templates\custom_admin\edit-services.html:34
+msgid "Servisi Güncelle"
+msgstr "Update Service"
+
+#: .\templates\custom_admin\error-users.html:23
+#: .\templates\custom_admin\notlogin-old-users.html:23
+#: .\templates\custom_admin\notlogin-users.html:23
+msgid "Temizlendi"
+msgstr "Cleaned"
+
+#: .\templates\custom_admin\error-users.html:30
+msgid "Kullanıcılar giriş için işleme alındı"
+msgstr "Users processed for login"
+
+#: .\templates\custom_admin\error-users.html:41
+#: .\templates\custom_admin\error-users.html:57
+#: .\templates\custom_admin\notlogin-old-users.html:62
+#: .\templates\custom_admin\notlogin-users.html:59
+msgid "Challenge Veren Kullanıcılar"
+msgstr "Users Who Challenge"
+
+#: .\templates\custom_admin\error-users.html:44
+#: .\templates\custom_admin\error-users.html:68
+#: .\templates\custom_admin\notlogin-old-users.html:73
+msgid "Checkpoint Veren Kullanıcılar"
+msgstr "Users Giving Checkpoint"
+
+#: .\templates\custom_admin\error-users.html:47
+#: .\templates\custom_admin\error-users.html:80
+msgid "login_required Veren Kullanıcılar"
+msgstr "Users Granting login_required"
+
+#: .\templates\custom_admin\error-users.html:60
+msgid "Challenge Kullanıcıları Temizle"
+msgstr "Challenge Clear Users"
+
+#: .\templates\custom_admin\error-users.html:71
+msgid "Checkpoint Kullanıcıları Temizle"
+msgstr "Clear Checkpoint Users"
+
+#: .\templates\custom_admin\error-users.html:83
+msgid "Kullanıcıları Tekar Giriş Yaptır"
+msgstr "Login Users Again"
+
+#: .\templates\custom_admin\error-users.html:83
+msgid "login_required Kullanıcıları Temizle"
+msgstr "Login_required Purge Users"
+
+#: .\templates\custom_admin\error-users.html:119
+#: .\templates\custom_admin\error-users.html:133
+#: .\templates\custom_admin\error-users.html:146
+#: .\templates\custom_admin\notlogin-old-users.html:110
+#: .\templates\custom_admin\notlogin-old-users.html:124
+#: .\templates\custom_admin\notlogin-old-users.html:140
+#: .\templates\custom_admin\notlogin-users.html:97
+#: .\templates\custom_admin\notlogin-users.html:111
+msgid "İndirilecek kullanıcı yok"
+msgstr "No users to download"
+
+#: .\templates\custom_admin\export-users.html:28
+#: .\templates\custom_admin\user-packpages.html:36
+msgid "Erkek"
+msgstr "Male"
+
+#: .\templates\custom_admin\export-users.html:28
+#: .\templates\custom_admin\user-packpages.html:36
+msgid "Kadın"
+msgstr "Female"
+
+#: .\templates\custom_admin\export-users.html:50
+msgid "Kulanıcıları Silme İşlemi"
+msgstr "User Deletion"
+
+#: .\templates\custom_admin\export-users.html:55
+msgid "Kullanıcıları Dışa Akta"
+msgstr "Export Users"
+
+#: .\templates\custom_admin\export-users.html:56
+msgid "Kullanıcıları user:pass olarak Dışa Aktar"
+msgstr "Export users as user:pass"
+
+#: .\templates\custom_admin\get-user-followdata.html:24
+#: .\templates\custom_admin\instagram_tools\comment-live.html:23
+#: .\templates\custom_admin\instagram_tools\dm-message.html:23
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message-followers.html:23
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message.html:23
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message-followers.html:23
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message.html:23
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message-followers.html:23
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message.html:23
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message-followers.html:23
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message.html:23
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message-followers.html:23
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message.html:23
+#: .\templates\custom_admin\instagram_tools\like-live.html:24
+#: .\templates\custom_admin\instagram_tools\postigtvlinkdm-followers.html:23
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm-followers.html:23
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm-followers.html:23
+#: .\templates\custom_admin\instagram_tools\profile-visit.html:24
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm-followers.html:23
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink-followers.html:23
+#: .\templates\custom_admin\instagram_tools\reellinkdm-followers.html:23
+#: .\templates\custom_admin\instagram_tools\savephotos.html:24
+#: .\templates\custom_admin\instagram_tools\send-auto-postlike.html:24
+#: .\templates\custom_admin\instagram_tools\send-follow.html:24
+#: .\templates\custom_admin\instagram_tools\send-postcomment.html:24
+#: .\templates\custom_admin\instagram_tools\send-postlike.html:24
+#: .\templates\custom_admin\instagram_tools\video-view.html:24
+#: .\templates\custom_admin\instagram_tools\watch-live.html:24
+msgid "İşlem başladı"
+msgstr "Process started"
+
+#: .\templates\custom_admin\get-user-followdata.html:35
+#: .\templates\custom_admin\instagram_tools\comment-live.html:72
+#: .\templates\custom_admin\instagram_tools\dm-message.html:72
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message-followers.html:69
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message.html:79
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message-followers.html:69
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message.html:72
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message-followers.html:69
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message.html:72
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message-followers.html:69
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message.html:72
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message-followers.html:69
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message.html:72
+#: .\templates\custom_admin\instagram_tools\igtvlinkdm.html:73
+#: .\templates\custom_admin\instagram_tools\like-live.html:49
+#: .\templates\custom_admin\instagram_tools\postigtvlinkdm-followers.html:69
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm-followers.html:69
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm.html:73
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm-followers.html:69
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm.html:73
+#: .\templates\custom_admin\instagram_tools\profile-visit.html:49
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm-followers.html:70
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm.html:73
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink-followers.html:69
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink.html:73
+#: .\templates\custom_admin\instagram_tools\reellinkdm-followers.html:69
+#: .\templates\custom_admin\instagram_tools\reelvideolinkdm.html:73
+#: .\templates\custom_admin\instagram_tools\savephotos.html:49
+#: .\templates\custom_admin\instagram_tools\send-follow.html:49
+#: .\templates\custom_admin\instagram_tools\send-postcomment.html:74
+#: .\templates\custom_admin\instagram_tools\send-postlike.html:49
+#: .\templates\custom_admin\instagram_tools\video-view.html:49
+#: .\templates\custom_admin\instagram_tools\watch-live.html:56
+msgid "İşlemi Başlat"
+msgstr "Start Process"
+
+#: .\templates\custom_admin\get-user-followdata.html:49
+msgid "Geçmiş İşlemler"
+msgstr "Previous Transactions"
+
+#: .\templates\custom_admin\get-user-followdata.html:57
+#: .\templates\custom_admin\instagram_tools\auto_follow.html:26
+#: .\templates\custom_admin\instagram_tools\auto_follow.html:62
+#: .\templates\custom_admin\instagram_tools\send-auto-postlike.html:29
+msgid "Kullanıcı"
+msgstr "User"
+
+#: .\templates\custom_admin\get-user-followdata.html:58
+msgid "Takipçi Kullanıcı Adları"
+msgstr "Follower Usernames"
+
+#: .\templates\custom_admin\get-user-followdata.html:59
+msgid "Takipçi Kullanıcı Idleri"
+msgstr "Follower User IDs"
+
+#: .\templates\custom_admin\get-user-followdata.html:60
+msgid "İşlem Tarihi"
+msgstr "Transaction date"
+
+#: .\templates\custom_admin\get-user-followdata.html:61
+msgid "İşlem Durumu"
+msgstr "Process Status"
+
+#: .\templates\custom_admin\get-user-followdata.html:62
+msgid "Çekinlen Takipçiler"
+msgstr "Attracted Followers"
+
+#: .\templates\custom_admin\get-user-followdata.html:64
+msgid "Sistem Mail İletimi"
+msgstr "System Mail Transmission"
+
+#: .\templates\custom_admin\get-user-followdata.html:65
+msgid "Api Sipariş Maili"
+msgstr "API Order Mail"
+
+#: .\templates\custom_admin\get-user-followdata.html:66
+msgid "İşlemi Durdur"
+msgstr "Stop Process"
+
+#: .\templates\custom_admin\get-user-followdata.html:67
+msgid "İşlem Kayıtlarını Sil"
+msgstr "Delete Transaction Records"
+
+#: .\templates\custom_admin\get-user-followdata.html:77
+#: .\templates\custom_admin\get-user-followdata.html:81
+#: .\templates\custom_admin\mention-control.html:61
+#: .\templates\custom_admin\mention-control.html:65
+#: .\templates\custom_admin\users-scanner.html:60
+msgid "Verileri İndir"
+msgstr "Download Data"
+
+#: .\templates\custom_admin\get-user-followdata.html:84
+msgid "İşlem Durduruldu"
+msgstr "Process Stopped"
+
+#: .\templates\custom_admin\get-user-followdata.html:84
+#: .\templates\custom_admin\mention-control.html:67
+#: .\templates\custom_admin\users-scanner.html:62
+msgid "İşlem Devam Ediyor"
+msgstr "Process In Progress"
+
+#: .\templates\custom_admin\get-user-followdata.html:113
+msgid "Durdur"
+msgstr "Stop"
+
+#: .\templates\custom_admin\home-manager.html:24
+#: .\templates\custom_admin\home-manager.html:61
+#: .\templates\custom_admin\smtp-settings.html:83
+msgid "Başlık"
+msgstr "Title"
+
+#: .\templates\custom_admin\home-manager.html:28
+#: .\templates\custom_admin\home-manager.html:65
+msgid "Açıklama"
+msgstr "Description"
+
+#: .\templates\custom_admin\home-manager.html:32
+#: .\templates\custom_admin\home-manager.html:69
+msgid "1. Buton İsmi"
+msgstr "1. Button Name"
+
+#: .\templates\custom_admin\home-manager.html:36
+#: .\templates\custom_admin\home-manager.html:73
+msgid "1. Buton Link"
+msgstr "1. Button Link"
+
+#: .\templates\custom_admin\home-manager.html:40
+#: .\templates\custom_admin\home-manager.html:77
+msgid "2. Buton İsmi"
+msgstr "2. Button Name"
+
+#: .\templates\custom_admin\home-manager.html:44
+#: .\templates\custom_admin\home-manager.html:81
+msgid "2.Buton Link"
+msgstr "2.Button Link"
+
+#: .\templates\custom_admin\import-users.html:29
+#: .\templates\custom_admin\mention-control.html:28
+#: .\templates\custom_admin\users-scanner.html:28
+msgid "Dosya Ekle"
+msgstr "Add file"
+
+#: .\templates\custom_admin\import-users.html:38
+msgid "Kullanıcılar aktarılıyor"
+msgstr "Users are transferred"
+
+#: .\templates\custom_admin\import-users.html:59
+msgid "Seçili Dosyayı İçeri Aktar"
+msgstr "Import Selected File"
+
+#: .\templates\custom_admin\instagram-users-list.html:32
+msgid "Tüm kullanıcılar silindi"
+msgstr "All users deleted"
+
+#: .\templates\custom_admin\instagram-users-list.html:38
+msgid "kullanıcı adı"
+msgstr "user name"
+
+#: .\templates\custom_admin\instagram-users-list.html:48
+msgid "Tüm Kullanıcıları Sil"
+msgstr "Delete All Users"
+
+#: .\templates\custom_admin\instagram-users-list.html:82
+msgid "Bot Kullanıcısı"
+msgstr "Bot User"
+
+#: .\templates\custom_admin\instagram_tools\auto_follow.html:33
+#: .\templates\custom_admin\instagram_tools\auto_follow.html:64
+msgid "Takipçi Miktarı"
+msgstr "Number of Followers"
+
+#: .\templates\custom_admin\instagram_tools\auto_follow.html:40
+msgid "Oto Takipçi Emri Ver"
+msgstr "Order Auto Followers"
+
+#: .\templates\custom_admin\instagram_tools\auto_follow.html:54
+msgid "Aktif Emirler"
+msgstr "Active Orders"
+
+#: .\templates\custom_admin\instagram_tools\auto_follow.html:63
+msgid "Başlangıç Tarihi"
+msgstr "Starting date"
+
+#: .\templates\custom_admin\instagram_tools\auto_follow.html:65
+msgid "Emri İptal Et"
+msgstr "Cancel Order"
+
+#: .\templates\custom_admin\instagram_tools\comment-live.html:28
+#: .\templates\custom_admin\instagram_tools\dm-message.html:28
+#: .\templates\custom_admin\instagram_tools\profile-visit.html:29
+#: .\templates\custom_admin\instagram_tools\send-follow.html:29
+msgid "KullanıcıAdı"
+msgstr "User name"
+
+#: .\templates\custom_admin\instagram_tools\comment-live.html:55
+#: .\templates\custom_admin\instagram_tools\dm-message.html:55
+msgid "Mesajlar"
+msgstr "Messages"
+
+#: .\templates\custom_admin\instagram_tools\comment-live.html:57
+msgid "gönderilecek yorumlar"
+msgstr "comments to post"
+
+#: .\templates\custom_admin\instagram_tools\dm-message.html:57
+msgid "gönderilecek mesajlar"
+msgstr "messages to be sent"
+
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message-followers.html:48
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message-followers.html:51
+msgid "kullaniciadi:link:mesaj"
+msgstr "username:link:message"
+
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message.html:49
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message.html:49
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message.html:49
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message.html:49
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message.html:49
+#: .\templates\custom_admin\instagram_tools\igtvlinkdm.html:50
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm.html:50
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm.html:50
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm.html:50
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink.html:50
+#: .\templates\custom_admin\instagram_tools\reelvideolinkdm.html:50
+msgid "Kullanıcı adları"
+msgstr "Usernames"
+
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message.html:51
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message.html:51
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message.html:51
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message.html:51
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message.html:51
+#: .\templates\custom_admin\instagram_tools\igtvlinkdm.html:52
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm.html:52
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm.html:52
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm.html:52
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink.html:52
+#: .\templates\custom_admin\instagram_tools\reelvideolinkdm.html:52
+msgid "kullanıcı adları"
+msgstr "usernames"
+
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message.html:64
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message.html:57
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message.html:57
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message.html:57
+#: .\templates\custom_admin\instagram_tools\igtvlinkdm.html:58
+#: .\templates\custom_admin\instagram_tools\postigtvlinkdm-followers.html:48
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm-followers.html:48
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm.html:58
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm-followers.html:48
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm.html:58
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm.html:58
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink.html:58
+#: .\templates\custom_admin\instagram_tools\reellinkdm-followers.html:48
+#: .\templates\custom_admin\instagram_tools\reelvideolinkdm.html:58
+msgid "Mesaj"
+msgstr "Message"
+
+#: .\templates\custom_admin\instagram_tools\dm-toplu-message.html:67
+msgid "mesaj içeriği"
+msgstr "message content"
+
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message-followers.html:48
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message-followers.html:51
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message-followers.html:48
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message-followers.html:51
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message-followers.html:48
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message-followers.html:51
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message-followers.html:48
+#: .\templates\custom_admin\instagram_tools\dmvideo-toplu-message-followers.html:51
+msgid "kullaniciadi:media_link:mesaj"
+msgstr "username:media_link:message"
+
+#: .\templates\custom_admin\instagram_tools\dmigtv-toplu-message.html:60
+#: .\templates\custom_admin\instagram_tools\dmreel-toplu-message.html:60
+#: .\templates\custom_admin\instagram_tools\dmresim-toplu-message.html:60
+msgid "media_link:mesaj"
+msgstr "media_link:message"
+
+#: .\templates\custom_admin\instagram_tools\igtvlinkdm.html:24
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm.html:24
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm.html:24
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm.html:24
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink.html:24
+#: .\templates\custom_admin\instagram_tools\reelvideolinkdm.html:24
+msgid "İşlem kuyruğa eklendi"
+msgstr "Process added to queue"
+
+#: .\templates\custom_admin\instagram_tools\igtvlinkdm.html:58
+#: .\templates\custom_admin\instagram_tools\igtvlinkdm.html:61
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm.html:58
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm.html:61
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm.html:58
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm.html:61
+#: .\templates\custom_admin\instagram_tools\reelvideolinkdm.html:58
+#: .\templates\custom_admin\instagram_tools\reelvideolinkdm.html:61
+msgid "media_link:mesaj:link:mesaj2"
+msgstr "media_link:message:link:message2"
+
+#: .\templates\custom_admin\instagram_tools\like-live.html:29
+msgid "kullaniciadi"
+msgstr "user name"
+
+#: .\templates\custom_admin\instagram_tools\like-live.html:36
+#: .\templates\custom_admin\instagram_tools\send-auto-postlike.html:36
+#: .\templates\custom_admin\instagram_tools\send-postlike.html:36
+msgid "Beğeni Miktarı"
+msgstr "Amount of Likes"
+
+#: .\templates\custom_admin\instagram_tools\postigtvlinkdm-followers.html:48
+#: .\templates\custom_admin\instagram_tools\postigtvlinkdm-followers.html:51
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm-followers.html:48
+#: .\templates\custom_admin\instagram_tools\postimagelinkdm-followers.html:51
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm-followers.html:48
+#: .\templates\custom_admin\instagram_tools\postvideolinkdm-followers.html:51
+#: .\templates\custom_admin\instagram_tools\reellinkdm-followers.html:48
+#: .\templates\custom_admin\instagram_tools\reellinkdm-followers.html:51
+msgid "kullanıcıadı:media_link:mesaj:link:mesaj2"
+msgstr "username:media_link:message:link:message2"
+
+#: .\templates\custom_admin\instagram_tools\profile-visit.html:36
+msgid "Ziyaret Miktarı"
+msgstr "Number of Visits"
+
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm-followers.html:48
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm-followers.html:52
+msgid "kullaniciadi1:kullaniciadi2:mesaj"
+msgstr "username 1: username 2: message"
+
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm.html:58
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadm.html:61
+msgid "kullanıcıadı:mesaj"
+msgstr "username:message"
+
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink-followers.html:48
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink-followers.html:51
+msgid "kullanıcıadı1:kullanıcıadı2:mesaj:link:mesaj2"
+msgstr "username 1:username 2:message:link:message 2"
+
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink.html:58
+#: .\templates\custom_admin\instagram_tools\profilpaylasmadmlink.html:61
+msgid "kullanıcıadı:mesaj:link:mesaj2"
+msgstr "username:message:link:message 2"
+
+#: .\templates\custom_admin\instagram_tools\savephotos.html:36
+msgid "Fotoğraf Kaydetme Miktarı"
+msgstr "Photo Save Amount"
+
+#: .\templates\custom_admin\instagram_tools\send-auto-postlike.html:41
+msgid "Emir Süresi"
+msgstr "Order Period"
+
+#: .\templates\custom_admin\instagram_tools\send-auto-postlike.html:43
+#: .\templates\custom_admin\instagram_tools\send-auto-postlike.html:45
+#: .\templates\custom_admin\instagram_tools\send-auto-postlike.html:47
+msgid "Gün"
+msgstr "Day"
+
+#: .\templates\custom_admin\instagram_tools\send-auto-postlike.html:49
+msgid "Oto Beğeni Emri Ver"
+msgstr "Order Auto Likes"
+
+#: .\templates\custom_admin\instagram_tools\send-follow.html:36
+msgid "Takçipçi Miktarı"
+msgstr "Followers Quantity"
+
+#: .\templates\custom_admin\instagram_tools\send-postcomment.html:56
+msgid "Yorumlar"
+msgstr "Comments"
+
+#: .\templates\custom_admin\instagram_tools\send-postcomment.html:58
+msgid "Gönderilecek yorumlar"
+msgstr "Comments to post"
+
+#: .\templates\custom_admin\instagram_tools\video-view.html:36
+#: .\templates\custom_admin\instagram_tools\watch-live.html:36
+msgid "İzlenme Miktarı"
+msgstr "Amount of Views"
+
+#: .\templates\custom_admin\instagram_tools\watch-live.html:29
+msgid "Kullanıcıadı"
+msgstr "User name"
+
+#: .\templates\custom_admin\instagram_tools\watch-live.html:41
+msgid "İzlenme Süresi"
+msgstr "Watch Time"
+
+#: .\templates\custom_admin\instagram_tools\watch-live.html:44
+msgid "Dakika"
+msgstr "Minute"
+
+#: .\templates\custom_admin\instagram_tools\watch-live.html:46
+msgid "Saat"
+msgstr "Hour"
+
+#: .\templates\custom_admin\login.html:24
+msgid "Hoşgeldin"
+msgstr "Welcome"
+
+#: .\templates\custom_admin\login.html:34
+msgid "E-posta adresinizi giriniz"
+msgstr "Enter your e-mail address"
+
+#: .\templates\custom_admin\login.html:40
+msgid "Şifrenizi girin"
+msgstr "enter your password"
+
+#: .\templates\custom_admin\login.html:49
+msgid "Giriş Yap"
+msgstr "Login"
+
+#: .\templates\custom_admin\mention-control.html:21
+#: .\templates\custom_admin\smtp-settings.html:29
+#: .\templates\custom_admin\users-scanner.html:21
+msgid "Hata"
+msgstr "Error"
+
+#: .\templates\custom_admin\mention-control.html:22
+#: .\templates\custom_admin\users-scanner.html:22
+msgid "Bu kayıt için dosya bulunamadı"
+msgstr "File not found for this record"
+
+#: .\templates\custom_admin\mention-control.html:36
+msgid "Mention Kontrol Listesi"
+msgstr "Mention Checklist"
+
+#: .\templates\custom_admin\mention-control.html:44
+#: .\templates\custom_admin\users-scanner.html:44
+msgid "Dosya"
+msgstr "File"
+
+#: .\templates\custom_admin\mention-control.html:45
+#: .\templates\custom_admin\users-scanner.html:45
+msgid "Tarih"
+msgstr "History"
+
+#: .\templates\custom_admin\mention-control.html:46
+msgid "Sorunlu Kullanıcılar"
+msgstr "Problem Users"
+
+#: .\templates\custom_admin\mention-control.html:47
+#: .\templates\custom_admin\users-scanner.html:46
+msgid "Sorunsuz Kullanıcılar"
+msgstr "Hassle Free Users"
+
+#: .\templates\custom_admin\notlogin-old-users.html:38
+#: .\templates\custom_admin\notlogin-users.html:38
+msgid "Challenge Verenler"
+msgstr "Challengers"
+
+#: .\templates\custom_admin\notlogin-old-users.html:41
+msgid "Checkpoint Verenler"
+msgstr "Checkpoint Issuers"
+
+#: .\templates\custom_admin\notlogin-old-users.html:51
+#: .\templates\custom_admin\notlogin-users.html:48
+msgid "Tüm Kullanıcılar"
+msgstr "All Users"
+
+#: .\templates\custom_admin\notlogin-old-users.html:54
+#: .\templates\custom_admin\notlogin-old-users.html:65
+#: .\templates\custom_admin\notlogin-old-users.html:76
+#: .\templates\custom_admin\notlogin-users.html:51
+#: .\templates\custom_admin\notlogin-users.html:62
+msgid "Temizle"
+msgstr "Clean"
+
+#: .\templates\custom_admin\notlogin-old-users.html:54
+#: .\templates\custom_admin\notlogin-users.html:51
+msgid "Tüm Kullanıcıları İndir"
+msgstr "Download All Users"
+
+#: .\templates\custom_admin\notlogin-old-users.html:65
+#: .\templates\custom_admin\notlogin-users.html:62
+msgid "Challenge Kullanıcıları İndir"
+msgstr "Download Challenge Users"
+
+#: .\templates\custom_admin\notlogin-old-users.html:76
+msgid "Checkpoint Kullanıcıları İndir"
+msgstr "Download Checkpoint Users"
+
+#: .\templates\custom_admin\services.html:23
+msgid "Servis Oluşturuldu"
+msgstr "Service Created"
+
+#: .\templates\custom_admin\services.html:30
+msgid "Servis silindi"
+msgstr "Service deleted"
+
+#: .\templates\custom_admin\services.html:44
+#: .\templates\custom_admin\services.html:116
+msgid "Servis İsmi"
+msgstr "Service Name"
+
+#: .\templates\custom_admin\services.html:45
+#: .\templates\custom_admin\user-packpages.html:28
+msgid "Paket adı"
+msgstr "Package name"
+
+#: .\templates\custom_admin\services.html:48
+#: .\templates\custom_admin\services.html:117
+msgid "Kullanıcı Paketi"
+msgstr "User Pack"
+
+#: .\templates\custom_admin\services.html:91
+msgid "Servis Oluştur"
+msgstr "Create Service"
+
+#: .\templates\custom_admin\services.html:108
+msgid "Aktif Servisler"
+msgstr "Active Services"
+
+#: .\templates\custom_admin\services.html:122
+#: .\templates\custom_admin\services.html:150
+#: .\templates\custom_admin\user-category-list.html:27
+#: .\templates\custom_admin\user-category-list.html:36
+#: .\templates\custom_admin\user-packpages.html:88
+#: .\templates\custom_admin\user-packpages.html:118
+msgid "Düzenle"
+msgstr "Edit"
+
+#: .\templates\custom_admin\smtp-settings.html:30
+msgid "Mail gönderilirken hata oluştu"
+msgstr "Error occurred while sending mail"
+
+#: .\templates\custom_admin\smtp-settings.html:33
+msgid "Mail başarıyla gönderildi"
+msgstr "Email sent successfully"
+
+#: .\templates\custom_admin\smtp-settings.html:43
+msgid "SMTP Mail İletim Testi"
+msgstr "SMTP Mail Forwarding Test"
+
+#: .\templates\custom_admin\smtp-settings.html:75
+msgid "Smtp Mail İletim Testi"
+msgstr "Smtp Mail Forwarding Test"
+
+#: .\templates\custom_admin\smtp-settings.html:85
+msgid "İçerik"
+msgstr "Contents"
+
+#: .\templates\custom_admin\smtp-settings.html:92
+msgid "Gönder"
+msgstr "Send"
+
+#: .\templates\custom_admin\successful-value-edit-service.html:29
+#: .\templates\custom_admin\successful-value-edit.html:29
+#: .\templates\custom_admin\successful-value.html:27
+msgid "Servis Adı"
+msgstr "Service Name"
+
+#: .\templates\custom_admin\successful-value-edit-service.html:30
+#: .\templates\custom_admin\successful-value-edit.html:30
+#: .\templates\custom_admin\successful-value.html:28
+msgid "Başarılı İşlem"
+msgstr "Successful Process"
+
+#: .\templates\custom_admin\successful-value-edit-service.html:31
+msgid "Silinecek Başarılı İşlem Sayısı"
+msgstr "Number of Successful Transactions to Delete"
+
+#: .\templates\custom_admin\successful-value-edit.html:31
+msgid "Özel İşlem"
+msgstr "Special Process"
+
+#: .\templates\custom_admin\successful-value-edit.html:32
+msgid "Kaydı Sıfırla"
+msgstr "Reset Registration"
+
+#: .\templates\custom_admin\successful-value-edit.html:44
+msgid "Özel İşlem Yap"
+msgstr "Take Private Action"
+
+#: .\templates\custom_admin\successful-value-edit.html:50
+msgid "Kaydı sıfırla"
+msgstr "Reset registration"
+
+#: .\templates\custom_admin\successful-value-edit.html:61
+#: .\templates\custom_admin\successful-value.html:44
+msgid "Toplam Başarılı İşlem"
+msgstr "Total Successful Process"
+
+#: .\templates\custom_admin\successful-value-edit.html:66
+msgid "Tüm Kayıtları Sıfırla"
+msgstr "Reset All Registrations"
+
+#: .\templates\custom_admin\user-category-list.html:18
+msgid "Yeni Kategori Ekle"
+msgstr "Add New Category"
+
+#: .\templates\custom_admin\user-category-list.html:26
+msgid "Kategori Adı"
+msgstr "Category Name"
+
+#: .\templates\custom_admin\user-category-list.html:56
+msgid "Kategori Ekle"
+msgstr "Add Category"
+
+#: .\templates\custom_admin\user-packpages.html:27
+msgid "Paket Adı"
+msgstr "Package Name"
+
+#: .\templates\custom_admin\user-packpages.html:58
+msgid "Paketi Oluştur"
+msgstr "Create Package"
+
+#: .\templates\custom_admin\user-packpages.html:77
+msgid "Aktif Kullanıcı Paketleri"
+msgstr "Active User Packages"
+
+#: .\templates\custom_admin\users-scanner.html:36
+msgid "Kullanıcıları Tarama Listesi"
+msgstr "Users Scan List"
+
+#~ msgid "Oto Takipçi Emri Oluştur"
+#~ msgstr "Create Auto Follower Order"
+
+#~ msgid "Oto Takipçi Gönderme"
+#~ msgstr "Auto Follow Send"

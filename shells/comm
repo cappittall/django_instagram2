@@ -1,0 +1,46 @@
+#!/bin/bash
+
+echo "Başlıyoruz...0.0---> olac"
+
+## Token 
+token_server="Authorization: Token aa8497cc8551ff885eed71dd015efefa3af173b9"
+token_local="Authorization: Token fd279255cfe14689810ae0ff73a9c717023b35c5"
+token_user8="Authorization: Token 7304ad058d338fbbe4baba738e13592d7d8f25eb"
+
+user8name="username008"
+user8mail="mymail008@domain.com"
+user8pass="Pasword008"
+
+# Source 0---> local  1--> Server
+##################################### BURASI ÇOKÖNEMLİ 
+s=0
+token="${token_local}"
+
+## Superuser
+username="cappittall"
+password="Aura533422"
+
+## URL : 
+declare -a URLS=("http://127.0.0.1:8000/" "https://inmans.herokuapp.com/")
+declare -a EXS=("api-token-auth/" "users/87/" "instagram/")
+
+myurl="${URLS[s]}${EXS[0]}"
+
+## Check
+# echo "http POST ${myurl} ${superuser}"
+     
+## Token almak için
+http POST "${myurl}" username="${user8name}" password="${user8pass}"
+
+## User detay almak için 
+echo http GET "${myurl}" "${token}"
+#http GET "${myurl}" "${token}"
+#curl -X GET "${myurl}" -H "${token}"
+
+
+
+#for i in $(seq 8 8)
+#do
+#  echo http POST "${myurl}" username="username00${i}" password="Password00${i}" email="mymail00${i}@fomanin.com" "${token}"
+#  http POST "${myurl}" username="username00${i}" password="Password00${i}" email="mymail00${i}@domain.com" "${token}"
+#done

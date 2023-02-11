@@ -1,0 +1,120 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  {% if updateModel %}
+  <div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> {% trans 'Bilgi' %}!</h5>
+    {% trans 'Temizlendi' %}.
+  </div>
+  {% endif %}
+ 
+
+
+  <div class="row">
+    <div class="col-12 col-sm-12">
+      <div class="card card-primary card-outline card-outline-tabs">
+        <div class="card-header p-0 border-bottom-0">
+          <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">{% trans 'Tümü' %}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">{% trans 'Challenge Verenler' %}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="tab-content" id="custom-tabs-four-tabContent">
+            <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
+              <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>{% trans 'Tüm Kullanıcılar' %}</label>
+                    <textarea readonly id="all_users_data" class="form-control"name="users" cols="30" rows="10">{% for x in allNotLogins %}{{ x }}{% endfor %}</textarea>
+                  </div>
+                  <button type="submit" name="btnDelete" class="btn btn-danger">{% trans 'Temizle' %}</button>&nbsp;&nbsp;<input type="button" class="btn btn-default" id="dwn-btn-default" value="{% trans 'Tüm Kullanıcıları İndir' %}"/>&nbsp;&nbsp;
+                  <span id="error_span_all_users" class="text-danger"></span>
+            </form>
+            </div>
+            <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
+              <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>{% trans 'Challenge Veren Kullanıcılar' %}</label>
+                    <textarea readonly id="challenge_users_data" class="form-control"name="users" cols="30" rows="10">{% for x in allNotLoginsChallenge %}{{ x }}{% endfor %}</textarea>
+                  </div>
+                  <button type="submit" name="btnDeleteChallenge" class="btn btn-danger">{% trans 'Temizle' %}</button>&nbsp;&nbsp;<input type="button" class="btn btn-default" id="dwn-btn-challenge" value="{% trans 'Challenge Kullanıcıları İndir' %}"/>&nbsp;&nbsp;
+                  <span id="error_span_challenge" class="text-danger"></span>
+            </form>
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+  </div>
+
+<script>
+  function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+// Start file download.
+document.getElementById("dwn-btn-challenge").addEventListener("click", function(){
+    // Generate download of hello.txt file with some content
+    var error_span_challenge = document.getElementById("error_span_challenge");
+    var text = document.getElementById("challenge_users_data").value;
+    var filename = "login_error_challenge_users.txt";
+    if (text){
+      download(filename, text);
+    }
+    else{
+      error_span_challenge.textContent = "{% trans 'İndirilecek kullanıcı yok' %}!";
+    }
+
+}, false);
+
+document.getElementById("dwn-btn-default").addEventListener("click", function(){
+    var error_span_all_users = document.getElementById("error_span_all_users");
+
+    var text = document.getElementById("all_users_data").value;
+    var filename = "login_error_users.txt";
+    if (text){
+      download(filename, text);
+    }
+    else{
+      error_span_all_users.textContent = "{% trans 'İndirilecek kullanıcı yok' %}!";
+    }
+}, false);
+</script>
+
+
+
+
+
+{% endblock %}

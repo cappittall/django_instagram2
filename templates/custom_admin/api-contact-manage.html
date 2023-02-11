@@ -1,0 +1,51 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }} - {{ host.host }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            {% if userReq2 %}
+            {% trans 'kullanıcılar db ye aktarılıyor' %}...
+            {% endif %}
+            <form method="POST">
+              {% csrf_token %}
+
+              <button type="submit" name="btnGetData" class="btn btn-default">{% trans 'Gerçek Kullanıcı Sayısını Getir' %}</button>
+            </form><br>
+            {% if userReq %}
+            <div>
+              <p>{{ host.host }} {% trans 'için gerçek kullanıcı sayısı' %} : {{ userinfo }}</p>
+            </div>
+             
+            <form method="POST">
+              {% csrf_token %}
+
+              <button type="submit" name="btnGetUserData" class="btn btn-default">{% trans 'Kullanıcı Verilerini Db'ye Aktar' %}</button>
+            </form><br>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

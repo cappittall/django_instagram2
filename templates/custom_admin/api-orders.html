@@ -1,0 +1,130 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Siparişler' %}</h3>
+        </div><br>
+        <div class="row container-fluid">
+          <div class="col-6">
+      <form method="GET">
+           <input class="form-control" style="width: 100%;" name="q" type="search" placeholder="{% trans 'hedef ara' %}"  value="{% if q %}{{ q }}{% endif %}" aria-label="Search">
+      </form>
+         
+          </div>
+          <div class="col-6">
+            {% if q %} 
+            <a href="{% url 'custom_admin:api-orders' %}"  class="btn btn-block btn-default" >{% trans 'Tümünü Listele' %}</a>
+            {% endif %}
+
+          </div>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>{% trans 'Sipariş Tipi' %}</th>
+                <th>{% trans 'Api Servis' %}</th>
+                <th>{% trans 'İşlem Başlangıç Sayısı' %}</th>
+                <th>{% trans 'Başarılı İşlem Miktarı' %}</th>
+                <th>{% trans 'Fiyat' %} (1000 {% trans 'Adet' %})</th>
+                <th>{% trans 'Durum' %}</th>
+                <th>{% trans 'Başarısız İşlem Sayısı' %}</th>
+                <th>{% trans 'Hedef' %}</th>
+                <th>{% trans 'İade' %}</th>
+
+ 
+              </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+              <tr>
+                <td>{{ order.id }}</td> 
+                <td>{% if order.user_order %}{% trans 'Kullanıcı Siparişi' %}{% else %}{% trans 'Api Siparişi' %}{% endif %}</td>
+                <td>{{ order.service.name }}</td>
+                <td>{{ order.start_count }}</td>
+                <td>{{ order.successful_value }}</td>
+                <td>10 {{ order.currency }}</td>
+                <td class="text-center">
+                    {% if  order.status == "In Progress"  %}
+                    <span class="badge bg-info">{% trans 'İşlem Başladı' %}</span>
+                {% elif order.status == "Completed" %}
+                <span class="badge bg-success">{% trans 'Tamamlandı' %}</span>
+                {% elif order.status == "Pending" %}
+                <span class="badge bg-info">{% trans 'Bekliyor' %}</span>
+                {% else %}
+                <span class="badge bg-warning">{% trans 'Iade Yapıldı' %}</span>
+                {% endif %}
+            </td>
+            <td>{{ order.remains }}</td>
+            <td>{{ order.target }}</td>
+            <td>
+                {% if order.status != "Completed" and order.status != "Partial" %}
+                <form method="POST">
+                  {% csrf_token %}
+                <button type="submit" name="btn{{order.id}}" class="btn btn-block btn-default">{% trans 'İade' %}</button></td>
+              </form>
+                {% endif %}
+              </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+              <!-- /.card-body -->
+              <div class="card-footer clearfix">
+                <ul class="pagination pagination-sm m-0 float-left">
+                  {% if orders.has_previous %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">1</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ orders.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"> {% trans 'Geri' %} </a>
+                    </li>
+                      {% endif %}
+      
+                      <li class="page-item">
+                          <a class="page-link">
+                            {{ orders.number }} / {{ orders.paginator.num_pages }}
+                          </a>
+                    
+                  </li>
+      
+                  {% if orders.has_next %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ orders.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"> {% trans 'İleri' %} </a>
+                      </li>
+                      <li class="page-item">
+                      <a class="page-link" href="?page={{ orders.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ orders.paginator.num_pages }}</a>
+                  </li>
+                      {% endif %}
+                </ul>
+              </div>
+      </div>
+      <!-- /.card -->
+      <!-- /.card -->
+    </div>
+
+    <!-- /.col -->
+  </div>
+{% endblock %}

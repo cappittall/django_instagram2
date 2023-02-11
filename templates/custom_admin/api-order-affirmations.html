@@ -1,0 +1,67 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <p class="text-primary">{% trans 'Siparişler öncelik sırasına göre sıralanmaktadır' %}.</p>
+    <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>{% trans 'Servis' %}</th>
+              <th>{% trans 'Miktar' %}</th>
+              <th>{% trans 'Media Link' %}</th>
+              <th>{% trans 'Media Mesajı' %}</th>
+              <th>{% trans 'Link' %}</th>
+              <th>{% trans 'Link Mesajı' %}</th>
+              <th>{% trans 'Emir Tarihi' %}</th>
+              <th>{% trans 'İptal Et' %}</th>
+              <th>{% trans 'Onayla' %}</th>
+
+            </tr>
+          </thead>
+          <tbody>
+              {% for aff in affirmations_list %}
+            <tr>
+              <td>{{ aff.service.name }}</td> 
+              <td>{{ aff.users_value }}</td>
+              <td>{{ aff.media_link }}</td>
+              <td>{{ aff.message1 }}</td>
+              <td>{{ aff.link }}</td>
+              <td>{{ aff.message2 }}</td>
+              <td>{{ aff.date }}</td>
+              <td>
+                <form method="POST">
+                  {% csrf_token %}
+                  
+                <button class="btn btn-danger" {% if forloop.counter != 1 %} disabled {% endif %} name="btnCancel{{aff.id}}">{% trans 'İptal Et' %}</button>
+              </form>
+              </td>
+              <td>
+                <form method="POST">
+                  {% csrf_token %}
+                <button class="btn btn-success" {% if forloop.counter != 1 %} disabled {% endif %} name="btnConfirm{{aff.id}}">{% trans 'Onayla' %}</button>
+              </form>
+              </td>
+             
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+  </div>
+
+
+{% endblock %}

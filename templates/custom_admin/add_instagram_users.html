@@ -1,0 +1,51 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  {% if addStatus %}
+  <div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> Bilgi!</h5>
+    {% trans 'Kullanıcılar eklenmek için işleme alındı.' %}
+  </div>
+  {% endif %}
+ 
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>{% trans 'Kullanıcılar' %}  username:password*</label>
+        <textarea required class="form-control"name="users" cols="30" rows="10" placeholder="{% trans 'kullanıcılar' %}..."></textarea>
+        <br>
+        <p>{% trans 'Hesap Türü' %}</p>
+         <input required type="radio" id="new_account" name="account_type" value="new_account">
+         <label for="new_account">{% trans 'Yeni Hesap' %}</label><br>
+         <input required type="radio" id="old_account" name="account_type" value="old_account">
+         <label for="old_account">{% trans 'Eski Hesap' %}</label><br>
+        
+
+        <br>
+        <label>{% trans 'Kullanıcı kategorileri' %}</label>
+        <select required name="user_category" style="width: 100%;" multiple id="">
+          {% for x in get_user_categories %}
+          <option value="{{ x.id }}">{{ x.category_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" name="addUsers" class="btn btn-primary">{% trans 'Ekle' %}</button>
+</form>
+
+{% endblock %}

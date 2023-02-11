@@ -1,0 +1,59 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+        
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>{% trans 'Servis' %} ID</th>
+                <th>{% trans 'Servis Adı' %}</th>
+                <th >{% trans 'Sipariş adet' %}</th>
+                <th >{% trans 'İnsta. Sayısı' %}</th>
+                <th >{% trans 'Kalan ' %}</th>
+                <th >{% trans 'Durum ' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              {% for x in successful_log_data %}
+              <tr>
+                <td>{{ x.id }}</td>
+                <td>{{ x.service }}</td>
+                <td>{{ x.quantity }}</td>
+                <td>{{ x.start_count }}</td>
+                <td>{{ x.remain }}</td>
+                <td>{{ x.status }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <br>
+          <span>
+            {% trans 'Toplam Başarılı İşlem' %} : <b>  100</b>
+          </span>
+        </div>
+   
+      </div>
+      <!-- /.card -->
+      <!-- /.card -->
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+
+
+        
+  <div class="row">
+    <div class="col-md-12">
+      {% if startingActive %}
+      <div class="alert alert-info alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-info"></i>{% trans 'Başarılı' %} !</h5>
+        {% trans 'İglili kullanıcılar aktif hale getiriliyor' %}...
+      </div>
+      {% endif %}
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Kullanıcı Kategorileri Verileri' %}</h3>
+        </div>
+        <!-- /.card-header -->
+       
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                  <th>{% trans 'Kategori' %}</th>
+                  <th>{% trans 'Toplam Kullanıcı' %}</th>
+                  <th>{% trans 'Challenge Kullanıcı' %}</th>
+                  <th>{% trans 'Feedback Kullanıcı' %}</th>
+                  <th>{% trans 'Checkpoint Kullanıcı' %}</th>
+                  <th>{% trans 'login_required Kullanıcı' %}</th>
+                  <th>{% trans 'Aktif Kullanıcı' %}</th>
+                  <th>{% trans 'Pasif Kullanıcı' %}</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              {% for x,y in user_categories_data %}
+              <tr>
+                <td><a href="{% url 'custom_admin:cat-user-list' id=x.id %}">{{ x.category_name }}</a></td>
+                <td>{{ y.total_users }}</td>
+                <td>{{ y.challenge_users }}</td>
+                <td>{{ y.feedback_users }}</td>
+                <td>{{ y.checkpoint_users }}</td>
+                <td>{{ y.login_required_users }}</td>
+                <td>{{ y.active_users }}</td>
+                <td>{{ y.pasif_users }}</td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+   
+      </div>
+      <!-- /.card -->
+      <!-- /.card -->
+    </div>
+  </div>
+
+
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+
+<form method="post">
+    {% csrf_token %}
+    <label for="">{% trans 'Aktif Yapılacak Hesaplar' %}</label><br>
+    <select name="select_status" class="form-control" id="">
+        <option selected value="0">{% trans 'Tüm Hesaplar' %}</option>
+        <option  value="1">{% trans 'Challenge Hesaplar' %}</option>
+        <option  value="2">{% trans 'Feedback Hesaplar' %}</option>
+        <option  value="3">{% trans 'Checkpoint Hesaplar' %}</option>
+
+    </select>
+<label>{% trans 'Kullanıcı kategorileri' %}</label>
+<select class="form-control" name="user_category" required style="width: 100%;" multiple id="">
+  {% for x in get_user_categories %}
+  <option value="{{ x.id }}">{{ x.category_name }}</option>
+  {% endfor %}
+</select>
+<div style="text-align: center;"><br>
+<button type="submit" name="btnActive" class="btn btn-primary">{% trans 'İlgili Kullanıcıları Aktif Yap' %}</button>
+
+</div>
+
+</form>
+
+</div>
+</div>
+</div>
+
+  {% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }}</h1>
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{% trans 'Host Listesi' %}</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th >{% trans 'Host' %}</th>
+                <th>{% trans 'İşlem' %}</th>
+
+              </tr>
+            </thead>
+            <tbody>
+                {% for host in hosts %}
+              <tr>
+                <td>{{ host.host }}</td>
+                <td>
+    <a href="{% url 'custom_admin:api-contact-manage' host=host.host %}" class="btn btn-default">{% trans 'İşlem Yap' %}</a>
+                </td>
+              </tr>
+                {% endfor %}
+            </tbody>
+
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix">
+          <ul class="pagination pagination-sm m-0 float-left">
+            {% if p_users.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ p_users.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{% trans 'Geri' %}  </a>
+              </li>
+                {% endif %}
+
+                <li class="page-item">
+                    <a class="page-link">
+                      {{ p_users.number }} / {{ p_users.paginator.num_pages }}
+                    </a>
+            </li>
+
+            {% if p_users.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ p_users.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"> {% trans 'İleri' %} </a>
+                </li>
+                <li class="page-item">
+                <a class="page-link" href="?page={{ p_users.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ p_users.paginator.num_pages }}</a>
+            </li>
+                {% endif %}
+          </ul>
+        </div>
+      </div>
+      <!-- /.card -->
+      <!-- /.card -->
+    </div>
+
+    <!-- /.col -->
+  </div>
+{% endblock %}

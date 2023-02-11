@@ -1,0 +1,11 @@
+[OK]instagram kullanıcı listesi sayfasında, kullanıcıların mail adreslerinide görelim
+[200 TL]chalange vermiş hesapları export yapabilme özelliği
+kullanıcı eklemeden önce özel isimde kategori slotu oluşturabilelim. Bunu daha sonrada düzenleyebilelim. daha sonra bu kategoriyi list( birden fazla olabilir) olarak seçerek, userleri ekleyebilelim. hem yeni loginde.. hemde import yapmada bu özellik olsun.
+kullanıcılara işlem başlatmadan önce, bu kategoriyi ve kategorileri checkbox olarak seçerek bu kullanıcılarla işlem yapabilelim. birden fazla seçim yaparak işlem yapabilmeliyiz. Bu baya önemli.
+[üsstteki 2 satır 500 TL]
+Bu özel işlem kategorilerinde istatistik verileri bölümünü custom admin ana sayfada yapalım. Aktif, feedback,challenge olanları istatistik sayı olarak görebilelim
+feedback ve chalange verilenler askıya alınsın bir sonraki işlemde bunlar kullanılmasın
+bu kullanıcılar ana sayfadaki gösterge bölümünde aktif ve pasif oalrak gözüksünler
+üstteki 3 satır [200 TL]
+[200 TL]tüm işlemlerin.. try except hata sayfası bölümlerinde... eğer işlem hatalı olupta proxy hatası vermeye devam edip. bu döngüye girerse, böyle bir durumda, mevcut proxy listi random değiştirerek, başka bir proxye geçilerek bu sorun çözülmeli. (proxy hatası verildiği zaman proxy değiş)
+

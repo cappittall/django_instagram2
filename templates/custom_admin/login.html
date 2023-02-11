@@ -1,0 +1,59 @@
+{% extends 'base_login.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+
+
+<div class="signup-wrapper">
+
+    <!--Fake navigation-->
+    <div class="fake-nav">
+        <a href="/" class="logo">
+            <img class="light-image" src="{{ fav_icon.url }}" width="112" height="28" alt="">
+            <img class="dark-image" src="{{ fav_icon.url }}" width="112" height="28" alt="">
+        </a>
+    </div>
+
+    <div class="container">
+        <!--Container-->
+        <div class="login-container is-centered">
+            <div class="columns is-vcentered">
+                <div class="column">
+
+                    <h2 class="form-title has-text-centered">{% trans 'Hoşgeldin' %}</h2>
+
+                    <!--Form-->
+                    <form method="POST">
+                        {% csrf_token %}
+                    <div class="login-form">
+                        <div class="form-panel">
+                            <div class="field">
+                                <label>{% trans 'Kullanıcı Adı' %}</label>
+                                <div class="control">
+                                    <input type="text" name="username" class="input" placeholder="{% trans 'E-posta adresinizi giriniz' %}">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>{% trans 'Parola' %}</label>
+                                <div class="control">
+                                    <input type="password" name="password" class="input" placeholder="{% trans 'Şifrenizi girin' %}">
+                                </div>
+                            </div>
+                          
+                        </div>
+                        <div>
+                            <br>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" name="btnLogin" class="button is-solid primary-button is-fullwidth raised">{% trans 'Giriş Yap' %}</a>
+                        </div>
+                      
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

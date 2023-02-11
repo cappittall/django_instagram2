@@ -1,0 +1,255 @@
+{% extends 'custom_admin/base.html' %}
+{% load static %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">{{ title }} -  {% trans 'Mevcut Server IP' %} : {{server_ip}}</h1>
+        </div>
+        <div class="col-sm-6">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if addStatus %}
+  <div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> {% trans 'Bilgi' %}!</h5>
+    {% trans 'Proxyler ekleniyor' %}...
+  </div>
+  {% endif %}
+
+
+  {% if deleteStatus %}
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> {% trans 'Başarılı' %}!</h5>
+    {% trans 'Proxy silindi' %}.
+  </div>
+  {% endif %}
+
+
+  {% if allDeleteStatus %}
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-info"></i> {% trans 'Başarılı' %}!</h5>
+    {% trans 'Tüm Proxyler silindi' %}.
+  </div>
+  {% endif %}
+  
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>{% trans 'Login Öncesi Proxy' %}</label>
+        <textarea class="form-control"name="login_after_proxy_list" cols="30" rows="5"></textarea>
+      </div>
+      <div class="form-group">
+        <label>{% trans 'Login Öncesi Proxy Tipi' %}</label>
+        <select name="login_after_proxy_type" class="form-control">
+          <option value="1" selected>{% trans 'İp Port Proxy' %}</option>
+          <option value="2">{% trans 'Şifreli Proxy' %}</option>
+        </select>
+      </div>
+      <hr>
+      <div class="form-group">
+        <label>{% trans 'Login Proxy' %}</label>
+        <textarea class="form-control"name="login_proxy_list" cols="30" rows="5"></textarea>
+      </div>
+      <div class="form-group">
+        <label>{% trans 'Login Proxy Tipi' %}</label>
+        <select name="login_proxy_type" class="form-control">
+          <option value="1" selected>{% trans 'İp Port Proxy' %}</option>
+          <option value="2">{% trans 'Şifreli Proxy' %}</option>
+        </select>
+      </div>
+<hr>
+      <div class="form-group">
+        <label>{% trans 'İşlem Proxy' %}</label>
+        <textarea class="form-control"name="process_proxy_list" cols="30" rows="5"></textarea>
+      </div>
+      <div class="form-group">
+        <label>{% trans 'İşlem Proxy Tipi' %}</label>
+        <select name="process_proxy_type" class="form-control">
+          <option value="1" selected>{% trans 'İp Port Proxy' %}</option>
+          <option value="2">{% trans 'Şifreli Proxy' %}</option>
+        </select>
+      </div>
+      <hr>
+      <div class="form-group">
+        <label>{% trans 'Oto İşlem Proxy' %}</label>
+        <textarea class="form-control"name="auto_process_proxy_list" cols="30" rows="5"></textarea>
+      </div>
+      <div class="form-group">
+        <label>{% trans 'Oto İşlem Proxy Tipi' %}</label>
+        <select name="auto_process_proxy_type" class="form-control">
+          <option value="1" selected>{% trans 'İp Port Proxy' %}</option>
+          <option value="2">{% trans 'Şifreli Proxy' %}</option>
+        </select>
+      </div>
+      <hr>
+      <label>{% trans 'Video İzleme Proxy' %}</label>
+      <textarea class="form-control"name="video_proxy_list" cols="30" rows="5"></textarea>
+    </div>
+    <div class="form-group">
+      <label>{% trans 'Video İzleme Proxy Tipi' %}</label>
+      <select name="video_proxy_type" class="form-control">
+        <option value="1" selected>{% trans 'İp Port Proxy' %}</option>
+        <option value="2">{% trans 'Şifreli Proxy' %}</option>
+      </select>
+    </div>
+    <hr>
+      <button type="submit" name="addProxy" class="btn btn-primary">{% trans 'Ekle' %}</button><br><br>
+</form>
+
+
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-6 text-left">
+        <h3 class="card-title">{% trans 'Proxy Listesi' %}</h3>
+          </div>
+          <div class="col-6 text-right">
+          <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" name="deleteAllProxy">{% trans 'Tüm Proxyleri Sil' %}</button></div>
+          </form>
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <div class="form-group">
+          <h5>{% trans 'Filtrele' %}</h5>
+          <form method="POST">
+            {% csrf_token %}
+          <div class="row">
+            <div class="col-md-6">
+              <label>{% trans 'Proxy tipi' %}</label>
+              <select name="filter_proxy" class="form-control">
+              <option value="0" {% if filter_proxy1 == "0" %}selected {% endif %}>{% trans 'Tümü' %}</option>
+                <option value="1" {% if filter_proxy1 == "1" %}selected {% endif %}>{% trans 'İp Port Proxy' %}</option>
+                <option value="2" {% if filter_proxy1 == "2" %}selected {% endif %}>{% trans 'Şifreli Proxy' %}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+            <label>{% trans 'Kullanım alanı' %}</label>
+            <select name="filter_proxy_type" class="form-control">
+              <option value="0" {% if filter_proxy2 == "0" %}selected {% endif %}>{% trans 'Tümü' %}</option>
+              <option value="1" {% if filter_proxy2 == "1" %}selected {% endif %}>{% trans 'Login Proxy' %}</option>
+              <option value="2" {% if filter_proxy2 == "2" %}selected {% endif %}>{% trans 'Login Öncesi Proxy' %}</option>
+              <option value="3" {% if filter_proxy2 == "3" %}selected {% endif %}>{% trans 'İşlem Proxy' %}</option>
+              <option value="4" {% if filter_proxy2 == "4" %}selected {% endif %}>{% trans 'Oto İşlem Proxy' %}</option>
+              <option value="5" {% if filter_proxy2 == "5" %}selected {% endif %}>{% trans 'Video İzleme Proxy' %}</option>
+
+            </select>
+          </div>
+
+
+          </div>
+          </div>
+          <div class="row"><br>
+            <button class="btn btn-default" name="btnFilter" type="submit">{% trans 'Uygula' %}</button>
+          </div>
+        </form>
+
+         <br>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>{% trans 'Proxy' %}</th>
+              <th>{% trans 'Proxy Tipi' %}</th>
+              <th>{% trans 'Proxy Kullanım Tipi' %}</th>
+              <th>{% trans 'Sil' %}</th>
+
+
+            </tr>
+          </thead>
+          <tbody>
+              {% for proxy in all_proxy %}
+              {% if proxy.id %}
+            <tr>
+              <td>{{ proxy.id }}</td>
+              <td>{{ proxy.proxy }}</td>
+              <td>
+                {% if proxy.ip_port_proxy %}
+                {% trans 'Ip Port Proxy' %}
+                {% elif proxy.auth_proxy %}
+                {% trans 'Şifreli Proxy' %}
+                {% else %}
+                {% trans 'Local Proxy' %}
+                {% endif %}
+              </td>
+              <td>
+                {% if proxy.login_proxy %}
+                {% trans 'Login Proxy' %}
+                {% elif proxy.process_proxy %}
+                {% trans 'İşlem Proxy' %}
+                {% elif proxy.auto_process_proxy %}
+                {% trans 'Oto İşlem Proxy' %}
+                {% elif proxy.video_proxy %}
+                {% trans 'Video İzleme Proxy' %}
+                {% else %}
+                {% trans 'Login Öncesi Proxy' %}
+                {% endif %}
+              </td>
+              <td class="text-center">
+                <form method="POST">
+                  {% csrf_token %}
+                  <button type="submit" name="btn{{ proxy.id }}" class="btn btn-danger">{% trans 'Sil' %}</button>
+                </form>
+              </td>
+              
+            </tr>
+            {% endif %}
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+              <ul class="pagination pagination-sm m-0 float-left">
+                {% if all_proxy.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">1</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ all_proxy.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"> {% trans 'Geri' %} </a>
+                  </li>
+                    {% endif %}
+    
+                    <li class="page-item">
+                        <a class="page-link">
+                          {{ all_proxy.number }} / {{ all_proxy.paginator.num_pages }}
+                        </a>
+                  
+                </li>
+    
+                {% if all_proxy.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ all_proxy.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"> {% trans 'İleri' %} </a>
+                    </li>
+                    <li class="page-item">
+                    <a class="page-link" href="?page={{ all_proxy.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ all_proxy.paginator.num_pages }}</a>
+                </li>
+                    {% endif %}
+              </ul>
+            </div>
+    </div>
+
+    
+    <!-- /.card -->
+    <!-- /.card -->
+  </div>
+
+  <!-- /.col -->
+</div>
+{% endblock %}

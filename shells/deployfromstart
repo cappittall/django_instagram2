@@ -1,0 +1,18 @@
+#!/bin/sh
+#heroku create inmans --buildpack heroku/python 
+# pipreqs ./ --force  # in oprder to create requirements txt
+
+## Shold be done makemigrations and migrate at local
+python manage.py makemigrations realtime
+
+git add .
+git commit -m "Deployin my inmanns doc. new"
+
+git push heroku master --force
+
+heroku config:set DJANGO_SETTINGS_MODULE=inmansdj.settings
+
+heroku run python manage.py migrate
+
+heroku run python manage.py createsuperuser
+
