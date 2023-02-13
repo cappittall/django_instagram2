@@ -108,8 +108,11 @@ class OrderList(models.Model):
     charge=models.FloatField(default=10, blank=True)             # ": "0.27819",
     start_count=models.IntegerField(default=0, null=True, blank=True)        #": "3572",
     status=models.CharField(max_length=20, default="", null=True, blank=True)             #": "Partial",
-    remains=models.CharField(default="0", max_length=20, null=True, blank=True)            #": "157",
+    remains=models.IntegerField(default=0, null=True, blank=True)            #": "157",
     currency=models.CharField(max_length=3, default="TRY", null=True, blank=True )           #": "TRY"
+    
+    def difference(self):
+        return self.quantity - self.remains
     class Meta:
         verbose_name_plural="order Listesi"
         ordering = ('-id', )

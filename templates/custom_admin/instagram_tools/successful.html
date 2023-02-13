@@ -27,8 +27,10 @@
                 <th>{% trans 'Servis Adı' %}</th>
                 <th >{% trans 'Sipariş adet' %}</th>
                 <th >{% trans 'İnsta. Sayısı' %}</th>
+                <th >{% trans 'Başarılı' %}</th>
                 <th >{% trans 'Kalan ' %}</th>
                 <th >{% trans 'Durum ' %}</th>
+                <th >{% trans 'Sil ' %}</th>
   
               </tr>
             </thead>
@@ -39,15 +41,22 @@
                 <td>{{ x.service }}</td>
                 <td>{{ x.quantity }}</td>
                 <td>{{ x.start_count }}</td>
+                <td>{{ x.difference }}</td>
                 <td>{{ x.remain }}</td>
                 <td>{{ x.status }}</td>
+                <!--add delete button of the record-->
+                <td>
+                  <a href="#" onclick="areYouSure({{ x.id }})" class="btn btn-danger btn-sm"><i
+                      class="fa fa-trash"></i></a>
+                </td>
+
               </tr>
               {% endfor %}
             </tbody>
           </table>
           <br>
           <span>
-            {% trans 'Toplam Başarılı İşlem' %} : <b>  100</b>
+            {% trans 'Toplam Başarılı İşlem' %} : <b>  {{sayisi}}</b>
           </span>
         </div>
    
@@ -56,4 +65,15 @@
       <!-- /.card -->
     </div>
   </div>
+  <script>
+    function areYouSure(id) {
+      if (confirm(id + " Nolu sipariş silinecektir. Eminmisiniz?")) {
+        // go to view 'custom_admin:delete-order' id=x.id 
+        window.location.href = `${id}/` ;
+
+      } else {
+        return false;
+      }
+    }
+  </script>
 {% endblock %}

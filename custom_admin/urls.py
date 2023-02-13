@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import (instagramGenel, instagramSiparisler, loginView,addInstagramUsers,dashboardView,apiOrdersView,
+from .views import (instagramGenel, instagramSiparisler, deleteOrder, loginView,addInstagramUsers,dashboardView,apiOrdersView,
                     instagramUsersList, notLoginUsersView, sendVideoView, successfulValueView,userPackpagesView,usersDataView,servicesview,
                     apiSettingsView,importUsersView,exportUsersView,editServicesView,editUserPackpagesView,seoSettingsView,homeManagerView,
                     addProxyView,clearAccountsView,sendFollowView,sendPostCommentView,sendPostLikeView,sendDMMessageView,sendCommentLiveView,
@@ -34,7 +34,7 @@ urlpatterns = [
     path('successful-value/nchslj417gwwu5pqllh6mcxhv9xz518j3vhv5bm2/<id>/',successfulValueEditServiceView,name='successful-value-edit-service'),
 
     path('get-user-followdata/',getUserFollowDataView,name='get-user-followdata'),
-    path('dashboard/',dashboardView,name='dashboard'),
+    
     path('api-orders/',apiOrdersView,name='api-orders'),
     path('services/',servicesview,name='services'),
     path('services/edit/<int:id>/',editServicesView,name='edit-services'),
@@ -70,9 +70,11 @@ urlpatterns = [
     path('instagram/tools/post-like/',sendPostLikeView,name='post-like'),
     path('instagram/tools/auto-post-like/',sendAutoPostLikeView,name='auto-post-like'),
 
-
-    path('instagram/tools/instagram-genel/',instagramGenel,name='instagram-genel'),
+    path('dashboard/',dashboardView,name='dashboard'),
+    path('instagram/tools/instagram-genel/',instagramGenel, name='instagram-genel'),
     path('instagram/tools/instagram-siparisler/',instagramSiparisler, name='instagram-siparisler'),
+    path('instagram/tools/instagram-siparisler/<str:id>/', deleteOrder, name='delete-order'),
+    
     path('instagram/tools/profile-visit/',sendProfileVisitView,name='profile-visit'),
     path('instagram/tools/video-view/',sendVideoView,name='video-view'),
 

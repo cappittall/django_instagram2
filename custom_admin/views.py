@@ -77,15 +77,16 @@ def instagramGenel(request):
     }
     if "btnStart" in request.POST:
         data={}
-        
+        print(request.POST)
         action = request.POST['islem_turu']
         link = request.POST['link'] if 'link' in request.POST else ''
         country_code = request.POST['country_code'] if 'country_code' in request.POST else ''
         comments_text = request.POST['comments'] if 'comments' in request.POST else ''
         comments = comments_text.splitlines() if comments_text else []
-        quantity = int(request.POST['quantity']) if 'quantity' in request.POST else len(comments)
+        quantity = int(request.POST['takipci_quantity']) if 'takipci_quantity' in request.POST else len(comments)
         start_count = int(request.POST['start_count_input']) if 'start_count_input' in request.POST else 0
-        apikey = request.user.profil.token          
+        apikey = request.user.profil.token       
+        print("action: ", action, "link: ", link, "country_code: ", country_code, "comments: ", comments, "quantity: ", quantity, "start_count: ", start_count, "apikey: ", apikey)
         # image or video file
         if 'file' in request.FILES:
             uploaded_file = request.FILES['file'] 
@@ -168,10 +169,20 @@ def instagramGenel(request):
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def instagramSiparisler(request):
+    instagrams= OrderList.objects.filter(user=request.user.profil)
+
     context={}
     context['title']='İşlem durumu... '
-    context['successful_log_data']=OrderList.objects.filter(user=request.user.profil)
+    context['sayisi']= instagrams.filter(status='Completed').count()
+    context['successful_log_data']=instagrams
     return render(request,'custom_admin/instagram_tools/successful.html', context)
+
+def deleteOrder(request, id):
+
+    print('Silinecek order numarası : ',id) 
+    print('Silinecek order numarası : ', request.POST) 
+    OrderList.objects.filter(id=id).delete()
+    return redirect('custom_admin:instagram-siparisler')
 
 def sendMail2(subject,content,email):
     msg = EmailMessage(subject,content,EMAIL_HOST_USER, [email])

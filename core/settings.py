@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-%x508#=mrw*_c)5#2cup5k22j3b)ci)3b3g*5=n_j=0_t-uoi!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://127.0.0.1', "http://10.0.2.2", 'http://localhost', 'https://inmansdj.herokuapp.com', 'https://euronature.com' ]
+ALLOWED_HOSTS = ['http://127.0.0.1', "http://10.0.2.2", 'localhost', 'https://inmansdj.herokuapp.com', 'https://euronature.com' ]
 
 #insta_image_url = 'instaggy.com'
 
@@ -110,12 +110,12 @@ DATABASES = {
 
 CHANNEL_LAYERS = {
     'default': {
-     'BACKEND': 'channels_redis.core.RedisChannelLayer', 
-     'CONFIG': {
-          "hosts": [(os.environ.get('REDIS_HOST', 'localhost'),6379)],
-          #"host":"ec2-44-209-239-126.compute-1.amazonaws.com:6379"
-         }, 
-     #"BACKEND": "channels.layers.InMemoryChannelLayer"
+     #'BACKEND': 'channels_redis.core.RedisChannelLayer', 
+     #'CONFIG': {
+          #"hosts": [(os.environ.get('REDIS_HOST', 'localhost'),6379)],
+     #     "host":"ec2-44-209-239-126.compute-1.amazonaws.com:6379"
+     #    }, 
+     "BACKEND": "channels.layers.InMemoryChannelLayer"
     },
 }
 
