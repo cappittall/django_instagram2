@@ -41,7 +41,7 @@ class ApiConsumer(AsyncJsonWebsocketConsumer):
         )
     # Receive message from room group
     async def chat_message(self, event):
-        print(' 4 >>>>',event )
+        #print(' 4 >>>>',event )
         message = event['message']
 
         #send message to Websocket

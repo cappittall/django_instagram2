@@ -1,0 +1,12 @@
+#instagram genel işlemler
+Ülke kodu kısmı: drop down menu, otomatik var olan ülkelerden çek
+Filtreler: 
+- Cinsiyet
+- Ülke, il, ilçe, mahalle
+
+
+#bayi hesap işlem limitleme işlemleri
+
+#api sipariş yönetimi sayfası
+manuel ve api gelen işlem siparişlerinin sipariş aşaması ve sipariş son durumunu görelim.
+

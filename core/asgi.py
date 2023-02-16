@@ -38,7 +38,7 @@ application = ProtocolTypeRouter({
     # Just HTTP for now. (We can add other protocols later.)
     "websocket": AuthMiddlewareStack(
     URLRouter([        
-        re_path(r'ws/messages/(?P<room_name>\w+)/$', ApiConsumer.as_asgi()),  # (?P<room_name>\w+)/$
+        re_path(r'ws/(?P<room_name>\w+)/$', ApiConsumer.as_asgi()),  # (?P<room_name>\w+)/$
 
     ])
     )

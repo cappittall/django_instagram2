@@ -70,23 +70,31 @@ def instagramGenel(request):
     
     context = {
         'title':'İnstagram Genel İşlemler',
-        'start_count': InstagramAccounts.objects.count(),
+        'start_count': instagram_accounts.count(),
+        'country': list(instagram_accounts.values('country').distinct()),
+        'locality': list(instagram_accounts.values('locality').distinct()),
+        'subLocality': list(instagram_accounts.values('subLocality').distinct()),
         'starting':starting,
         'service_lists':choices,
-        'instagram_accounts':json.dumps(list(InstagramAccounts.objects.values('country_code', 'country')))
+        'filtered_accounts':[],
+        'instagram_accounts':json.dumps(list(InstagramAccounts.objects.values('country_code', 'country', 'locality', 'subLocality')))
     }
     if "btnStart" in request.POST:
         data={}
         print(request.POST)
         action = request.POST['islem_turu']
         link = request.POST['link'] if 'link' in request.POST else ''
-        country_code = request.POST['country_code'] if 'country_code' in request.POST else ''
+        country = request.POST['country_name'] if 'country_name' in request.POST else ''
+        locality = request.POST['locality_name'] if 'locality_name' in request.POST else ''
+        subLocality = request.POST['sublocality_name'] if 'sublocality_name' in request.POST else ''
         comments_text = request.POST['comments'] if 'comments' in request.POST else ''
         comments = comments_text.splitlines() if comments_text else []
         quantity = int(request.POST['takipci_quantity']) if 'takipci_quantity' in request.POST else len(comments)
         start_count = int(request.POST['start_count_input']) if 'start_count_input' in request.POST else 0
-        apikey = request.user.profil.token       
-        print("action: ", action, "link: ", link, "country_code: ", country_code, "comments: ", comments, "quantity: ", quantity, "start_count: ", start_count, "apikey: ", apikey)
+        is_free = bool(request.POST['isFree']) if 'isFree' in request.POST else False
+        apikey = request.user.profil.token   
+          
+        print("action: ", action, "isFree", is_free,  "link: ", link, "country_name: ", country, "comments: ", comments, "quantity: ", quantity, "start_count: ", start_count, "apikey: ", apikey)
         # image or video file
         if 'file' in request.FILES:
             uploaded_file = request.FILES['file'] 
@@ -100,10 +108,20 @@ def instagramGenel(request):
                         
         user_order = OrderList.objects.create(user=request.user.profil,  action= action, service=choices[action], status="Pending" , 
                                               start_count=start_count, comments=comments_text, quantity=quantity, remains=quantity, link=link, key=apikey)
-        instagram_accounts= InstagramAccounts.objects.filter(country_code=country_code)
+        # get instagram accounts
+        if subLocality:
+            instagram_accounts= InstagramAccounts.objects.filter(subLocality=subLocality)
+        elif locality:
+            instagram_accounts= InstagramAccounts.objects.filter(locality=locality)
+        elif country:
+            instagram_accounts= InstagramAccounts.objects.filter(country=country)
+        else:
+            instagram_accounts= InstagramAccounts.objects.all()
+            
         # sort instagram accounts by user profil update_time (last recent first)
         sorted_instagram_accounts = instagram_accounts.order_by('-profil__update_time')
         total_acc_nr = sorted_instagram_accounts.count()
+        
         
         #[1,1,2,2,3,4,4,4,..] (each id is repeated as many times as the number of accounts for that id)
         ids= [x.profil.user.id for x in sorted_instagram_accounts]
@@ -111,7 +129,8 @@ def instagramGenel(request):
         
         data['receivers']= []
         data['order_id']= user_order.id
-        data['action']= action           
+        data['action']= action 
+        data['isFree']= is_free          
         insta_counter=0 
         
         # if the number of accounts is less than the quantity, send to all accounts
@@ -147,7 +166,7 @@ def instagramGenel(request):
                 time.sleep(60)
                 data['receivers']= []
                 # check the order is completed or not
-                remain = Orders.objects.filter(id=user_order.id).last().remains
+                remain = OrderList.objects.filter(id=user_order.id).last().remains
                 # if remain is 0, the order is completed
                 if remain <= 0: break
                 insta_counter=0
@@ -161,6 +180,8 @@ def instagramGenel(request):
                     
                 data = splitComents(comments, data)     
                 proceed_order(data)
+        # render instagramSiparisler page
+        return redirect('custom_admin:instagram-siparisler')
             
         
             

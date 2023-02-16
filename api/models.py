@@ -58,9 +58,9 @@ class InstagramAccounts(models.Model):
     shbts= models.CharField(default="", max_length=250, blank=True, null=True)
     region_hint= models.CharField(default="", max_length=250, blank=True, null=True)
     phone_number= models.CharField(default="", max_length=20, blank=True, null=True)
-    country_code= models.CharField(default="", max_length=20, blank=True, null=True)
+    country_code= models.IntegerField(default=0, blank=True, null=True)
     email= models.CharField(default="", max_length=50, blank=True, null=True)
-    followers_count= models.IntegerField(default=0)  
+    followers_count= models.IntegerField(default=0, blank=True, null=True)  
     ghost = models.BooleanField(default=False)
     gender = models.CharField(default="", max_length=50, blank=True, null=True)
     country = models.CharField(default="", max_length=50, blank=True, null=True)
@@ -69,6 +69,7 @@ class InstagramAccounts(models.Model):
     subLocality = models.CharField(default="", max_length=50, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+    error=models.CharField(default="", max_length=50, blank=True, null=True)
     
     def __str__(self):
         return str(self.profil)

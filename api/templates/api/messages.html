@@ -94,7 +94,7 @@ function connect(){
             const roomName = document.getElementById('room-name').textContent;
             const messageSocket = new WebSocket(
                 proc + window.location.host
-                + '/ws/messages/'
+                + '/ws/'
                 + roomName
                 + '/'  );
                 
@@ -125,7 +125,7 @@ function connect(){
                     "id": userId
                 }))
                 xhr.onreadystatechange = function(e) { 
-                        console.log(xhr.responseText);
+                        console.log('Bura bakk, gönderdiöi: ',xhr.responseText);
                 }
             }
 
@@ -136,7 +136,7 @@ function connect(){
                 new Date().toLocaleString() + ": " + 
                 data['message']['action'].toString() +   '-> ' +  
                 data['message']['sender'].toString() +   ' - ' + 
-                data['message']['receiver'].toString() + ' - ' +
+                data['message']['receivers'].toString() + ' - ' +
                 data['message']['message'] +' \n') + document.querySelector('#message-log').value ;
         }
     };

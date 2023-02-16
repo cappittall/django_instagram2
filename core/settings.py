@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-%x508#=mrw*_c)5#2cup5k22j3b)ci)3b3g*5=n_j=0_t-uoi!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://127.0.0.1', "http://10.0.2.2", 'localhost', 'https://inmansdj.herokuapp.com', 'https://euronature.com' ]
+ALLOWED_HOSTS = ['http://127.0.0.1', "http://10.0.2.2", 'localhost', '192.168.1.154', 'https://inmansdj.herokuapp.com', 'https://euronature.com' ]
 
 #insta_image_url = 'instaggy.com'
 
@@ -55,8 +55,6 @@ INSTALLED_APPS = [
     'ckeditor',
 
 ]
-
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -139,6 +137,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'),
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -155,14 +170,9 @@ USE_L10N = True
 USE_TZ = True
 
 
+STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    (BASE_DIR / 'static')
-]
-
-STATIC_ROOT =(BASE_DIR / 'staticfiles/')
-
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media'
@@ -197,8 +207,8 @@ try:
         EMAIL_HOST_PASSWORD = ''
         ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-except:
-    print('settings mail smtp except e düstü')
+except Exception as e:
+    print('settings mail smtp except e düstü', e)
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = ''
     EMAIL_PORT = ''

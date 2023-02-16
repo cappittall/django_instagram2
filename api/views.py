@@ -37,16 +37,7 @@ HOME=os.getcwd()
 
 ### Get price list from excel file
 df=pd.read_excel(f'{HOME}/api/static/excel/prices.xlsx', index_col=0)
-prices=df.to_dict('dict')
-service_prices=[]
-for row in prices:
-    dict = prices[row]
-    dict['followerCount']=row
-    service_prices.append(dict)
-
-service_prices[0]
-    
-
+service_prices=list( df.to_dict('dict').values() )
 
 
 class UserViewSet(ModelViewSet):
@@ -78,13 +69,14 @@ class ProfilFotoUpdateView(generics.UpdateAPIView):
 
     
 class InstagramViewSet(ModelViewSet):
-    print('>>> InstagramViewSet')
+    
     queryset=InstagramAccounts.objects.all()
     serializer_class= InstagramSerializers
     permissions_classes = [CustomPermission, IsAdminUser]
     
     
     def perform_create(self, serializer):
+        print('>>> InstagramViewSet', self.request.user)
         profil = self.request.user.profil  # type: ignore
         serializer.save(profil=profil) 
         
@@ -357,7 +349,7 @@ def update_location(request, *args, **kwargs):
         profil=Profil.objects.get(pk=id)
         profil.place=place
         profil.save();
-        return render(request, 'api/messages.html',{})
+        return JsonResponse({'status': 'success', 'message': 'Location updated successfully', 'data': json.dumps(place)}, status=200)
 
 
 def proceed_order(data):
@@ -397,8 +389,9 @@ def get_image_urls(request):
     
     return JsonResponse(data, safe=False)
 
-def servicePrices(request):
-    return JsonResponse(service_prices, safe=False)
+def kazancTablosu(request):
+
+    return JsonResponse({'results': service_prices}, safe=False)
      
 def privacyPolicy(request):
     context = {}
@@ -406,4 +399,12 @@ def privacyPolicy(request):
     return render(request, template, context)
 
     
-    
+def returnAdminToken(request):
+    print('Admin token istendi ...')
+    try:
+        superuser = User.objects.get(is_superuser=True)
+    except User.MultipleObjectsReturned:
+        superuser = User.objects.filter(is_superuser=True).first()
+        
+    token= Token.objects.get(user=superuser)
+    return JsonResponse({'token': token.key}, safe=False) 
