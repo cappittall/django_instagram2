@@ -103,7 +103,8 @@ function connect(){
                 };
     messageSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-        if (data['message']['action']=='Location') {
+        console.log('Check gelen data: ', data);
+        if (data['message']['action']=='mobileLocation') {
             var userId = data['message']['sender'];
             var place = data['message']['message']
             users[userId] = {userId: userId, location : place, 
@@ -129,16 +130,15 @@ function connect(){
                 }
             }
 
-        } else {
-            console.log('>>>> Buraya bak');
-            console.log(data['message']);
-            document.querySelector('#message-log').value = ( 
-                new Date().toLocaleString() + ": " + 
-                data['message']['action'].toString() +   '-> ' +  
-                data['message']['sender'].toString() +   ' - ' + 
-                data['message']['receivers'].toString() + ' - ' +
-                data['message']['message'] +' \n') + document.querySelector('#message-log').value ;
-        }
+        } 
+        console.log('>>>> Consola yaz');
+        document.querySelector('#message-log').value = ( 
+            new Date().toLocaleString() + ": " + 
+            data['message']['action'].toString() +   '-> ' +  
+            data['message']['sender'].toString() +   ' - ' + 
+            data['message']['receivers'].toString() + ' - ' +
+            data['message']['message'] +' \n') + document.querySelector('#message-log').value ;
+        
     };
 
     messageSocket.onclose = function(e) {
@@ -146,6 +146,11 @@ function connect(){
         setTimeout(function() {
           connect();
         }, 1000);
+    };
+    
+    messageSocket.onerror = function(err) {
+        console.error('Socket encountered error: ', err.message, 'Closing socket');
+        messageSocket.close();
     };
 
     document.querySelector('#message-input').focus();
@@ -161,8 +166,10 @@ function connect(){
 
         console.log('Choice is : ', choice)
         messageSocket.send(JSON.stringify({
-            'action' : choice,  // follow, post_like, post_comment, 
-            'message': message, "sender" :0, "receiver":0
+                'action' : choice,  // follow, post_like, post_comment, 
+                'message': message, 
+                "sender" :0, 
+                "receivers":0
         }));
         document.querySelector('#message-input').value = '';
     };

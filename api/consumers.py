@@ -1,10 +1,27 @@
 import json
+import re
+import time
 #from Api.models import User
 from django.contrib.auth.models import User
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from asgiref.sync import sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer
+from api.static.choices import choices
+from django.db.models import F
+from api.models import OrderList
+from threading import Thread
+
 
 from asgiref.sync import async_to_sync
 
+def my_background_task(data):
+    data = json.loads(re.sub(r'(?!:)(\w+)', r'"\1"', data))
+    print('2.1. data', data, type(data))
+    ## 201 = alacak işlenmiş, 202 = free işlem   
+    if int(data['alacak'])==201 or int(data['alacak'])==202:
+        OrderList.objects.filter( id=int(data['order_id']) ).update(remains=F('remains')-1, status='In Progress')            
+        print('işlem başarılı')
+    return
 class ApiConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         # self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -20,181 +37,81 @@ class ApiConsumer(AsyncJsonWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        print(' 2 >>>>', close_code)
+        print(' 2.Channel disconnected >>>>', close_code)
+        time.sleep(5)
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
+    """     
+    async def receive(self, text_data):
+        print(' 3.0 >>>>', text_data, type(text_data)) """
 
     # receive message from Websocket
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json  # ['message']
+    async def receive_json(self, message):
+        print(' 3.1 >>>>', message, type(message))
+        if message['action']=='mobileAction':
+            data = message['message']
+            Thread(target=my_background_task, args=(data,)).start()
+                  
+        #send message to room group
+        await self.channel_layer.group_send(
+            self.room_group_name, 
+            {
+                'type': 'chat_message',
+                'message': message
+            }
+        )
+    # Receive message from room group
+    async def chat_message(self, event):
+        print(' 4 >>>>',event )
+        message = event['message']
+
+        #send message to Websocket
+        await self.send(text_data=json.dumps({
+            'message': message
+        }))
+
+
+
+
+## CHATGBT EXAMPLE
+""" 
+import asyncio
+from channels.generic.websocket import AsyncWebsocketConsumer
+
+class MyConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
     
-        #send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name, 
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
-    # Receive message from room group
-    async def chat_message(self, event):
-        #print(' 4 >>>>',event )
-        message = event['message']
-
-        #send message to Websocket
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
-
-
-
-
-## CHAT VE GAME CUNSOMERS 
-""" 
-GAME CUNSOMER 
-class GameConsumer(AsyncJsonWebsocketConsumer):
-    async def connect(self):
-        print('CONNECTED-->', self.scope)
-        self.room_name = self.scope['url_route']['kwargs']['room_code']
-        self.room_group_name = 'room_%s' % self.room_name
-
-        # Join room group
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
-        await self.accept()
-
     async def disconnect(self, close_code):
-        print("Disconnected")
-        # Leave room group
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
+        # Disconnect from the Redis layer
+        await self.channel_layer.disconnect(self.channel_name)
 
     async def receive(self, text_data):
+        try:
+            await self.channel_layer.group_send(
+                "my_group",
+                {
+                    "type": "my_message",
+                    "text": text_data
+                }
+            )
+        except RuntimeError as e:
+            if "Event loop is closed" in str(e):
+                # Reconnect to the Redis layer if the event loop is closed
+                await self.channel_layer.connect()
+                # Retry the group send
+                await self.channel_layer.group_send(
+                    "my_group",
+                    {
+                        "type": "my_message",
+                        "text": text_data
+                    }
+                )
+            else:
+                raise
 
-        #Receive message from WebSocket.
-        #Get the event and send the appropriate event
- 
-        response = json.loads(text_data)
-        event = response.get("event", None)
-        message = response.get("message", None)
-        if event == 'MOVE':
-            # Send message to room group
-            await self.channel_layer.group_send(self.room_group_name, {
-                'type': 'send_message',
-                'message': message,
-                "event": "MOVE"
-            })
-
-        if event == 'START':
-            # Send message to room group
-            await self.channel_layer.group_send(self.room_group_name, {
-                'type': 'send_message',
-                'message': message,
-                'event': "START"
-            })
-
-        if event == 'END':
-            # Send message to room group
-            await self.channel_layer.group_send(self.room_group_name, {
-                'type': 'send_message',
-                'message': message,
-                'event': "END"
-            })
-
-    async def send_message(self, res):
-        #Receive message from room group
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            "payload": res,
-        }))
- """
-""" 
-
-class ChatConsumer(AsyncJsonWebsocketConsumer):
-    async def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = 'chat_%s' % self.room_name
-
-        #Join room group
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
-
-        await self.accept()
-
-    async def disconnect(self, close_code):
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
-
-    # receive message from Websocket
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        
-        #send message to room group
-        await self.channel_layer.group_send(
-            self.room_group_name, 
-            {
-                'type': 'chat_message',
-                'message': message
-            }
-        )
-    # Receive message from room group
-    async def chat_message(self, event):
-        message = event['message']
-
-        #send message to Websocket
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
- """
-# 
-"""
-     def connect(self):
-        print(self.scope[">>>>>>>>>uery_string"])
-        user_id = str(self.scope["query_string"]).split("=")[1][:-1]
-        print(user_id)
-        User.objects.filter(id=user_id).update(is_online=True)
-
-        self.room_name = "users"
-        self.channel_name = user_id
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_name, self.channel_name)
-        self.accept()
-
-        async_to_sync(self.channel_layer.send)(self.channel_name,
-                                               { "type": "socket.message",
-                                                 "text": "accapted"
-                                               })
-
-    def disconnect(self, close_code):
-        User.objects.filter(
-            id=self.channel_name).update(is_online=False)
-
-        async_to_sync(self.channel_layer.group_discard)(
-            "connectedusers", self.channel_name)
-        pass
-
-    def socket_message(self, event):
-        print('>>>>>>> def socket_message socket_message...: ', event.get("text"))
-        self.send(text_data=event.get("text"))
-
-
-    def receive(self, text_data):
-        print('>>>>>>> def receive ...: ',  json.loads(text_data))
-        data = json.loads(text_data)
-        async_to_sync(self.channel_layer.send)(self.channel_name,
-                                               {"type": "socket.message",
-                                                "text": str(data)
-                                               })
+    async def my_message(self, event):
+        await self.send(text_data=event["text"])
 """

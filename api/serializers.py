@@ -61,7 +61,10 @@ class EarnListSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         earning = EarnList.objects.create(**validated_data)
-        return earning    
+        print('Earning : ', earning)
+                      
+        return earning  
+      
 class BalanceRequestSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
     class Meta:

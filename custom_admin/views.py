@@ -36,6 +36,8 @@ from core.settings import EMAIL_HOST_USER
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import EmailMessage
 from pathlib import Path
+from django.db.models import F
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -48,26 +50,100 @@ from rest_framework.authtoken.models import Token
 # django decoration @ for login required and user is superuser
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-def splitComents(comments, data):
-    # before the proceed order split comments to users
-    commentsObj={}
-    if comments:
-        for i, receiver in enumerate(data['receivers']):
-            if len(data['receivers'])==len(comments):
-                commentsObj[receiver]=comments[i]
-            else:  
-                commentsObj[receiver]=random.choice(comments)
-    data['comments']=commentsObj
-    return data, comments
+            
+def threadingProceedOrder(data, sorted_instagram_accounts, comments, quantity, order):
+    
+    insta_counter=0 
+    total_instagram_acc_count = sorted_instagram_accounts.count()
+    user_ids = defaultdict(list)
+    xx=[user_ids[x.profil.user.id].append(x.id) for x in sorted_instagram_accounts]
+    print('>> user ids...: ', xx, user_ids)
+        
+    # if the number of accounts is less than the quantity, send to all accounts
+    if total_instagram_acc_count < quantity:
+        #remove dublicate ids.
+        data['receivers'] = user_ids.keys()
+        if comments:
+            commentsObj={}
+            cnr=0
+            #ias: instagram accounts array, uid: user id
+            for uid, ias in user_ids.items(): 
+                for ia in ias:
+                    commentsObj[ia]=comments[cnr]
+                    # check if comments array finished then start from first comment
+                    cnr += 1
+                    if cnr < len(comments)-1:
+                        cnr=0
+            data['comments']=commentsObj 
+        proceed_order(data)
+        
+    # if the number of accounts is more than the quantity, send to the first accounts equaly to the quantity
+    else:
+        commentsObj, cc=({},0)
+        # looping user_ids: {user_id: [insta_id, insta_id, ...], user_id: [insta_id, insta_id, ...], ...}
+        for key, value in user_ids.items():
+            data['receivers'].append(key)
+            if comments:
+                # create: {insta_id: comment, insta_id: comment, ...}
+                for val in value:
+                    print('>>>>>>>',val, comments, cc)
+                    commentsObj[str(val)]=comments[cc]
+                    cc += 1
+                    if cc > len(comments)-1: cc=0
                 
+            insta_counter += len(value)
+            # remove selected ids from user_ids
+            del user_ids[key]
+            if insta_counter >= quantity:
+                break
+        # set comments to data
+        data['comments']=commentsObj
+        ## Initial send request to websocket server
+        proceed_order(data)
+        
+        while user_ids:
+            # wait for 60 seconds in order to check order is completed or not
+            time.sleep(60)
+            data['receivers']= []
+            # check the order is completed or not
+            remain = OrderList.objects.filter(id=order.id).last().remains
+            # if remain is 0, the order is completed
+            if remain <= 0: break
+            insta_counter=0
+            commentsObj, cc=({},0)
+            
+            # looping user_ids: {user_id: [insta_id, insta_id, ...], user_id: [insta_id, insta_id, ...], ...}
+            for key, value in user_ids.items():
+                data['receivers'].append(key)
+                if comments:
+                    # create: {insta_id: comment, insta_id: comment, ...}
+                    for val in value:
+                        commentsObj[str(val)]=comments[cc]
+                        cc += 1
+                        if cc > len(comments)-1: cc=0
+                
+                insta_counter += len(value)
+                # remove selected ids from user_ids
+                del user_ids[key]
+                if insta_counter >= remain:
+                    break   
+            # set comments to data
+            data['comments']=commentsObj
+            proceed_order(data)
+    # render instagramSiparisler page
+    time.sleep(5)
+    order = OrderList.objects.get(id=data['order_id'])
+    status= "Completed" if order.remains <=0 else "Partial"
+    order.status = status
+    order.save()
+
+
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def instagramGenel(request):
 
     starting = False
-
     instagram_accounts= InstagramAccounts.objects.all()
-    
     context = {
         'title':'İnstagram Genel İşlemler',
         'start_count': instagram_accounts.count(),
@@ -89,7 +165,7 @@ def instagramGenel(request):
         subLocality = request.POST['sublocality_name'] if 'sublocality_name' in request.POST else ''
         comments_text = request.POST['comments'] if 'comments' in request.POST else ''
         comments = comments_text.splitlines() if comments_text else []
-        quantity = int(request.POST['takipci_quantity']) if 'takipci_quantity' in request.POST else len(comments)
+        quantity = int(request.POST['takipci_quantity'])  or len(comments)
         start_count = int(request.POST['start_count_input']) if 'start_count_input' in request.POST else 0
         is_free = bool(request.POST['isFree']) if 'isFree' in request.POST else False
         apikey = request.user.profil.token   
@@ -106,8 +182,10 @@ def instagramGenel(request):
                 for chunk in uploaded_file.chunks():
                     destination.write(chunk)
                         
-        user_order = OrderList.objects.create(user=request.user.profil,  action= action, service=choices[action], status="Pending" , 
+        order = OrderList.objects.create(user=request.user.profil,  action= action, service=choices[action], status="Pending" , 
                                               start_count=start_count, comments=comments_text, quantity=quantity, remains=quantity, link=link, key=apikey)
+        
+        
         # get instagram accounts
         if subLocality:
             instagram_accounts= InstagramAccounts.objects.filter(subLocality=subLocality)
@@ -120,71 +198,19 @@ def instagramGenel(request):
             
         # sort instagram accounts by user profil update_time (last recent first)
         sorted_instagram_accounts = instagram_accounts.order_by('-profil__update_time')
-        total_acc_nr = sorted_instagram_accounts.count()
         
-        
-        #[1,1,2,2,3,4,4,4,..] (each id is repeated as many times as the number of accounts for that id)
-        ids= [x.profil.user.id for x in sorted_instagram_accounts]
+                
         # initial sets
-        
-        data['receivers']= []
-        data['order_id']= user_order.id
         data['action']= action 
-        data['isFree']= is_free          
-        insta_counter=0 
-        
-        # if the number of accounts is less than the quantity, send to all accounts
-        if total_acc_nr < quantity:
-            #remove dublicate ids.
-            data['receivers'] = list(set(ids))
-            data, comments = splitComents(comments, data)
-            proceed_order(data) 
-        # if the number of accounts is more than the quantity, send to the first accounts equaly to the quantity
-        else:
-            # count the number of accounts for each Id {id: nr of accounts, id: nr of accounts, ...}
-            user_ids = defaultdict(int)
-            for x in ids:
-                user_ids[x] += 1
-            # select user ids initially (insta account nr >=quantity)
-            for key, value in user_ids.items():
-                data['receivers'].append(key)
-                insta_counter += value
-                # remove selected ids from user_ids
-                del user_ids[key]
-                if insta_counter >= quantity:
-                    break
-                            
-            ## Initial send request to websocket
-            data['link'] = link
-            data['action'] = "usersToFollow"
-            ## data['comments'] arrangements as {id: comment, id: comment, ...}
-            data, comments = splitComents(comments, data)
-            proceed_order(data)
-            
-            while user_ids:
-                # wait for 60 seconds in order to check order is completed or not
-                time.sleep(60)
-                data['receivers']= []
-                # check the order is completed or not
-                remain = OrderList.objects.filter(id=user_order.id).last().remains
-                # if remain is 0, the order is completed
-                if remain <= 0: break
-                insta_counter=0
-                for key, value in user_ids.items():
-                    data['receivers'].append(key)
-                    insta_counter += value
-                    # remove selected ids from user_ids
-                    del user_ids[key]
-                    if insta_counter >= remain:
-                        break   
-                    
-                data = splitComents(comments, data)     
-                proceed_order(data)
-        # render instagramSiparisler page
+        data['receivers']= []
+        data['sender']= [0]
+        data['order_id']= order.id
+        data['isFree']= is_free 
+        data['link'] = link     
+        # threadingProceedOrder
+        threading.Thread(target=threadingProceedOrder, args=(data, sorted_instagram_accounts, comments, quantity, order,)).start()
         return redirect('custom_admin:instagram-siparisler')
-            
-        
-            
+                
     return render(request,'custom_admin/instagram_tools/instagram-genel.html', context)
 
 @login_required
@@ -196,7 +222,7 @@ def instagramSiparisler(request):
     context['title']='İşlem durumu... '
     context['sayisi']= instagrams.filter(status='Completed').count()
     context['successful_log_data']=instagrams
-    return render(request,'custom_admin/instagram_tools/successful.html', context)
+    return render(request,'custom_admin/instagram_tools/instagram-siparisler.html', context)
 
 def deleteOrder(request, id):
 

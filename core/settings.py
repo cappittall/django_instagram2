@@ -108,12 +108,11 @@ DATABASES = {
 
 CHANNEL_LAYERS = {
     'default': {
-     #'BACKEND': 'channels_redis.core.RedisChannelLayer', 
-     #'CONFIG': {
-          #"hosts": [(os.environ.get('REDIS_HOST', 'localhost'),6379)],
-     #     "host":"ec2-44-209-239-126.compute-1.amazonaws.com:6379"
-     #    }, 
-     "BACKEND": "channels.layers.InMemoryChannelLayer"
+     'BACKEND': 'channels_redis.core.RedisChannelLayer', 
+     'CONFIG': {
+        "hosts": [("localhost", 6379)],
+      }, 
+     #"BACKEND": "channels.layers.InMemoryChannelLayer"
     },
 }
 

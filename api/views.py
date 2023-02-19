@@ -6,7 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
+
 from channels.layers import get_channel_layer
+import asyncio
+
 from asgiref.sync import async_to_sync
 
 from rest_framework.decorators import api_view, renderer_classes
@@ -221,6 +224,7 @@ class EarnListViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     
     def perform_create(self, serializer):
+           
         user = self.request.user
         serializer.save(user=user) 
         
@@ -351,29 +355,25 @@ def update_location(request, *args, **kwargs):
         profil.save();
         return JsonResponse({'status': 'success', 'message': 'Location updated successfully', 'data': json.dumps(place)}, status=200)
 
-
+            
 def proceed_order(data):
-    
-    
+    message={
+        "action":"serverAction",
+        "sender":data.pop('sender'),
+        "receivers": data.pop('receivers'),
+        "message": data,        
+    }
+
+    print('proceed_order 363: Data...> ', message) 
     channel_layer = get_channel_layer()
-    
-    """ 
-    link = data['link']
-    qty= data['quantity']
-    comments = data['comments']
-    message = { 'action' : data['action'],'sender' : 0, 'receiver': data['receivers'],
-                'data': link + "| get_comment" if comments else '| No_comment'} """
-    
-    ## Send order to websocket 
-    print('Data...> ', data)
+    group_name = 'inchat'
     async_to_sync(channel_layer.group_send)(
-        'inchat',
+        group_name,
         {
             'type': 'chat_message',
-            'message': data
+            'message': message,
         }
     )
-    
     
 def get_image_urls(request):
     # get list of files in the static/images directory    

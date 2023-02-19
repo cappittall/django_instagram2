@@ -7,7 +7,9 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">{{ title }}</h1>
+          <h1 class="m-0">{{ title }} <a href="{% url 'custom_admin:instagram-siparisler' %}" class="btn btn-primary float-right">{% trans 'Yenile' %} </a><i
+            class="fa fa-refresh"></i></h1>
+          
         </div><!-- /.col -->
         <div class="col-sm-6">
         
@@ -15,6 +17,8 @@
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
   </div>
+
+  <!-- create table -->
 
   <div class="row">
     <div class="col-md-12">
@@ -42,7 +46,7 @@
                 <td>{{ x.quantity }}</td>
                 <td>{{ x.start_count }}</td>
                 <td>{{ x.difference }}</td>
-                <td>{{ x.remain }}</td>
+                <td>{{ x.remains }}</td>
                 <td>{{ x.status }}</td>
                 <!--add delete button of the record-->
                 <td>
