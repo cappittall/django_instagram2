@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import (instagramGenel, instagramSiparisler, deleteOrder, loginView,addInstagramUsers,dashboardView,apiOrdersView,
+from .views import (instagramGenel, instagramSiparisler, instagramApps, deleteOrder, loginView,addInstagramUsers,dashboardView,apiOrdersView,
                     instagramUsersList, notLoginUsersView, sendVideoView, successfulValueView,userPackpagesView,usersDataView,servicesview,
                     apiSettingsView,importUsersView,exportUsersView,editServicesView,editUserPackpagesView,seoSettingsView,homeManagerView,
                     addProxyView,clearAccountsView,sendFollowView,sendPostCommentView,sendPostLikeView,sendDMMessageView,sendCommentLiveView,
@@ -73,6 +73,7 @@ urlpatterns = [
     path('dashboard/',dashboardView,name='dashboard'),
     path('instagram/tools/instagram-genel/',instagramGenel, name='instagram-genel'),
     path('instagram/tools/instagram-siparisler/',instagramSiparisler, name='instagram-siparisler'),
+    path('instagram/tools/instagram-apps/',instagramApps, name='instagram-apps'),
     path('instagram/tools/instagram-siparisler/<str:id>/', deleteOrder, name='delete-order'),
     
     path('instagram/tools/profile-visit/',sendProfileVisitView,name='profile-visit'),

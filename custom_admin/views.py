@@ -41,9 +41,10 @@ from django.db.models import F
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 ## my codes hc
-from api.models import InstagramAccounts, OrderList
+from api.models import InstagramAccounts, OrderList, InstagramVersions
 from collections import defaultdict
 from api.static.choices import choices
+from api.static.choices import apps_islemleri
 from rest_framework.authtoken.models import Token
 
 # django decoration @ for login required and user is superuser
@@ -52,23 +53,31 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import asyncio
             
+            
+            
+ 
+ 
 def send_order_to_phones(data):
+   
     message={
         "action":"serverAction",
         "sender":data.pop('sender'),
         "receivers": data.pop('receivers'),
         "message": data,        
     }
-
-    print('proceed_order data...> ', message) 
+    room_group_name = 'inchat'
     channel_layer = get_channel_layer()
-    group_name = 'inchat'
     async_to_sync(channel_layer.group_send)(
-                group_name,
-                {
-                    'type': 'chat_message',
-                    'message': message,
-                })
+        room_group_name,
+        {
+            'type': 'chat_message',
+            'message': message,
+        }
+    )  
+        
+    
+        
+    
          
 def threadingProceedOrder(data, comments, quantity, order):    
     data['receivers']= []
@@ -113,7 +122,7 @@ def threadingProceedOrder(data, comments, quantity, order):
             data['comments']=commentsObj 
         ## Initial send request to websocket server
 
-        asyncio.run(send_order_to_phones(data))
+        asyncio.run_coroutine_threadsafe(send_order_to_phones(data))
         
     # if the number of accounts is more than the quantity, send to the first accounts equaly to the quantity
     else:
@@ -137,7 +146,7 @@ def threadingProceedOrder(data, comments, quantity, order):
         # set comments to data
         data['comments']=commentsObj
         ## Initial send request to websocket server
-        asyncio.run(send_order_to_phones(data))
+        asyncio.run_coroutine_threadsafe(send_order_to_phones(data))
         
         while user_ids:
             # wait for 60 seconds in order to check order is completed or not
@@ -167,7 +176,7 @@ def threadingProceedOrder(data, comments, quantity, order):
                     break   
             # set comments to data
             data['comments']=commentsObj
-            asyncio.run(send_order_to_phones(data))
+            asyncio.run_coroutine_threadsafe(send_order_to_phones(data))
     # render instagramSiparisler page
 
 
@@ -218,8 +227,6 @@ def instagramGenel(request):
         order = OrderList.objects.create(user=request.user.profil,  action= action, service=choices[action], status="Pending" , 
                                               start_count=start_count, comments=comments_text, quantity=quantity, remains=quantity, link=link, key=apikey)
         
-               
-                
         # initial sets
         data['country']= country
         data['locality']= locality
@@ -258,6 +265,35 @@ def sendMail2(subject,content,email):
     msg.send()
 
 
+def instagramApps(request):
+    versions = InstagramVersions.objects.all().order_by('-id')[0]
+    
+    context={
+        "title":"Instagram App işlemleri",
+        "apps_islemleri": apps_islemleri,
+        "version": versions.version,
+        "error":None,
+    }
+    print('Instagram apps context: ',context)
+    if "btnStart" in request.POST:
+        islem_turu= request.POST.get('islem_turu', None)
+        version = request.POST.get('version', None)
+        print('What is islem_turu : ',islem_turu,' version: ', version)
+        
+        if version:
+            
+            newversion= InstagramVersions.objects.create(version=version)
+            if newversion: context['version']=version
+            data={
+                "action": islem_turu,
+                "version": version,
+                "sender": [0],
+                "receivers": [0],
+            }
+            
+            send_order_to_phones(data)
+    return render(request,'custom_admin/instagram_tools/instagram-apps.html', context)
+    
 
 def dashboardView(request):
 

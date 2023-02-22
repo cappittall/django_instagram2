@@ -12,3 +12,8 @@ choices = {
 'advertImageShare':'Resim post paylaşma-reklam',
 'advertVideoShare':'Video post paylaşma-reklam',
 }
+apps_islemleri = {
+'versionUpdate':'App versiyon güncelleme',
+'genelMesaj':'Tüm applara genel mesaj',
+
+}

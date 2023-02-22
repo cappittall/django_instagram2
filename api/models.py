@@ -117,7 +117,14 @@ class OrderList(models.Model):
     class Meta:
         verbose_name_plural="order Listesi"
         ordering = ('-id', )
-    
+
+class InstagramVersions(models.Model):
+    version=models.CharField(max_length=50, default="0.0.0")
+    create_time = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        verbose_name_plural="Instagram Version"
+        ordering = ('-id', )
+        
 class CompletedOrders(models.Model):
     instagramaccount=models.ForeignKey(InstagramAccounts, on_delete=models.CASCADE, related_name='completed_orders')
     order=models.ForeignKey(OrderList, on_delete=models.CASCADE, related_name='completed_orders')

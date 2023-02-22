@@ -1,0 +1,87 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% block content %}
+
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 id="title" class="m-0">{{ title }}  </h1> 
+        </div>
+        <div class="col-sm-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+{% if starting %}
+    <strong>{% trans 'İşlem başladı' %}.</strong>
+{% else %}
+
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+
+
+<br/>
+<div class="field">
+<label>{% trans 'İşlem Türü' %}</label>
+
+<select  name="islem_turu" required  style="width: 100%;" id="service_lists" class="control form-control">
+    <option value="">---</option>
+    {% for key, value in apps_islemleri.items %}
+    <option value="{{ key }}">{{ value }} </option>
+    {% endfor %}
+</select>
+</div>
+<br>
+
+<div class="field" id="add_version" style='display:none;'>
+    <label> {% trans 'Yeni version'%} Mevcut versiyon: {{ version }}</label>
+    
+    <div class="control">
+    <input type="text" name="version" required class="form-control">
+    </div>
+</div>
+<br><br>
+
+{% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+{% endif %}
+
+<div style="text-align: center;"><br>
+<button type="submit" name="btnStart" class="btn btn-primary">{% trans 'İşlemi Başlat' %}</button>
+
+</div>
+
+</form>
+
+
+
+{% endif %}
+
+</div>
+</div>
+</div>
+
+<script>
+    document.getElementById("service_lists").addEventListener("change", function(){
+     var selectedValue = this.value;
+     console.log('Selected value: ', selectedValue);
+     if(selectedValue == "versionUpdate"){
+         document.getElementById("add_version").style.display = "block";
+     }else{
+         document.getElementById("add_version").style.display = "none";
+     }
+    });
+
+ </script>
+  {% endblock %}

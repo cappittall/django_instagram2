@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% trans 'Harici Admin Paneli' %}  {% if title %} | {{ title }} {% endif %}</title>
 
-  <link rel="icon" type="image/png" href="{{ fav_icon.url }}" />
+  <link rel="icon" type="image/png" href="/static/img/favicon.png" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="{% static 'custom_admin/plugins/fontawesome-free/css/all.min.css' %}">
   <link rel="stylesheet" href="{% static 'custom_admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
@@ -95,6 +95,12 @@
                     <a href="{% url 'custom_admin:instagram-siparisler' %}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>{% trans 'Sipariş Durumu ' %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:instagram-apps' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans 'App işlemleri ' %}</p>
                     </a>
                   </li>
                     
