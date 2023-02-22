@@ -34,6 +34,7 @@
                 <th >{% trans 'Başarılı' %}</th>
                 <th >{% trans 'Kalan ' %}</th>
                 <th >{% trans 'Durum ' %}</th>
+                <th >{% trans 'Link ' %}</th>
                 <th >{% trans 'Sil ' %}</th>
   
               </tr>
@@ -48,6 +49,8 @@
                 <td>{{ x.difference }}</td>
                 <td>{{ x.remains }}</td>
                 <td>{{ x.status }}</td>
+                <td><a href="{{x.link }}" target="blank" class="btn btn-danger btn-sm"><i
+                  class="fa fa-link"></i></a></td>
                 <!--add delete button of the record-->
                 <td>
                   <a href="#" onclick="areYouSure({{ x.id }})" class="btn btn-danger btn-sm"><i

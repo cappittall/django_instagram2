@@ -19,9 +19,14 @@ def my_background_task(data):
     print('2.1. data', data, type(data))
     ## 201 = alacak işlenmiş, 202 = free işlem   
     if int(data['alacak'])==201 or int(data['alacak'])==202:
-        OrderList.objects.filter( id=int(data['order_id']) ).update(remains=F('remains')-1, status='In Progress')            
+        OrderList.objects.filter( id=int(data['order_id']) ).update(remains=F('remains')-1)
+        order = OrderList.objects.get(id=int(data['order_id']))
+        status= "Completed" if order.remains <=0 else "Partial"
+        order.status = status
+        order.save()
         print('işlem başarılı')
-    return
+    return True
+
 class ApiConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         # self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -43,9 +48,6 @@ class ApiConsumer(AsyncJsonWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-    """     
-    async def receive(self, text_data):
-        print(' 3.0 >>>>', text_data, type(text_data)) """
 
     # receive message from Websocket
     async def receive_json(self, message):
@@ -64,54 +66,13 @@ class ApiConsumer(AsyncJsonWebsocketConsumer):
         )
     # Receive message from room group
     async def chat_message(self, event):
-        print(' 4 >>>>',event )
-        message = event['message']
-
-        #send message to Websocket
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
-
-
-
-
-## CHATGBT EXAMPLE
-""" 
-import asyncio
-from channels.generic.websocket import AsyncWebsocketConsumer
-
-class MyConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        await self.accept()
-    
-    async def disconnect(self, close_code):
-        # Disconnect from the Redis layer
-        await self.channel_layer.disconnect(self.channel_name)
-
-    async def receive(self, text_data):
-        try:
-            await self.channel_layer.group_send(
-                "my_group",
-                {
-                    "type": "my_message",
-                    "text": text_data
-                }
-            )
-        except RuntimeError as e:
-            if "Event loop is closed" in str(e):
-                # Reconnect to the Redis layer if the event loop is closed
-                await self.channel_layer.connect()
-                # Retry the group send
-                await self.channel_layer.group_send(
-                    "my_group",
-                    {
-                        "type": "my_message",
-                        "text": text_data
-                    }
-                )
-            else:
-                raise
-
-    async def my_message(self, event):
-        await self.send(text_data=event["text"])
-"""
+        
+        print(' 4 >>>>', event, type(event))
+        
+        if 'message' in event:
+            message = event['message']
+                
+            #send message to Websocket
+            await self.send(text_data=json.dumps({
+                'message': message
+            }))

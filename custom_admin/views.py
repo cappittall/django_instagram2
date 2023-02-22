@@ -1,6 +1,5 @@
 from hashlib import new
 from django.db.models.fields import IntegerField
-from api.views import proceed_order
 
 from django.contrib import auth
 import requests
@@ -49,40 +48,79 @@ from rest_framework.authtoken.models import Token
 
 # django decoration @ for login required and user is superuser
 from django.contrib.auth.decorators import login_required, user_passes_test
-
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import asyncio
             
-def threadingProceedOrder(data, sorted_instagram_accounts, comments, quantity, order):
-    
+def send_order_to_phones(data):
+    message={
+        "action":"serverAction",
+        "sender":data.pop('sender'),
+        "receivers": data.pop('receivers'),
+        "message": data,        
+    }
+
+    print('proceed_order data...> ', message) 
+    channel_layer = get_channel_layer()
+    group_name = 'inchat'
+    async_to_sync(channel_layer.group_send)(
+                group_name,
+                {
+                    'type': 'chat_message',
+                    'message': message,
+                })
+         
+def threadingProceedOrder(data, comments, quantity, order):    
+    data['receivers']= []
+    subLocality = data.get('subLocality', None)
+    locality = data.get('locality', None)
+    country= data.get('country', None)
+    # get instagram accounts
+    if subLocality:
+        instagram_accounts= InstagramAccounts.objects.filter(subLocality=subLocality)
+    elif locality:
+        instagram_accounts= InstagramAccounts.objects.filter(locality=locality)
+    elif country:
+        instagram_accounts= InstagramAccounts.objects.filter(country=country)
+    else:
+        instagram_accounts= InstagramAccounts.objects.all()
+        
+    # sort instagram accounts by user profil update_time (last recent first)
+    sorted_instagram_accounts = instagram_accounts.order_by('-profil__update_time')
+
     insta_counter=0 
     total_instagram_acc_count = sorted_instagram_accounts.count()
+    OrderList.objects.filter( id=int(data['order_id']) ).update(start_count=total_instagram_acc_count)
     user_ids = defaultdict(list)
-    xx=[user_ids[x.profil.user.id].append(x.id) for x in sorted_instagram_accounts]
-    print('>> user ids...: ', xx, user_ids)
+    xx=[user_ids[str(x.profil.user.id)].append(x.id) for x in sorted_instagram_accounts]
+    print('>> user ids...: ', xx, user_ids, ' -> ',list(user_ids.keys()))
         
     # if the number of accounts is less than the quantity, send to all accounts
     if total_instagram_acc_count < quantity:
         #remove dublicate ids.
-        data['receivers'] = user_ids.keys()
+        data['receivers'] = [int(i) for i in user_ids.keys()]
         if comments:
             commentsObj={}
             cnr=0
             #ias: instagram accounts array, uid: user id
             for uid, ias in user_ids.items(): 
                 for ia in ias:
-                    commentsObj[ia]=comments[cnr]
+                    commentsObj[str(ia)]=comments[cnr]
                     # check if comments array finished then start from first comment
                     cnr += 1
                     if cnr < len(comments)-1:
                         cnr=0
             data['comments']=commentsObj 
-        proceed_order(data)
+        ## Initial send request to websocket server
+
+        asyncio.run(send_order_to_phones(data))
         
     # if the number of accounts is more than the quantity, send to the first accounts equaly to the quantity
     else:
         commentsObj, cc=({},0)
         # looping user_ids: {user_id: [insta_id, insta_id, ...], user_id: [insta_id, insta_id, ...], ...}
         for key, value in user_ids.items():
-            data['receivers'].append(key)
+            data['receivers'].append(int(key))
             if comments:
                 # create: {insta_id: comment, insta_id: comment, ...}
                 for val in value:
@@ -99,7 +137,7 @@ def threadingProceedOrder(data, sorted_instagram_accounts, comments, quantity, o
         # set comments to data
         data['comments']=commentsObj
         ## Initial send request to websocket server
-        proceed_order(data)
+        asyncio.run(send_order_to_phones(data))
         
         while user_ids:
             # wait for 60 seconds in order to check order is completed or not
@@ -114,7 +152,7 @@ def threadingProceedOrder(data, sorted_instagram_accounts, comments, quantity, o
             
             # looping user_ids: {user_id: [insta_id, insta_id, ...], user_id: [insta_id, insta_id, ...], ...}
             for key, value in user_ids.items():
-                data['receivers'].append(key)
+                data['receivers'].append(int(key))
                 if comments:
                     # create: {insta_id: comment, insta_id: comment, ...}
                     for val in value:
@@ -129,19 +167,14 @@ def threadingProceedOrder(data, sorted_instagram_accounts, comments, quantity, o
                     break   
             # set comments to data
             data['comments']=commentsObj
-            proceed_order(data)
+            asyncio.run(send_order_to_phones(data))
     # render instagramSiparisler page
-    time.sleep(5)
-    order = OrderList.objects.get(id=data['order_id'])
-    status= "Completed" if order.remains <=0 else "Partial"
-    order.status = status
-    order.save()
+
 
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def instagramGenel(request):
-
     starting = False
     instagram_accounts= InstagramAccounts.objects.all()
     context = {
@@ -156,21 +189,21 @@ def instagramGenel(request):
         'instagram_accounts':json.dumps(list(InstagramAccounts.objects.values('country_code', 'country', 'locality', 'subLocality')))
     }
     if "btnStart" in request.POST:
-        data={}
+        
         print(request.POST)
-        action = request.POST['islem_turu']
+        action = request.POST['islem_turu'] 
         link = request.POST['link'] if 'link' in request.POST else ''
-        country = request.POST['country_name'] if 'country_name' in request.POST else ''
-        locality = request.POST['locality_name'] if 'locality_name' in request.POST else ''
-        subLocality = request.POST['sublocality_name'] if 'sublocality_name' in request.POST else ''
+        country = request.POST['country_name'] if 'country_name' in request.POST else None
+        locality = request.POST['locality_name'] if 'locality_name' in request.POST else None
+        subLocality = request.POST['sublocality_name'] if 'sublocality_name' in request.POST else None
         comments_text = request.POST['comments'] if 'comments' in request.POST else ''
         comments = comments_text.splitlines() if comments_text else []
         quantity = int(request.POST['takipci_quantity'])  or len(comments)
         start_count = int(request.POST['start_count_input']) if 'start_count_input' in request.POST else 0
         is_free = bool(request.POST['isFree']) if 'isFree' in request.POST else False
         apikey = request.user.profil.token   
-          
-        print("action: ", action, "isFree", is_free,  "link: ", link, "country_name: ", country, "comments: ", comments, "quantity: ", quantity, "start_count: ", start_count, "apikey: ", apikey)
+        data={}
+        print("action: ", action, "isFree", is_free,  "link: ", link, "comments: ", comments, "quantity: ", quantity, "start_count: ", start_count, "apikey: ", apikey)
         # image or video file
         if 'file' in request.FILES:
             uploaded_file = request.FILES['file'] 
@@ -185,30 +218,19 @@ def instagramGenel(request):
         order = OrderList.objects.create(user=request.user.profil,  action= action, service=choices[action], status="Pending" , 
                                               start_count=start_count, comments=comments_text, quantity=quantity, remains=quantity, link=link, key=apikey)
         
-        
-        # get instagram accounts
-        if subLocality:
-            instagram_accounts= InstagramAccounts.objects.filter(subLocality=subLocality)
-        elif locality:
-            instagram_accounts= InstagramAccounts.objects.filter(locality=locality)
-        elif country:
-            instagram_accounts= InstagramAccounts.objects.filter(country=country)
-        else:
-            instagram_accounts= InstagramAccounts.objects.all()
-            
-        # sort instagram accounts by user profil update_time (last recent first)
-        sorted_instagram_accounts = instagram_accounts.order_by('-profil__update_time')
-        
+               
                 
         # initial sets
+        data['country']= country
+        data['locality']= locality
+        data['subLocality']= subLocality
+        data['apikey']= apikey
         data['action']= action 
-        data['receivers']= []
         data['sender']= [0]
         data['order_id']= order.id
         data['isFree']= is_free 
         data['link'] = link     
-        # threadingProceedOrder
-        threading.Thread(target=threadingProceedOrder, args=(data, sorted_instagram_accounts, comments, quantity, order,)).start()
+        message= threading.Thread(target=threadingProceedOrder, args=(data, comments, quantity, order,)).start()
         return redirect('custom_admin:instagram-siparisler')
                 
     return render(request,'custom_admin/instagram_tools/instagram-genel.html', context)

@@ -7,11 +7,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Sum
 from django.http import HttpResponse, JsonResponse
 
-from channels.layers import get_channel_layer
-import asyncio
-
-from asgiref.sync import async_to_sync
-
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer, BaseRenderer
 from rest_framework.response import Response
@@ -35,6 +30,8 @@ from api.static.choices import choices
 import json
 import pandas as pd
 import os
+import threading
+
 
 HOME=os.getcwd()
 
@@ -93,6 +90,8 @@ class ServicesPriceViewSet(ModelViewSet):
 @api_view(['GET', 'POST'])
 @renderer_classes([JSONRenderer, BaseRenderer])
 def getServices(request):
+    from custom_admin.views import threadingProceedOrder
+    
     key = request.POST.get('key', None) or request.GET.get('key', None)
     action = request.POST.get('action', None) or request.GET.get('action', None)
     service = request.POST.get('service', None) or request.GET.get('service', None)
@@ -110,14 +109,6 @@ def getServices(request):
     orders = request.POST.get('orders', None) or request.GET.get('orders', None) or \
              request.POST.get('order', None) or request.GET.get('order', None)
 
-        
-    data={"key":key, "action":action, "service":service, "link":link, "quantity":quantity, "comments":comments }
-    print('4>> \nData_________>', data)
-    
-    
-    #data = JSONParser().parse(request)
-    #action = data.get('action', None)
-    #key = data.get('key', None)
     userKey = Token.objects.filter(key=key)
     
     if action=="add":            
@@ -125,34 +116,58 @@ def getServices(request):
             serviceObj = get_object_or_404(Services, service=service)
         except:
             return Response({'error': 'Service number not exists'}, status=400)
-
-        order_serializer = OrdersSerializers(data=data)
-        print('5 >>', order_serializer.is_valid())
-        if order_serializer.is_valid():
-            order_serializer.save(service=serviceObj)
-            proceed_order(order_serializer.data) #, serviceObj.comm ) # data, comm=action namelike 'usersToFollow'
-             
-            return Response({'order': order_serializer.data.get('id', None)}, status=200)
-        else:
-            return Response({'error': 'Order data(s) missing or wrong '},status=401) 
         
+        ## below actions is something like 'usersToFollow' or 'likes'
+        profil= userKey.first().user.profil  # type: ignore
+        data={"user":profil, "key":key, "action":serviceObj.comm, "service":serviceObj.name, "link":link, "quantity":quantity, "start_count":quantity, "remains":quantity, "comments":comments }
+        
+        print('look that: >>>', data)
+        OrderList.objects.create(**data)
+        # check OrderList creted
+        try:
+            order = OrderList.objects.filter(**data).first()
+        except Exception as e: 
+            order=e.__str__()
+        
+
+        # in order to process order in another thread need to remove some keys like 'user' and 'key', 
+        # and add 'sender' key
+        data.pop('user')
+        data.pop('key')
+        data.pop('service')
+        # add some keys
+        data['sender']=['R'] # R remote server
+        data['apikey']= key
+        data['order_id']= order.id
+        data['isFree']= False 
+        threading.Thread(target=threadingProceedOrder, args=(data, comments, quantity, order,)).start()
+        if order:
+            return Response({'order': order.id}, status=200)
+        else:
+            return Response({'error': 'Order not created'}, status=400)
+                
     if action=="status":
         # example orders: '22' or '22,23'
         print("orders   : ", orders)
         try:
             orders =[ int(i) for i in orders.split(',')]  # type: ignore
         except: return Response({'error': 'Order(s) numbers not exists'}, status=401)
-        stat=OrderList.objects.filter(id__in=orders).values('id', 'charge', 'start_count', 'status', 'remains', 'currency')
+        ordersStat=OrderList.objects.filter(id__in=orders).values('id', 'charge', 'start_count', 'status', 'remains', 'currency')
         
         result={}
-        if len(stat)==1:
-            print("stat  >>>>> ", stat[0] )
-            result = stat[0]
+        if len(orders)==1:
+            print("stat  >>>>> ", ordersStat )
+            result = ordersStat
+            if len(result)==0:
+                result={'error':'Incorrect order ID {}'.format(orders[0])}
+            else :
+                result=result[0]
+                result.pop('id')
             
-        elif len(stat)>1:
+        elif len(orders)>1:
             print( orders)
             for order in orders:
-                rr = [item for item in stat if item['id']==order]
+                rr = [item for item in ordersStat if item['id']==order]
                 result[str(order)] = rr[0] if len(rr)>0 else {"error": "Incorrect order ID"}
             for res in result:
                 try:
@@ -176,34 +191,6 @@ def getServices(request):
     serializer = ServiceSerializers(services, many=True)  
     return Response(serializer.data)
 
-
-"""
-class ServicesViewSet(ModelViewSet):
-    queryset=Services.objects.all()
-    serializer_class= ServiceSerializers
-    permissions_classes = [CustomPermission]
-    
-    def initialize_request(self, request, *args, **kwargs):
-        request = super().initialize_request(request, *args, **kwargs)
-        method = request.method.lower()
-        key = request.POST.get('key', None)  or request.GET.get('key', None)
-        action = request.POST.get('action', None) or request.GET.get('action', None)        
-        userKey = Token.objects.get(user=request.user)
-        print('Method : ',method, request, '\nKey : ',key,'->', userKey ,'\nAction : ', action)
-        
-        
-        if action=="services":
-            serializer = ServiceSerializers(Services.objects.all(), many=True)
-            print('>>>> ', serializer.data)
-            return request
-        if action=="add":
-            print('>>>>>>Add')
-            return request
-        if action=="status":
-            print('>>>>>>Statüs')
-            return request
-        return request
-"""
 
 class OrdersViewSet(ModelViewSet):
     queryset=OrderList.objects.all()
@@ -355,25 +342,6 @@ def update_location(request, *args, **kwargs):
         profil.save();
         return JsonResponse({'status': 'success', 'message': 'Location updated successfully', 'data': json.dumps(place)}, status=200)
 
-            
-def proceed_order(data):
-    message={
-        "action":"serverAction",
-        "sender":data.pop('sender'),
-        "receivers": data.pop('receivers'),
-        "message": data,        
-    }
-
-    print('proceed_order 363: Data...> ', message) 
-    channel_layer = get_channel_layer()
-    group_name = 'inchat'
-    async_to_sync(channel_layer.group_send)(
-        group_name,
-        {
-            'type': 'chat_message',
-            'message': message,
-        }
-    )
     
 def get_image_urls(request):
     # get list of files in the static/images directory    
