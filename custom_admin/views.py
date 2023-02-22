@@ -267,7 +267,9 @@ def sendMail2(subject,content,email):
 
 def instagramApps(request):
     versions = InstagramVersions.objects.all().order_by('-id')[0]
-    
+    # for the first time
+    if not versions: InstagramVersions.objects.create(version='0.0.0')
+        
     context={
         "title":"Instagram App işlemleri",
         "apps_islemleri": apps_islemleri,
