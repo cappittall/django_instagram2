@@ -299,7 +299,6 @@ def instagramApps(request):
 
 def dashboardView(request):
 
-
     if request.user.is_authenticated and request.user.is_superuser:
         
         accounts = InstagramAccounts.objects.all() # (user__is_superuser=False)
