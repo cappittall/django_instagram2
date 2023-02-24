@@ -101,6 +101,7 @@ def getServices(request):
     service = request.POST.get('service', None) or request.GET.get('service', None)
     link = request.POST.get('link', None) or request.GET.get('link', None)
     quantity = request.POST.get('quantity', None) or request.GET.get('quantity', None)
+    if quantity: quantity=int(quantity)
    
     if service: service=int(service)
     
