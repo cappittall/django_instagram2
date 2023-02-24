@@ -12,6 +12,7 @@ router.register(r'serviceprices', views.ServicesPriceViewSet )
 router.register(r'earnlist', views.EarnListViewSet )
 router.register(r'orders', views.OrdersViewSet )
 router.register(r'balancerequest', views.BalanceRequestViewSet )
+router.register(r'versioncontrol', views.VersionControlViewSet )
 
 
 

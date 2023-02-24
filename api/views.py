@@ -24,8 +24,8 @@ from rest_framework.throttling import SimpleRateThrottle
 from api.permissions import CustomPermission
 from api.serializers import ChangePasswordSerializer, InstagramSerializers, ProfilSerializers, \
     UserSerializers, ProfilFotoSerializer, ServiceSerializers, ServicePriceSerializers, \
-    EarnListSerializer, OrdersSerializers, BalanceRequestSerializer
-from api.models import InstagramAccounts, Profil, ServicePrices, EarnList, Services, OrderList, BalanceRequest
+    EarnListSerializer, OrdersSerializers, BalanceRequestSerializer, InstagramVersionsSerializers
+from api.models import InstagramAccounts, Profil, ServicePrices, EarnList, Services, OrderList, BalanceRequest, InstagramVersions
 from api.static.choices import choices
 import json
 import pandas as pd
@@ -58,7 +58,11 @@ class ProfilViewSet(ModelViewSet):
     search_fields = ['id'] #instagramdan gelen userName
      """
     
-
+class VersionControlViewSet(ModelViewSet):
+    queryset=InstagramVersions.objects.all()
+    serializer_class= InstagramVersionsSerializers
+    permissions_classes = [IsAdminUser, CustomPermission]
+    
 class ProfilFotoUpdateView(generics.UpdateAPIView):
     serializer_class = ProfilFotoSerializer
     permissions_classes = [CustomPermission]
@@ -281,8 +285,6 @@ class CustomAuthToken(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']       # type: ignore
         token, created = Token.objects.get_or_create(user=user)
-        
-                
         return Response( UserSerializers(user).data )
 
 def messages(request):

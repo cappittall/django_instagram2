@@ -1,4 +1,4 @@
-from api.models import InstagramAccounts, Profil, ServicePrices, Services, EarnList, OrderList, BalanceRequest
+from api.models import InstagramAccounts, Profil, ServicePrices, Services, EarnList, OrderList, BalanceRequest, InstagramVersions
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 
@@ -41,10 +41,6 @@ class ServiceSerializers(serializers.ModelSerializer):
         services = Services.objects.create(**validated_data)
         return services
     
-
-
-    
-        
 class OrdersSerializers(serializers.ModelSerializer):
     class Meta:
         model = OrderList
@@ -52,6 +48,14 @@ class OrdersSerializers(serializers.ModelSerializer):
           
     def create(self, validated_data):
         return OrderList.objects.create(**validated_data)
+
+class InstagramVersionsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = InstagramVersions
+        fields = '__all__'   
+          
+    def create(self, validated_data):
+        return InstagramVersions.objects.create(**validated_data)
     
 class EarnListSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
@@ -59,11 +63,8 @@ class EarnListSerializer(serializers.ModelSerializer):
         model = EarnList
         fields = '__all__'
         
-    def create(self, validated_data):
-        earning = EarnList.objects.create(**validated_data)
-        print('Earning : ', earning)
-                      
-        return earning  
+    def create(self, validated_data):                      
+        return EarnList.objects.create(**validated_data)  
       
 class BalanceRequestSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')

@@ -16,7 +16,7 @@ class Profil(models.Model):
     tc=models.CharField(max_length=15, blank=True, default='')
     iban=models.CharField(max_length=50, default='TR',  blank=True)
     bank=models.CharField(max_length=50, default='Banka', blank=True )
-    coin=models.CharField(max_length=50, default='USDT - TRC20 (Tron network) Addresi!', blank=True)
+    coin=models.CharField(max_length=50, default='', blank=True)
     coin_adresi=models.CharField(max_length=50,default='', blank=True)
     info = models.JSONField(default=dict, blank=True, null=True)
     place= models.JSONField(default=dict, blank=True, null=True)
@@ -69,6 +69,8 @@ class InstagramAccounts(models.Model):
     subLocality = models.CharField(default="", max_length=50, blank=True, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+    bot_user = models.BooleanField(default=False)
+    default_user = models.BooleanField(default=True)
     error=models.CharField(default="", max_length=50, blank=True, null=True)
     
     def __str__(self):

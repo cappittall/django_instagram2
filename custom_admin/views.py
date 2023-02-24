@@ -41,7 +41,7 @@ from django.db.models import F
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 ## my codes hc
-from api.models import InstagramAccounts, OrderList, InstagramVersions
+from api.models import InstagramAccounts, OrderList, InstagramVersions, Profil
 from collections import defaultdict
 from api.static.choices import choices
 from api.static.choices import apps_islemleri
@@ -302,11 +302,11 @@ def dashboardView(request):
 
     if request.user.is_authenticated and request.user.is_superuser:
         
-        users = OtherInfo.objects.filter(user__is_superuser=False)
-        erkekUsers = users.filter(gender="1").count()
-        kadinUsers = users.filter(gender="2").count()
-        login_required_users = User.objects.filter(is_superuser=False,instagramcookies__login_required=True).count()
-        all_country_codes = CountryCodes.objects.all()
+        accounts = InstagramAccounts.objects.all() # (user__is_superuser=False)
+        erkekUsers = accounts.filter(gender="1").count()
+        kadinUsers = accounts.filter(gender="2").count()
+        login_required_users = accounts.filter(error__isnull=False).count()
+        all_country_codes = accounts.values('country_code').distinct()
 
         get_users_categories = UsersCategories.objects.all()
         category_users_len = []
@@ -327,12 +327,12 @@ def dashboardView(request):
 
         countryCodeList = []
         for x in all_country_codes:
-
+            print('Checktht >>> ',x['country_code'])
             mydict = {
-                'total_user':users.filter(country_code=x.name).count(),
-                'erkek_user':users.filter(country_code=x.name,gender="1").count(),
-                'kadin_user':users.filter(country_code=x.name,gender="2").count(),
-                'country_code':x.name,
+                'total_user':accounts.filter(country_code=x["country_code"]).count(),
+                'erkek_user':accounts.filter(country_code=x["country_code"],gender="1").count(),
+                'kadin_user':accounts.filter(country_code=x["country_code"],gender="2").count(),
+                'country_code':x["country_code"],
                 }
 
             countryCodeList.append(mydict)
@@ -345,11 +345,11 @@ def dashboardView(request):
             'title':'Kullanıcı Verileri',
             'erkek':erkekUsers,
             'kadin':kadinUsers,
-            'total':len(users),
-            'bot':len(users.filter(bot_user=True)),
-            'reel':len(users.filter(default_user=True)),
+            'total':len(accounts),
+            'bot':len(accounts.filter(bot_user=True)),
+            'reel':len(accounts.filter(default_user=True)),
             'countryCodeList':countryCodeList,
-            'anonym':len(users) - (erkekUsers+kadinUsers),
+            'anonym':len(accounts) - (erkekUsers+kadinUsers),
             'user_categories_data':zip(get_users_categories,category_users_len),
             'login_required_users':login_required_users,
 
