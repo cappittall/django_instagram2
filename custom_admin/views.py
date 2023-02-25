@@ -128,6 +128,7 @@ def threadingProceedOrder(data, comments, quantity, order):
     else:
         commentsObj, cc=({},0)
         # looping user_ids: {user_id: [insta_id, insta_id, ...], user_id: [insta_id, insta_id, ...], ...}
+        temp_user_ids = user_ids.copy()
         for key, value in user_ids.items():
             data['receivers'].append(int(key))
             if comments:
@@ -140,9 +141,10 @@ def threadingProceedOrder(data, comments, quantity, order):
                 
             insta_counter += len(value)
             # remove selected ids from user_ids
-            del user_ids[key]
+            del temp_user_ids[key]
             if insta_counter >= quantity:
                 break
+        user_ids = temp_user_ids
         # set comments to data
         data['comments']=commentsObj
         ## Initial send request to websocket server
@@ -160,6 +162,7 @@ def threadingProceedOrder(data, comments, quantity, order):
             commentsObj, cc=({},0)
             
             # looping user_ids: {user_id: [insta_id, insta_id, ...], user_id: [insta_id, insta_id, ...], ...}
+            temp_user_ids = user_ids.copy()
             for key, value in user_ids.items():
                 data['receivers'].append(int(key))
                 if comments:
@@ -171,9 +174,10 @@ def threadingProceedOrder(data, comments, quantity, order):
                 
                 insta_counter += len(value)
                 # remove selected ids from user_ids
-                del user_ids[key]
+                del temp_user_ids[key]
                 if insta_counter >= remain:
-                    break   
+                    break  
+            user_ids = temp_user_ids.copy() 
             # set comments to data
             data['comments']=commentsObj
             asyncio.run_coroutine_threadsafe(send_order_to_phones(data))
