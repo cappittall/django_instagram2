@@ -353,10 +353,10 @@ def get_image_urls(request):
     # get host url automatically
     host1= request.build_absolute_uri('/static/most_earners/')
     print('>>>> auto host : ', host1)
-    image_urls = [host1 + image for image in os.listdir(f'{HOME}/api/static/most_earners') 
+    image_urls = [host1 + image for image in os.listdir(f'{HOME}/static/most_earners') 
                   if (image.endswith('.jpg') or image.endswith('.jpeg') or image.endswith('.png'))]
     image_urls.sort()
-    image_names=open(f'{HOME}/api/static/most_earners/names.txt', 'r').read().splitlines()
+    image_names=open(f'{HOME}/static/most_earners/names.txt', 'r').read().splitlines()
     data={"urls": image_urls, "names": image_names}
     
     return JsonResponse(data, safe=False)
