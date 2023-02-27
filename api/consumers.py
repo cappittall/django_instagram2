@@ -19,8 +19,16 @@ def my_background_task(data):
     print('2.1. data', data, type(data))
     ## 201 = alacak işlenmiş, 202 = free işlem   
     if int(data['alacak'])==201 or int(data['alacak'])==202:
+        
         OrderList.objects.filter( id=int(data['order_id']) ).update(remains=F('remains')-1)
         order = OrderList.objects.get(id=int(data['order_id']))
+        if order.start_count==0:
+            try: 
+                start_count = int(0 if data['followerCount']=='null' else data['followerCount']) + \
+                              int(0 if data['likeCount']=='null' else data['likeCount'] ) 
+                order.start_count = start_count
+            except: pass
+                                   
         status= "Completed" if order.remains <=0 else "Partial"
         order.status = status
         order.save()

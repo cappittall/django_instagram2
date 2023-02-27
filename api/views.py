@@ -124,7 +124,7 @@ def getServices(request):
         
         ## below actions is something like 'usersToFollow' or 'likes'
         profil= userKey.first().user.profil  # type: ignore
-        data={"user":profil, "key":key, "action":serviceObj.comm, "service":serviceObj.name, "link":link, "quantity":quantity, "start_count":quantity, "remains":quantity, "comments":comments }
+        data={"user":profil, "key":key, "action":serviceObj.comm, "service":serviceObj.name, "link":link, "quantity":quantity, "insta_start_count":quantity, "remains":quantity, "comments":comments }
         
         print('look that: >>>', data)
         OrderList.objects.create(**data)

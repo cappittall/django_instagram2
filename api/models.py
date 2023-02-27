@@ -109,7 +109,9 @@ class OrderList(models.Model):
     interval=models.CharField(max_length=200, null=True, blank=True)  #(optional)	Interval in minutes
     comments=models.TextField(null=True, blank=True)
     charge=models.FloatField(default=10, blank=True)             # ": "0.27819",
+    ## takip ve beğeni işlemlerinde kullanılacak
     start_count=models.IntegerField(default=0, null=True, blank=True)        #": "3572",
+    insta_start_count=models.IntegerField(default=0, null=True, blank=True)        #": "3572",
     status=models.CharField(max_length=20, default="", null=True, blank=True)             #": "Partial",
     remains=models.IntegerField(default=0, null=True, blank=True)            #": "157",
     currency=models.CharField(max_length=3, default="TRY", null=True, blank=True )           #": "TRY"

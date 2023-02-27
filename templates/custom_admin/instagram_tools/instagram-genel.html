@@ -26,8 +26,8 @@
 
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-<div style="position:fixed; top:0; right:300px; margin:15px; z-index:1999;" id="start_count" name="start_count">
-    <strong>{{ start_count }} Kişi</strong>
+<div style="position:fixed; top:0; right:300px; margin:15px; z-index:1999;" id="insta_start_count" name="insta_start_count">
+    <strong>{{ insta_start_count }} Kişi</strong>
 </div>
 
 <div name="hidden-elements" >
@@ -162,7 +162,7 @@
         }
         
         // write filtered length to context['title'] rendered above
-        document.getElementById('start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+        document.getElementById('insta_start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
         countElem.value = filtered_accounts.length;
     
     };
@@ -185,7 +185,7 @@
         }
         
         // write filtered length to context['title'] rendered above
-        document.getElementById('start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+        document.getElementById('insta_start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
         countElem.value = filtered_accounts.length;
 
     };
@@ -205,7 +205,7 @@
             });
         }
         // write filtered length to context['title'] rendered above
-        document.getElementById('start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+        document.getElementById('insta_start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
         countElem.value = filtered_accounts.length;
     };
         

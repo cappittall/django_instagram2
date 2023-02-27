@@ -99,7 +99,7 @@ def threadingProceedOrder(data, comments, quantity, order):
 
     insta_counter=0 
     total_instagram_acc_count = sorted_instagram_accounts.count()
-    OrderList.objects.filter( id=int(data['order_id']) ).update(start_count=total_instagram_acc_count)
+    OrderList.objects.filter( id=int(data['order_id']) ).update(insta_start_count=total_instagram_acc_count)
     user_ids = defaultdict(list)
     xx=[user_ids[str(x.profil.user.id)].append(x.id) for x in sorted_instagram_accounts]
     print('>> user ids...: ', xx, user_ids, ' -> ',list(user_ids.keys()))
@@ -192,7 +192,7 @@ def instagramGenel(request):
     instagram_accounts= InstagramAccounts.objects.all()
     context = {
         'title':'İnstagram Genel İşlemler',
-        'start_count': instagram_accounts.count(),
+        'insta_start_count': instagram_accounts.count(),
         'country': list(instagram_accounts.values('country').distinct()),
         'locality': list(instagram_accounts.values('locality').distinct()),
         'subLocality': list(instagram_accounts.values('subLocality').distinct()),
@@ -212,11 +212,11 @@ def instagramGenel(request):
         comments_text = request.POST['comments'] if 'comments' in request.POST else ''
         comments = comments_text.splitlines() if comments_text else []
         quantity = int(request.POST['takipci_quantity'])  or len(comments)
-        start_count = int(request.POST['start_count_input']) if 'start_count_input' in request.POST else 0
+        insta_start_count = int(request.POST['start_count_input']) if 'start_count_input' in request.POST else 0
         is_free = bool(request.POST['isFree']) if 'isFree' in request.POST else False
         apikey = request.user.profil.token   
         data={}
-        print("action: ", action, "isFree", is_free,  "link: ", link, "comments: ", comments, "quantity: ", quantity, "start_count: ", start_count, "apikey: ", apikey)
+        print("action: ", action, "isFree", is_free,  "link: ", link, "comments: ", comments, "quantity: ", quantity, "insta_start_count: ", insta_start_count, "apikey: ", apikey)
         # image or video file
         if 'file' in request.FILES:
             uploaded_file = request.FILES['file'] 
@@ -229,7 +229,7 @@ def instagramGenel(request):
                     destination.write(chunk)
                         
         order = OrderList.objects.create(user=request.user.profil,  action= action, service=choices[action], status="Pending" , 
-                                              start_count=start_count, comments=comments_text, quantity=quantity, remains=quantity, link=link, key=apikey)
+                                              insta_start_count=insta_start_count, comments=comments_text, quantity=quantity, remains=quantity, link=link, key=apikey)
         
         # initial sets
         data['country']= country
