@@ -36,7 +36,7 @@ import threading
 HOME=os.getcwd()
 
 ### Get price list from excel file
-df=pd.read_excel(f'{HOME}/api/static/excel/prices.xlsx', index_col=0)
+df=pd.read_excel(f'{HOME}/static/excel/prices.xlsx', index_col=0)
 service_prices=list( df.to_dict('dict').values() )
 
 
@@ -353,7 +353,7 @@ def get_image_urls(request):
     # get host url automatically
     host1= request.build_absolute_uri('/static/most_earners/')
     print('>>>> auto host : ', host1)
-    image_urls = [host1 + image for image in os.listdir(f'{HOME}/static/most_earners') 
+    image_urls = [f'{HOME}/static/most_earners/{image}' for image in os.listdir(f'{HOME}/static/most_earners') 
                   if (image.endswith('.jpg') or image.endswith('.jpeg') or image.endswith('.png'))]
     image_urls.sort()
     image_names=open(f'{HOME}/static/most_earners/names.txt', 'r').read().splitlines()
