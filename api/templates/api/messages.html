@@ -104,7 +104,8 @@ function connect(){
     messageSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         console.log('Check gelen data: ', data);
-        if (data['message']['action']=='mobileLocation') {
+        // no need to save full location, instead I sent it by post to database
+        /*if (data['message']['action']=='mobileLocation') {
             var userId = data['message']['sender'];
             var place = data['message']['message']
             users[userId] = {userId: userId, location : place, 
@@ -130,7 +131,7 @@ function connect(){
                 }
             }
 
-        } 
+        } */
         console.log('>>>> Consola yaz');
         document.querySelector('#message-log').value = ( 
             new Date().toLocaleString() + ": " + 
