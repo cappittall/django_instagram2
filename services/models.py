@@ -55,11 +55,17 @@ class CountryCodes(models.Model):
         ordering = ['-id']
         verbose_name_plural = 'Ülke Kodları'
 
+
 class UserPackpages(models.Model):
 
     name = models.CharField(verbose_name="Paket Adı",max_length=150)
     gender = models.ForeignKey(Genders,on_delete=models.CASCADE,verbose_name='Cinsiyet',null=True,blank=True)
     country_code =models.ForeignKey(CountryCodes,on_delete=models.CASCADE,verbose_name='Ülke Kodu',null=True,blank=True)
+    
+    country = models.CharField(default="", max_length=50, blank=True, null=True)
+    locality = models.CharField(default="", max_length=50, blank=True, null=True)
+    subLocality = models.CharField(default="", max_length=50, blank=True, null=True)    
+    
     category = models.ManyToManyField(UsersCategories,blank=True)
 
     def __str__(self):

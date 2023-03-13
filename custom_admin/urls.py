@@ -1,6 +1,6 @@
 
 from django.urls import path
-from .views import (instagramGenel, instagramSiparisler, instagramApps, deleteOrder, loginView,addInstagramUsers,dashboardView,apiOrdersView,
+from .views import (instagramGenel,loginView, instagramSiparisler, instagramApps, deleteOrder,addInstagramUsers,dashboardView,apiOrdersView,
                     instagramUsersList, notLoginUsersView, sendVideoView, successfulValueView,userPackpagesView,usersDataView,servicesview,
                     apiSettingsView,importUsersView,exportUsersView,editServicesView,editUserPackpagesView,seoSettingsView,homeManagerView,
                     addProxyView,clearAccountsView,sendFollowView,sendPostCommentView,sendPostLikeView,sendDMMessageView,sendCommentLiveView,
@@ -11,13 +11,18 @@ from .views import (instagramGenel, instagramSiparisler, instagramApps, deleteOr
                     errorUsersView,notLoginOldUsersView,smtpSettingsView,sendProfilMessageDmView,sendProfilMessageDmLinkView,sendDMTopluMessageFollowersView,
                     sendDMResimTopluMessageFollowersView,sendDMVideoTopluMessageFollowersView,sendDMIgtvTopluMessageFollowersView,sendDMReelTopluMessageFollowersView,
                     sendPostImageLinkDmFollowersView,sendPostVideoLinkDmFollowersView,sendPostIGTVLinkDmFollowersView,sendPostReelLinkDmFollowersView,sendProfilMessageDmFollowersView,
-                    sendProfilMessageDmLinkFollowersView,successfulValueEditView,successfulValueEditServiceView,sendProfileVisitView
+                    sendProfilMessageDmLinkFollowersView,successfulValueEditView,successfulValueEditServiceView,sendProfileVisitView,new_services_view,seoSettingsNewView,ajax_view,ajax_view_verify
                     )
 
 app_name = 'custom_admin'
 
 urlpatterns = [
     path('',loginView,name='login'),
+
+    path('ajax-sms/', ajax_view, name='ajax-sms'),
+    path('ajax-sms-verify/', ajax_view_verify, name='ajax-sms-verify'),
+
+
     path('user-categories/',userCategoryView,name='user-categories'),
     path('user-categories/edit/<id>/',editUserCategoryView,name='edit-user-categories'),
     path('user-categories/user-list/<id>/',usersCategoriesUserList,name='cat-user-list'),
@@ -37,9 +42,13 @@ urlpatterns = [
     
     path('api-orders/',apiOrdersView,name='api-orders'),
     path('services/',servicesview,name='services'),
+    path('new-services/',new_services_view,name='new-services'),
+
     path('services/edit/<int:id>/',editServicesView,name='edit-services'),
     path('users-list/',instagramUsersList,name='users-list'),
     path('seo-settings/',seoSettingsView,name='seo-settings'),
+    path('seo-settings-new/',seoSettingsNewView,name='seo-settings-new'),
+
     path('smtp-settings/',smtpSettingsView,name='smtp-settings'),
     path('article/',articleView,name='article'),
     path('update-cookie-txt/',updateTxtCookieView,name='update-cookie-txt'),

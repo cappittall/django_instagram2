@@ -94,6 +94,30 @@ class SeoSettings(models.Model):
 
         ordering = ['-id']
 
+class SeoSettingsNew(models.Model):
+    
+    google_tag = models.CharField(verbose_name="google tag kodu",max_length=100,blank=True,null=True)
+    
+    site_title = models.CharField(verbose_name="site başlığı",max_length=1000,blank=True,null=True)
+    description = models.CharField(verbose_name="description, açıklama",max_length=1000,blank=True,null=True)
+    keywords = models.CharField(verbose_name="keywords , anahtar kelimeler",max_length=1000,blank=True,null=True)
+
+    play_store_link = models.CharField(verbose_name='Play Store Linki',max_length=250,blank=True,null=True) 
+
+    company_name = models.CharField(verbose_name='Marka/Şirket Adı',max_length=50,blank=True,null=True) 
+    site_message = models.CharField(verbose_name='Site Sol Mesaj',max_length=1000,blank=True,null=True)
+
+    twitter_link = models.CharField(verbose_name='Twitter Linki',max_length=250,blank=True,null=True)
+    facebook_link = models.CharField(verbose_name='Facebook Linki',max_length=250,blank=True,null=True)
+    instagram_link = models.CharField(verbose_name='Instagram Linki',max_length=250,blank=True,null=True)
+
+    fav_icon =  models.ImageField(verbose_name='Fav İcon')
+
+
+    class Meta:
+
+        verbose_name_plural = "Seo ve Genel ayarlar (Yeni)"
+        ordering = ['-id']
 
 
 class NotLoginUsers(models.Model):
@@ -235,3 +259,32 @@ class MailSMTPInfo(models.Model):
 class VideoSayacLog(models.Model):
     order = models.ForeignKey(Orders,on_delete=models.CASCADE,verbose_name='order')
     sayac_value = models.IntegerField(verbose_name='sayac value',default=0)
+
+
+from django.contrib.auth.models import User
+
+class SmsLoginLog(models.Model):
+    
+    user = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='user')
+    ip = models.CharField(verbose_name='ip',max_length=50)
+    session_id = models.CharField(verbose_name='session_id',max_length=100)
+    code = models.CharField(verbose_name='Kod',max_length=6)
+    date = models.DateTimeField(auto_now_add=True,verbose_name='Tarih')
+    remaining = models.IntegerField(default=3,verbose_name='Kalan')
+
+    class Meta:
+
+        ordering = ['-date']
+        verbose_name_plural = 'SMS Onay Kodları'
+
+    
+
+class SMSApi(models.Model):
+
+    username = models.CharField(verbose_name='username',max_length=50)
+    password = models.CharField(verbose_name='password',max_length=50)
+
+    class Meta:
+    
+        ordering = ['-id']
+        verbose_name_plural = 'SMS Api Bilgileri'

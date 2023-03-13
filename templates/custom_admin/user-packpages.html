@@ -46,12 +46,44 @@
       {% endfor %}
     </select>
   </div>
+
+  <div id="ulke" class="field">
+    <label>{% trans 'Ülke ' %}</label>
+    <select  name="country_name" required  style="width: 100%;" id="country_name" class="form-control">
+        <option value="">---</option>
+        {% for c in country %}
+            <option value="{{ c.country }}">{{ c.country }} </option>
+        {% endfor %}
+    </select>
+    </div>
+    
+    <div id="sehir" class="field" style="display:none;">
+    <label>{% trans 'Şehir ' %}</label>
+    <select  name="locality_name"   style="width: 100%;" id="locality_name" class="form-control">
+        <option value="">---</option>
+        {% for c in locality %}
+            <option value="{{ c.locality }}">{{ c.locality }} </option>
+        {% endfor %}
+    </select>
+    </div>
+    
+    <div id="bolge" class="field" style="display:none;">
+    <label>{% trans 'Bölge ' %}</label>
+    <select  name="sublocality_name"   style="width: 100%;" id="sublocality_name" class="form-control">
+        <option value="">---</option>
+        {% for c in subLocality %}
+            <option value="{{ c.subLocality }}">{{ c.subLocality }} </option>
+        {% endfor %}
+    </select>
+    </div>
+    <br>
+<!--
   <label>{% trans 'Kullanıcı Kategorileri' %}</label>
 <select name="user_category" class="form-control style="width: 100%;" multiple id="">
   {% for x in user_categories_list %}
   <option value="{{ x.id }}">{{ x.category_name }}</option>
   {% endfor %}
-</select><br>
+</select><br>-->
   <div class="form-group">
     <div class="row">
       <div class="col-4">
@@ -84,6 +116,9 @@
               <th>{% trans 'Paket Adı' %} </th>
               <th>{% trans 'Kullanıcı Kategorileri' %}</th>
               <th>{% trans 'Ülke Kodu' %}</th>
+              <th>{% trans 'Ülke' %}</th>
+              <th>{% trans 'Şehir' %}</th>
+              <th>{% trans 'Bölge' %}</th>
               <th>{% trans 'Cinsiyet' %}</th>
               <th>{% trans 'Düzenle' %}</th>
               <th>{% trans 'Sil' %}</th>
@@ -104,6 +139,24 @@
               </td>
               <td class="text-center">{% if  packpage.country_code %}
                 {{ packpage.country_code.name }}
+              {% else %}
+                  -
+              {% endif %}
+              </td>
+              <td class="text-center">{% if  packpage.country %}
+                {{ packpage.country }}
+              {% else %}
+                  -
+              {% endif %}
+              </td>
+              <td class="text-center">{% if  packpage.locality %}
+                {{ packpage.locality }}
+              {% else %}
+                  -
+              {% endif %}
+              </td>
+              <td class="text-center">{% if  packpage.subLocality %}
+                {{ packpage.subLocality }}
               {% else %}
                   -
               {% endif %}
@@ -132,4 +185,81 @@
   </div>
 
 </div>
+
+
+<script>
+  const countElem = document.getElementById('start_count_input');
+  var instagram_accounts = JSON.parse('{{ instagram_accounts|escapejs }}')
+  const selectElement = document.getElementById('service_lists');
+  const countryElem = document.getElementById('country_name');
+  const localityElem = document.getElementById('locality_name');
+  const sublocalityElem = document.getElementById('sublocality_name');
+  const sehirElem = document.getElementById('sehir');
+  const bolgeElem = document.getElementById('bolge');
+
+  
+  countryElem.onchange = function() {
+      var selected_country_name = document.getElementById('country_name').value;
+      if (selected_country_name == '') {
+          sehirElem.style.display = 'none';
+          bolgeElem.style.display = 'none';
+          // unfilter all instagram accounts
+          var filtered_accounts = instagram_accounts
+      } else {
+          sehirElem.style.display = 'block';
+          // filter instagram accounts by country code
+          var filtered_accounts = instagram_accounts.filter(function(account) {
+              return account.country == selected_country_name;
+          });
+      }
+      
+      // write filtered length to context['title'] rendered above
+      document.getElementById('insta_start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+      countElem.value = filtered_accounts.length;
+  
+  };
+  localityElem.onchange = function() {
+      var selected_country_name = document.getElementById('country_name').value;
+      var selected_locality_name = document.getElementById('locality_name').value;
+  
+      if (selected_locality_name == '') {
+          bolgeElem.style.display = 'none';
+          var filtered_accounts = instangram_accounts.filter(function(account) {
+              return account.country == selected_country_name;
+          });
+      } else {
+          bolgeElem.style.display = 'block';
+          // filter instagram accounts by previous selected country code
+          var filtered_accounts = instagram_accounts.filter(function(account) {
+              return account.locality == selected_locality_name;
+          });
+
+      }
+      
+      // write filtered length to context['title'] rendered above
+      document.getElementById('insta_start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+      countElem.value = filtered_accounts.length;
+
+  };
+
+  sublocalityElem.onchange = function() {
+      var selected_locality_name = document.getElementById('locality_name').value;
+      var selected_sublocality_name = document.getElementById('sublocality_name').value;
+      
+      if (selected_sublocality_name == '') {
+          var filtered_accounts = instagram_accounts.filter(function(account) {
+              return account.locality == selected_locality_name;
+          });
+      } else {
+          // filter instagram accounts by previous selected country code
+          var filtered_accounts = instagram_accounts.filter(function(account) {
+              return account.subLocality == selected_sublocality_name;
+          });
+      }
+      // write filtered length to context['title'] rendered above
+      document.getElementById('insta_start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+      countElem.value = filtered_accounts.length;
+  };
+      
+</script>
 {% endblock %}

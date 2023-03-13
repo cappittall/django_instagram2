@@ -16,10 +16,14 @@ SECRET_KEY = 'django-insecure-%x508#=mrw*_c)5#2cup5k22j3b)ci)3b3g*5=n_j=0_t-uoi!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://127.0.0.1', "http://10.0.2.2", 'localhost', '192.168.1.154', 'https://inmansdj.herokuapp.com', 'https://euronature.com' ]
-
+#ALLOWED_HOSTS = ['http://127.0.0.1', "http://10.0.2.2", 'localhost', '192.168.1.154', 'https://inmansdj.herokuapp.com', 'https://euronature.com' ]
+ALLOWED_HOSTS = []
 #insta_image_url = 'instaggy.com'
 
+
+admin_sms_login = True
+custom_admin_url = 'custom_admin/'
+admin_url = 'admin/'
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
@@ -98,8 +102,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'django_instagram_bayi',
-        'USER':'rootadminbayi',
-        'PASSWORD':'prjvpc930ghuj',
+        'USER':'postgres',
+        'PASSWORD':'0000',
         'HOST':'127.0.0.1',
         'PORT':'5432',
     },
@@ -171,7 +175,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+STATICFILES_DIRS = [
+    (BASE_DIR / 'static')
+]
+
+STATIC_ROOT =(BASE_DIR / 'staticfiles/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media'

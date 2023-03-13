@@ -52,10 +52,183 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import asyncio
-            
-            
-            
- 
+from custom_admin.models import SmsLoginLog
+
+import random 
+from django.http import JsonResponse
+from custom_admin.models import SMSApi
+
+def sendSMSCode(phone,request,code):
+
+    get_last_api_item = SMSApi.objects.all().last()
+    if get_last_api_item:
+
+        username = get_last_api_item.username
+        passoword = get_last_api_item.password
+
+        data1 = ('<request>' +
+                '<authentication>' +
+                '<username>' + username + '</username>' +
+                '<password>' + passoword + '</password></authentication><order>' +
+                '<sender>' + 'TASDEMIRLER' + '</sender><sendDateTime></sendDateTime><message>' +
+                '<text><![CDATA[' + "{} sisteme giriş kodunuz : {}".format(request.META['HTTP_HOST'],str(code))  + ']]></text><receipents>' +
+                '<number>' + str(phone) + '</number></receipents></message></order></request>')
+
+        a = requests.post('http://api.iletimerkezi.com/v1/send-sms',data={'data': data1})
+        return a.status_code
+    
+    else:
+        return 404
+
+
+def generate_code():
+    code = random.choice(range(100000, 999999)) 
+    return code
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def ajax_view(request):
+    if request.method == 'POST':
+        
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            SmsLoginLog.objects.filter(user__username=username,ip=get_client_ip(request),session_id=request.session.session_key).delete()
+            code = generate_code()
+            if not request.session.session_key:
+                request.session.create()
+            SmsLoginLog.objects.create(user=user,code=code,ip=get_client_ip(request),session_id=request.session.session_key)
+            try:
+                status = sendSMSCode(user.otherinfo.phone,request,code)
+                print('status : ',status)
+                if status == 200:
+
+                    response_data = {
+                        'result': 'success',
+                        'login':'waiting',
+                        'user':username,
+                    }
+                else:
+                    response_data = {
+                        'result': 'error',
+                        'login':'failed',
+                        'message':'Sistem kaynaklı bir hata meydana geldi.',
+                    }                    
+            except:
+                response_data = {
+                    'result': 'error',
+                    'login':'failed',
+                    'message':'Sistem kaynaklı bir hata meydana geldi.',
+                }
+        else:
+            response_data = {
+                'result': 'error',
+                'message':'Kullanıcı adı veya şifre hatalı!',
+                'login':'failed',
+
+            }     
+        print(response_data)
+        return JsonResponse(response_data)         
+from datetime import datetime, timezone
+
+def ajax_view_verify(request):
+    
+    if request.method == 'POST':
+        
+        username = request.POST.get('verifyUsername')
+        code = request.POST.get('code')
+
+        print('username : ',username)
+        print('code : ',code)
+
+        if not request.session.session_key:
+            request.session.create()
+
+        last_log = SmsLoginLog.objects.filter(user__username=username,ip=get_client_ip(request),session_id=request.session.session_key).last()
+        print('control 1')
+        if last_log:
+            if last_log.remaining > 0:
+
+                control_date = datetime.now(timezone.utc) - last_log.date
+
+                print('control date : ',control_date)
+                get_minute = str(control_date).split(":")[1]
+                get_second = str(control_date).split(":")[2]
+                get_minute  = int(get_minute) * 60
+                get_second_time = float(get_second) + get_minute
+
+                print(get_second_time)
+
+                if get_second_time < 180:
+                    print('girilebilir')
+                    code_ok = True
+                else:
+                    last_log.delete()
+            else:
+
+                last_log.delete()
+        print('control 2')
+
+        last_log = SmsLoginLog.objects.filter(user__username=username,ip=get_client_ip(request),session_id=request.session.session_key).last()
+        if last_log:
+
+            get_code = request.POST.get('code','')
+            print('control 3')
+
+            if str(last_log.code) == str(get_code):
+                
+                login(request,last_log.user)
+                last_log.delete()
+
+                response_data = {
+                    'result':'success',
+                    'login':'success',
+                }
+            else:
+                print('control 4')
+
+                last_log.remaining -= 1
+                last_log.save()
+
+                response_data = {
+                    'result':'success',
+                    'login':'failed',
+                    'remaining':last_log.remaining,
+                }
+                print('control 5')
+
+                if last_log.remaining == 0:
+                    last_log.delete()
+
+        else:
+            print('control 6')
+
+            response_data = {
+                'result':'error',
+                'message':'Bilinmeyen bir hata oluştu.',
+
+            }
+    
+    else:
+        print('control 7')
+
+        response_data = {
+            'result':'error',
+            'message':'Bilinmeyen bir hata oluştu.',
+
+        }
+    print("response_data : ",response_data)
+    return JsonResponse(response_data) 
+
+        
  
 def send_order_to_phones(data):
    
@@ -304,7 +477,7 @@ def instagramApps(request):
 def dashboardView(request):
 
     if request.user.is_authenticated and request.user.is_superuser:
-        
+
         accounts = InstagramAccounts.objects.all() # (user__is_superuser=False)
         erkekUsers = accounts.filter(gender="1").count()
         kadinUsers = accounts.filter(gender="2").count()
@@ -1030,6 +1203,7 @@ def sendDMMessageView(request):
     
             username = request.POST.get('username', None)
             users_categories = request.POST.getlist('user_category')
+            
             username = username.replace('https://www.instagram.com/','')
             username = username.replace('/','')
 
@@ -2502,26 +2676,36 @@ def usersActivePasifView(request):
         }
 
         return render(request,'custom_admin/active-pasif-users.html',context)
+from core.settings import admin_sms_login
+
 
 
 def loginView(request):
 
     if request.user.is_authenticated == False:
-        if 'btnLogin' in request.POST:
+        not_login = False
+        if admin_sms_login == False:
 
-            username = request.POST['username']
-            password = request.POST['password']
+            if 'btnLogin' in request.POST:
 
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            if request.user.is_superuser:
+                username = request.POST['username']
+                password = request.POST['password']
 
-                return redirect('custom_admin:dashboard')
-            else:
-                return redirect('custom_admin:dashboard')
+                user = authenticate(username=username, password=password)
+                if user:
 
+                    login(request, user)
+                    if request.user.is_superuser:
+
+                        return redirect('custom_admin:dashboard')
+                    else:
+                        return redirect('custom_admin:dashboard')
+                else:
+                    not_login = True
         context = {
-            'title':'Admin Login'
+            'title':'Admin Login',
+            'admin_sms_login':admin_sms_login,
+            'not_login':not_login,
         }
 
         return render(request, "custom_admin/login.html", context)
@@ -2788,17 +2972,41 @@ def usersCategoriesUserList(request,id):
 
 def editUserPackpagesView(request,id):
     if request.user.is_authenticated and request.user.is_superuser:
+
+        instagram_accounts= InstagramAccounts.objects.all()
+
         packpages = get_object_or_404(UserPackpages,id=id)
         
         form = UpdatePackpageform(request.POST or None,instance=packpages)
 
         if form.is_valid():
-            form.save()
+
+            country_name = request.POST.get('country_name',None)
+            locality_name = request.POST.get('locality_name',None)
+            subLocality_name = request.POST.get('sublocality_name',None)
+
+            if country_name == "" or country_name == None:
+                locality_name = None
+                country_name = None
+            if locality_name == "" or locality_name == None:
+                subLocality_name = None
+            print(country_name,locality_name,subLocality_name)
+            formCommit = form.save(commit=False)
+            formCommit.country = country_name
+            formCommit.locality = locality_name
+            formCommit.subLocality = subLocality_name
+            formCommit.save()
 
             return redirect('custom_admin:user-packpages')
         context = {
             'title':'Kullanıcı Paketi Düzenle' + '{}'.format(packpages.name),
             'form':form,
+            'packpages':packpages,
+            'country': list(instagram_accounts.values('country').distinct()),
+            'locality': list(instagram_accounts.values('locality').distinct()),
+            'subLocality': list(instagram_accounts.values('subLocality').distinct()),
+            'instagram_accounts':json.dumps(list(InstagramAccounts.objects.values('country_code', 'country', 'locality', 'subLocality')))
+
         }
         return render(request,'custom_admin/edit-packpages.html',context)    
 
@@ -2807,6 +3015,9 @@ def editUserPackpagesView(request,id):
 
 def userPackpagesView(request):
     if request.user.is_authenticated and request.user.is_superuser:
+
+        starting = False
+        instagram_accounts= InstagramAccounts.objects.all()
 
         creating = False
         user_categories_list = UsersCategories.objects.all()
@@ -2827,6 +3038,13 @@ def userPackpagesView(request):
             gender = request.POST.get('selectGender',None)
             country_code = request.POST.get('selectCountry',None)
             get_user_cateogories_ids = request.POST.getlist('user_category',None)
+            country_name = request.POST.get('country_name',None)
+            locality_name = request.POST.get('locality_name',None)
+            subLocality_name = request.POST.get('sublocality_name',None)
+
+
+
+
             get_categories = None
             if get_user_cateogories_ids:
                 get_categories = UsersCategories.objects.filter(id__in=get_user_cateogories_ids)
@@ -2840,7 +3058,8 @@ def userPackpagesView(request):
 
                 country = get_object_or_404(CountryCodes,id=int(country_code))
 
-            us_p = UserPackpages.objects.create(name=packpageName,gender=gend,country_code=country)
+            us_p = UserPackpages.objects.create(name=packpageName,gender=gend,country_code=country,country=country_name,locality=locality_name,subLocality=subLocality_name)
+            
             if get_categories:
                 us_p.category.add(*get_categories)
                 us_p.save()
@@ -2853,6 +3072,12 @@ def userPackpagesView(request):
             'country_codes':country_codes_db,
             'all_packpages':all_packpages,
             'user_categories_list':user_categories_list,
+
+            'country': list(instagram_accounts.values('country').distinct()),
+            'locality': list(instagram_accounts.values('locality').distinct()),
+            'subLocality': list(instagram_accounts.values('subLocality').distinct()),
+            'instagram_accounts':json.dumps(list(InstagramAccounts.objects.values('country_code', 'country', 'locality', 'subLocality')))
+
         }
         return render(request,'custom_admin/user-packpages.html',context)
 
@@ -2940,19 +3165,75 @@ def servicesview(request):
     else:
         raise Http404('not found')
 
+from api.models import Services as api_services
+
+def new_services_view(request):
+
+    if request.user.is_authenticated and request.user.is_superuser:
+        user_packpages_db = UserPackpages.objects.all()
+        #category_db = ServiceCategory.objects.all()
+        
+        all_services = api_services.objects.all()
+
+        for x in all_services:
+            btnName = "btn{}".format(x.service)
+            if btnName in request.POST:
+                x.delete()
+                return redirect('custom_admin:new-services')
+
+        if 'btnCreate' in request.POST:
+
+
+            name = request.POST['name']
+            user_packpages = request.POST.get('user_packpages',None)
+            min_ = request.POST['min']
+            max_ = request.POST['max']
+            rate_ = request.POST['rate']
+            category = request.POST['category']
+
+
+            packpages = None
+            if user_packpages:
+
+                packpages = get_object_or_404(UserPackpages,id=int(user_packpages))
+
+            api_services.objects.create(name=name,packpages=packpages,category=category,min=min_,max=max_,rate=rate_)
+            return redirect('custom_admin:new-services')
+        
+        context = {
+            
+            'title':'Servisler',
+            'user_packpages_db':user_packpages_db,
+            #'category_db':category_db,
+            'service_lists':choices,
+            'services':all_services,
+        }
+
+        return render(request,'custom_admin/services_new.html',context)
+    else:
+        raise Http404('not found')
+
+
+
+
 def editServicesView(request,id):
     
     if request.user.is_authenticated and request.user.is_superuser:
-        service = get_object_or_404(Services,service=id)
+        service = get_object_or_404(api_services,service=id)
         form = UpdateServiceform(request.POST or None,instance=service)
 
         if form.is_valid():
-            form.save()
+            get_category = request.POST.get('category',None)
+            if get_category:
+                form_commit = form.save(commit=False)
+                form_commit.category = get_category
+                form_commit.save()
 
-            return redirect('custom_admin:services')
+            return redirect('custom_admin:new-services')
         context = {
             'title':'Servis Düzenle' + " " +  '{}'.format(service.name),
             'service':service,
+            'service_lists':choices,
             'form':form,
         }
         return render(request,'custom_admin/edit-services.html',context)
@@ -2960,19 +3241,16 @@ def editServicesView(request,id):
     else:
         raise Http404('not found')
 
+from rest_framework.authtoken.models import Token
+
 def apiSettingsView(request):
     
     if request.user.is_authenticated and request.user.is_superuser:
         
-
-        createdkey = None
-        
+        uKey = Token.objects.filter(user=request.user).last()
         if 'btnCreate' in request.POST:
-            createdkey = binascii.hexlify(os.urandom(20)).decode()
-            Keys.objects.all().delete()
-            api = Keys.objects.create(
-                createdby=request.user, key=createdkey)
-            api.save()
+            Token.objects.filter(user=request.user).delete()
+            uKey = Token.objects.create(user=request.user)
 
         elif request.method == 'POST':
             search_user = request.POST['search_user']
@@ -2980,7 +3258,7 @@ def apiSettingsView(request):
             return redirect('user:user-page',username=search_user)
 
         context = {
-            'api_key': createdkey,
+            'uKey': uKey,
             'title':'Api Ayarları'
         }
         return render(request, 'custom_admin/api-settings.html', context)
@@ -3340,7 +3618,36 @@ def seoSettingsView(request):
         return render(request,'custom_admin/seo-settings.html',context)
     else:
         raise Http404('not found')
+from .forms import SeoNewForm
+from .models import SeoSettingsNew
+def seoSettingsNewView(request):
+    
 
+    if request.user.is_authenticated and request.user.is_superuser:
+        
+        last_seo = SeoSettingsNew.objects.all().last()
+
+        seo_form_obj = SeoNewForm(request.POST or None, request.FILES or None,instance=last_seo)
+
+        if 'seoCreate' in request.POST:
+            seo_form_obj.save()
+            #SeoSettings.objects.create(google_tag=request.POST['google_tag'],ana_title=request.POST['ana_title'],description=request.POST['description'],keywords=request.POST['keywords'])
+            return redirect('custom_admin:seo-settings-new')
+
+        elif 'lastSeoUpdate' in request.POST:
+            seo_form_obj.save()
+
+            return redirect('custom_admin:seo-settings-new')
+
+        context = {
+            'title':'Seo Ayarları',
+            'last_seo':last_seo,
+            'filesForm':seo_form_obj,
+        }
+
+        return render(request,'custom_admin/seo-settings.html',context)
+    else:
+        raise Http404('not found')
 
 
 def smtpSettingsView(request):

@@ -17,43 +17,255 @@
 
     <div class="container">
         <!--Container-->
+        {% if admin_sms_login %}
         <div class="login-container is-centered">
             <div class="columns is-vcentered">
                 <div class="column">
 
-                    <h2 class="form-title has-text-centered">{% trans 'Hoşgeldin' %}</h2>
-
+                    <h1 class="form-title has-text-centered">{% trans 'Hoşgeldin' %}</h1>
+                    <br>
+                        <div class="has-text-centered"  style="display: none;" id="redirect_page"><a href="{% url 'custom_admin:login' %}">Panele yönlendirilmediyseniz tıklayın.</a></span></div>
+                        <div class="has-text-centered">
+                        <span class="has-text-centered" style="color:rgb(206, 58, 58)" style="display: none;" id="error_message"></span>
+                    </div>
+                        <br>
+                    <div style="display: none;" id="errorcard">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="has-text-centered" >Tüm denemeler başarısız, başarısız işlemlere devam ederseniz kısıtlama alacaksınız. <br><a href="{% url 'custom_admin:login' %}">Tekrar giriş yapmayı dene</a></div>
+                        </div>
+                    </div>
+                </div>
                     <!--Form-->
-                    <form method="POST">
-                        {% csrf_token %}
+                    <form id="ajax-login-form" method="POST">
                     <div class="login-form">
+                        {% csrf_token %}
                         <div class="form-panel">
                             <div class="field">
                                 <label>{% trans 'Kullanıcı Adı' %}</label>
                                 <div class="control">
-                                    <input type="text" name="username" class="input" placeholder="{% trans 'E-posta adresinizi giriniz' %}">
+                                    <input type="text" required id="username" name="username" class="input" placeholder="{% trans 'Kullanıcı Adınızı Giriniz' %}">
                                 </div>
                             </div>
                             <div class="field">
                                 <label>{% trans 'Parola' %}</label>
                                 <div class="control">
-                                    <input type="password" name="password" class="input" placeholder="{% trans 'Şifrenizi girin' %}">
+                                    <input type="password" required name="password" class="input" placeholder="{% trans 'Şifrenizi girin' %}">
                                 </div>
                             </div>
-                          
-                        </div>
-                        <div>
-                            <br>
-                        </div>
-                        <div class="buttons">
-                            <button type="submit" name="btnLogin" class="button is-solid primary-button is-fullwidth raised">{% trans 'Giriş Yap' %}</a>
-                        </div>
+                        </div><br>
+                        <button type="submit" class="button is-solid primary-button is-fullwidth raised" value="Submit">Giriş</button>
+                      
                       
                     </div>
                 </form>
-                </div>
+
+                <form style="display:none;" id="ajax-login-verify-form" method="POST">
+                    <div>
+                        {% csrf_token %}
+                        <input type="text" id="verifyUsername" hidden  value="" name="verifyUsername">
+                        <div class="field">
+                            <label id="lbSMSVerify">{% trans 'SMS Onay Kodu' %}*</label>
+                            <div class="control">
+                                <input type="text" required id="code" disabled name="code" class="input" placeholder="{% trans 'SMS Onay Kodu' %}">
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="text-center">
+                        <p>{% trans 'Onay kodu gönderildi.' %} <b><span id="saniye"></span></b> <span class="text-danger" id="uyari"></span></p><br>
+                        <p>{% trans 'Kalan deneme hakkı' %} : <b><span id="remaining">3</span></b> <span class="text-danger" id="uyari2"></span></p><br>
+
+                    </div>
+                   
+                    <button type="submit" class="button is-solid primary-button is-fullwidth raised" value="Submit">Girişi Onayla</button>
+
+                </form>
+               
+
+              
             </div>
         </div>
     </div>
+    {% else %}
+          
+    <div class="login-container is-centered">
+        <div class="columns is-vcentered">
+            <div class="column">
+              
+                <h1 class="form-title has-text-centered">{% trans 'Hoşgeldin' %}</h1>
+                <br>
+                <!--Form-->
+                {% if not_login %}
+                <p class="has-text-centered" style="color:rgb(206, 58, 58)">Giriş bilgileri hatalı.</p><br>
+            {% endif %}
+                <form method="POST">
+                <div class="login-form">
+                    {% csrf_token %}
+                    <div class="form-panel">
+                        <div class="field">
+                            <label>{% trans 'Kullanıcı Adı' %}</label>
+                            <div class="control">
+                                <input type="text" required id="username" name="username" class="input" placeholder="{% trans 'Kullanıcı Adınızı Giriniz' %}">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>{% trans 'Parola' %}</label>
+                            <div class="control">
+                                <input type="password" required name="password" class="input" placeholder="{% trans 'Şifrenizi girin' %}">
+                            </div>
+                        </div>
+                    </div><br>
+                    <button name="btnLogin" type="submit" class="button is-solid primary-button is-fullwidth raised">Giriş</button>
+                  
+                  
+                </div>
+            </form>
+
+           
+
+          
+        </div>
+    </div>
 </div>
+    {% endif %}
+</div>
+
+
+
+
+{% if admin_sms_login %}
+
+<!-- JavaScript Kodu -->
+<script type="text/javascript">
+
+
+    $(document).ready(function(){
+        $('#ajax-login-form').on('submit', function(event){
+            event.preventDefault();
+            $.ajax({
+                url : "{% url 'custom_admin:ajax-sms' %}",
+                type : 'POST',
+                data : $('#ajax-login-form').serialize(),
+                success : function(data) {
+                    if (data.result == 'success'){
+                        startinterval(data);
+                    }
+                    smsSuccessFirt(data);
+
+
+                },
+                error: function(data) {
+                    alert('İstek başarısız!');
+                },
+                
+            });
+        });
+    });
+
+
+
+    $(document).ready(function(){
+        $('#ajax-login-verify-form').on('submit', function(event){
+            event.preventDefault();
+            $.ajax({
+                url : "{% url 'custom_admin:ajax-sms-verify' %}",
+                type : 'POST',
+                data : $('#ajax-login-verify-form').serialize(),
+                success : function(data) {
+                    smsSuccess(data);
+                },
+                error: function(data) {
+                    alert('İstek başarısız!');
+                },
+                
+            });
+        });
+    });
+
+    function smsSuccess(data){
+        document.querySelector('#code').disabled = false;
+        document.getElementById("ajax-login-verify-form").style.display = 'inline';
+        document.getElementById("ajax-login-form").style.display = 'none';
+        if (data.result == "error"){
+            document.getElementById("error_message").style.display = 'inline';
+            document.getElementById('error_message').innerHTML=data.message;	
+        }
+        else{
+
+        
+        if (data.login == "success"){
+            
+            document.getElementById("redirect_page").style.display = 'inline';
+            window.location = "{% url 'custom_admin:login' %}"
+        }
+        
+        else {
+            if (data.remaining != null){
+            
+            document.getElementById('remaining').innerHTML=data.remaining;	
+            }
+            if (data.remaining < 1){
+                document.querySelector('#code').disabled = true;
+                document.getElementById("ajax-login-verify-form").style.display = 'none';
+                document.getElementById("errorcard").style.display = 'inline';
+                
+            }
+        }
+
+        }
+        }
+
+
+    function smsSuccessFirt(data){
+        if (data.result == "error"){
+            
+            document.getElementById("error_message").style.display = 'inline';
+            document.getElementById('error_message').innerHTML=data.message;		
+
+        }
+        else{
+
+            document.querySelector('#code').disabled = false;
+            document.getElementById("ajax-login-verify-form").style.display = 'inline';
+            document.getElementById("ajax-login-form").style.display = 'none';
+
+            document.getElementById("error_message").style.display = 'none';
+            document.getElementById('error_message').innerHTML=""	
+
+    }
+
+    }
+
+
+
+    </script>
+
+<script type="text/javascript">
+
+    var deger;
+    var saniye = 181;
+    function saniyeDurdur()
+      {
+        window.clearInterval(deger);
+      }
+    function saniyeBaslat()
+    {
+        saniye --;
+        if(saniye >=0){
+            document.getElementById('saniye').innerHTML=saniye;
+        }else{
+            window.clearInterval(deger);
+            document.getElementById('uyari').innerHTML="Süreniz bitti!";		
+        }
+    }
+    
+
+    function startinterval(data){
+        var deger=window.setInterval('saniyeBaslat()',1000);
+        document.getElementById("verifyUsername").value = data.user;
+
+    }
+    </script>
+    {% endif %}
+
 {% endblock %}

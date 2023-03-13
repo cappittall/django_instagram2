@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="{% static 'custom_admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
   <link rel="stylesheet" href="{% static 'custom_admin/dist/css/adminlte.min.css' %}">
   <script src="{% static 'assets/jquery-1.6.min.js' %}"></script>
-
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -54,7 +53,7 @@
 
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <div class="text-center">
-    <a href="{% url 'home' %}" class="brand-link">
+    <a href="{% url 'index' %}" class="brand-link">
       <img src="{{ admin_logo.url }}" width="150" class="img-fluid" alt="">
     </a>
   </div>
@@ -106,57 +105,11 @@
                     
                 </ul>
               </li>
-
-
-
-              
-              
-               <li class="nav-item">
-                <a href="{% url 'custom_admin:users-list' %}" class="nav-link">
-                  <i class="nav-icon fa fa-users"></i>
-                  <p>
-                    {% trans "Instagram Kullanıcı Listesi" %}
-                  </p>
-                </a>
-              </li>
               <li class="nav-item">
-                <a href="{% url 'custom_admin:add-users' %}" class="nav-link">
-                  <i class="nav-icon fa fa-user-plus"></i>
+                <a href="{% url 'custom_admin:new-services' %}" class="nav-link">
+                  <i class="nav-icon fa fa-plus-square"></i>
                   <p>
-                    {% trans "Instagram Kullanıcı Ekle" %}
-                  </p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="{% url 'custom_admin:notlogin-users' %}" class="nav-link">
-                  <i class="nav-icon fa fa-user-times"></i>
-                  <p>
-                    {% trans "Login Olamamış Yeni Hesaplar" %}
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'custom_admin:notlogin-old-users' %}" class="nav-link">
-                  <i class="nav-icon fa fa-user-times"></i>
-                  <p>
-                    {% trans "Login Olamamış Eski Hesaplar" %}
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'custom_admin:api-settings' %}" class="nav-link">
-                  <i class="nav-icon fa fa-wrench"></i>
-                  <p>
-                    {% trans "Api Ayarları" %}
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'custom_admin:successful-value' %}" class="nav-link">
-                  <i class="nav-icon fa fa-wrench"></i>
-                  <p>
-                    {% trans "Başarılı İşlem Kayıtları" %}
+                    {% trans "Yeni Servis Sistemi" %}
                   </p>
                 </a>
               </li>
@@ -168,6 +121,67 @@
                   </p>
                 </a>
               </li>
+
+              <!--
+               <li class="nav-item">
+                <a href="{% url 'custom_admin:users-list' %}" class="nav-link">
+                  <i class="nav-icon fa fa-users"></i>
+                  <p>
+                    {% trans "Instagram Kullanıcı Listesi" %}
+                  </p>
+                </a>
+              </li>
+               -->
+              <!--
+              <li class="nav-item">
+                <a href="{% url 'custom_admin:add-users' %}" class="nav-link">
+                  <i class="nav-icon fa fa-user-plus"></i>
+                  <p>
+                    {% trans "Instagram Kullanıcı Ekle" %}
+                  </p>
+                </a>
+              </li>
+                -->
+                <!--
+              <li class="nav-item">
+                <a href="{% url 'custom_admin:notlogin-users' %}" class="nav-link">
+                  <i class="nav-icon fa fa-user-times"></i>
+                  <p>
+                    {% trans "Login Olamamış Yeni Hesaplar" %}
+                  </p>
+                </a>
+              </li>
+              -->
+              <!--
+              <li class="nav-item">
+                <a href="{% url 'custom_admin:notlogin-old-users' %}" class="nav-link">
+                  <i class="nav-icon fa fa-user-times"></i>
+                  <p>
+                    {% trans "Login Olamamış Eski Hesaplar" %}
+                  </p>
+                </a>
+              </li>
+              -->
+              <li class="nav-item">
+                <a href="{% url 'custom_admin:api-settings' %}" class="nav-link">
+                  <i class="nav-icon fa fa-wrench"></i>
+                  <p>
+                    {% trans "Api Ayarları" %}
+                  </p>
+                </a>
+              </li>
+              <!--
+              <li class="nav-item">
+                <a href="{% url 'custom_admin:successful-value' %}" class="nav-link">
+                  <i class="nav-icon fa fa-wrench"></i>
+                  <p>
+                    {% trans "Başarılı İşlem Kayıtları" %}
+                  </p>
+                </a>
+              </li>
+               -->
+               
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:services' %}" class="nav-link">
                   <i class="nav-icon fa fa-plus-square"></i>
@@ -176,6 +190,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:active-pasif-users' %}" class="nav-link">
                   <i class="nav-icon fa fa-users"></i>
@@ -184,6 +200,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:user-categories' %}" class="nav-link">
                   <i class="nav-icon fa fa-bars"></i>
@@ -192,6 +210,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:seo-settings' %}" class="nav-link">
                   <i class="nav-icon fa fa-bars"></i>
@@ -200,6 +220,16 @@
                   </p>
                 </a>
               </li>
+              -->
+              <li class="nav-item">
+                <a href="{% url 'custom_admin:seo-settings-new' %}" class="nav-link">
+                  <i class="nav-icon fa fa-envelope"></i>
+                  <p>
+                    {% trans "Yeni Seo Ayarları" %}
+                  </p>
+                </a>
+              </li>
+              <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:smtp-settings' %}" class="nav-link">
                   <i class="nav-icon fa fa-envelope"></i>
@@ -208,6 +238,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:add-proxy' %}" class="nav-link">
                   <i class="nav-icon fa fa-bolt"></i>
@@ -216,6 +248,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:api-orders' %}" class="nav-link">
                   <i class="nav-icon fa fa-suitcase"></i>
@@ -224,6 +258,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:api-order-affirmations' %}" class="nav-link">
                   <i class="nav-icon fa fa-edit"></i>
@@ -232,6 +268,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:api-contact' %}" class="nav-link">
                   <i class="nav-icon fa fa-clone"></i>
@@ -240,6 +278,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:mention-control' %}" class="nav-link">
                   <i class="nav-icon fa fa-address-card"></i>
@@ -248,6 +288,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:users-scanner' %}" class="nav-link">
                   <i class="nav-icon fa fa-search"></i>
@@ -256,6 +298,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:error-users' %}" class="nav-link">
                   <i class="nav-icon fa fa-user-times"></i>
@@ -264,6 +308,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:import-users' %}" class="nav-link">
                   <i class="nav-icon fa fa-reply"></i>
@@ -272,6 +318,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:export-users' %}" class="nav-link">
                   <i class="nav-icon fa fa-share"></i>
@@ -280,6 +328,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:clear-accounts' %}" class="nav-link">
                   <i class="nav-icon fa fa-user-times"></i>
@@ -288,6 +338,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:update-cookie-txt' %}" class="nav-link">
                   <i class="nav-icon fa fa-retweet"></i>
@@ -296,6 +348,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:article' %}" class="nav-link">
                   <i class="nav-icon fa fa-sticky-note"></i>
@@ -304,6 +358,8 @@
                   </p>
                 </a>
               </li>
+              -->
+                <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:home-manager' %}" class="nav-link">
                   <i class="nav-icon fa fa-home"></i>
@@ -312,6 +368,7 @@
                   </p>
                 </a>
               </li>
+              -->
 
         </ul>
       </nav>

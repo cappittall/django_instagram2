@@ -79,9 +79,11 @@ class InstagramAccounts(models.Model):
     class Meta:
         verbose_name_plural="instagram"
 
+from services.models import UserPackpages
 
 class Services(models.Model):
     service = models.AutoField(primary_key=True, verbose_name="Id")
+    packpages = models.ForeignKey(UserPackpages,related_name="packpage",on_delete=models.CASCADE,verbose_name="Kullanıcı Paketi",null=True,blank=True)
     name = models.CharField(max_length=200, null=True, blank=True)
     comm = models.CharField(max_length=30, null=True,blank=True)
     type = models.CharField(max_length=200, default='Default')

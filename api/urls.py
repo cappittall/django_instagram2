@@ -19,7 +19,6 @@ router.register(r'versioncontrol', views.VersionControlViewSet )
 
 urlpatterns = [
     # Below imported more functional user paths 
-    path('', views.index, name='index'),
     path('api/', include(router.urls) ),
     path('update-location/', views.update_location, name="update-location"),  # type: ignore
     path('get_image_urls/', views.get_image_urls, name="get-image-urls"),  # type: ignore

@@ -99,7 +99,11 @@ def getServices(request):
     key = request.POST.get('key', None) or request.GET.get('key', None)
     action = request.POST.get('action', None) or request.GET.get('action', None)
     service = request.POST.get('service', None) or request.GET.get('service', None)
+
     link = request.POST.get('link', None) or request.GET.get('link', None)
+    
+        
+
     quantity = request.POST.get('quantity', None) or request.GET.get('quantity', None)
     if quantity: quantity=int(quantity)
    
@@ -145,7 +149,10 @@ def getServices(request):
         data['apikey']= key
         data['order_id']= order.id
         data['isFree']= False 
-        
+
+        data['country']= serviceObj.packpages.country
+        data['locality']= serviceObj.packpages.locality
+        data['subLocality']= serviceObj.packpages.subLocality
         threading.Thread(target=threadingProceedOrder, args=(data, comments, quantity, order,)).start()
         if order:
             return Response({'order': order.id}, status=200)
@@ -294,9 +301,11 @@ def messages(request):
     context['choices']= choices
     # {c[0]:c[1] for c in Services.objects.values_list('comm', 'name')}
     return render(request, 'api/messages.html', context=context)
-
+from custom_admin.models import SeoSettingsNew
 def index(request):
-    context = {}
+
+    seo = SeoSettingsNew.objects.all().last()
+    context = {'seo':seo}
     template = 'api/index.html'
     return render(request, template, context)
 

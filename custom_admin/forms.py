@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import models
-from .models import ImportFiles,SeoSettings,Article,Mentions,UsersScanner
+from .models import ImportFiles,SeoSettings,Article,Mentions,UsersScanner,SeoSettingsNew
 from services.models import Services, UserPackpages
 from user.models import UsersCategories
 from .models import MailSMTPInfo
@@ -52,6 +52,14 @@ class seoFilesForm(forms.ModelForm):
 
         fields  = ['google_tag','ana_title','description','keywords','site_logo','admin_logo','fav_icon','proxy_limit','proxy_limit_video','proxy_limit_login','user_balance','user_logins','process_queue_disabled']
 
+class SeoNewForm(forms.ModelForm):
+
+    class Meta:
+        model = SeoSettingsNew
+
+        fields  = '__all__'
+
+
 class ArticleForm(forms.ModelForm):
     
     class Meta:
@@ -59,17 +67,17 @@ class ArticleForm(forms.ModelForm):
 
         fields  = ['content']
 
-
+from api.models import Services as api_services
 
 class UpdateServiceform(forms.ModelForm):
 
     class Meta:
-        model = Services
-        fields  = ['packpages','category','name','min','max','rate']
+        model = api_services
+        fields  = ['packpages','name','min','max','rate']
 
 
 class UpdatePackpageform(forms.ModelForm):
     
     class Meta:
         model = UserPackpages
-        fields  = ['name','gender','country_code','category']
+        fields  = ['name','gender','country_code']
