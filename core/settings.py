@@ -20,10 +20,11 @@ DEBUG = True
 ALLOWED_HOSTS = []
 #insta_image_url = 'instaggy.com'
 
-
-admin_sms_login = True
+site_url = 'test.com'
+admin_sms_login = False
 custom_admin_url = 'custom_admin/'
 admin_url = 'admin/'
+ref_earn = 2.5 #% türü
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
@@ -101,7 +102,7 @@ FILE_UPLOAD_HANDLERS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_instagram_bayi',
+        'NAME': 'django_instagram_socket',
         'USER':'postgres',
         'PASSWORD':'0000',
         'HOST':'127.0.0.1',
@@ -189,12 +190,15 @@ MEDIA_ROOT = 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#import django
-#django.setup()
+
+
+import django
+django.setup()
 
 try:
     smtp_info = None   
     from custom_admin.models import MailSMTPInfo
+
 
     smtp_info = MailSMTPInfo.objects.last()
     if smtp_info:
@@ -204,8 +208,8 @@ try:
         EMAIL_PORT = smtp_info.EMAIL_PORT
         EMAIL_USE_TLS = True
         EMAIL_HOST_USER = smtp_info.EMAIL_HOST_USER
+        DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
         EMAIL_HOST_PASSWORD = smtp_info.EMAIL_HOST_PASSWORD
-        ACCOUNT_EMAIL_VERIFICATION = 'none'
 
     else:
         EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -214,14 +218,14 @@ try:
         EMAIL_USE_TLS = True
         EMAIL_HOST_USER = ''
         EMAIL_HOST_PASSWORD = ''
-        ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-except Exception as e:
-    print('settings mail smtp except e düstü', e)
+except:
+    print('settings mail smtp except e düstü')
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = ''
     EMAIL_PORT = ''
     EMAIL_USE_TLS = True
     EMAIL_HOST_USER = ''
     EMAIL_HOST_PASSWORD = ''
-    ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+

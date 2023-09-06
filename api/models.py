@@ -7,6 +7,7 @@ from PIL import Image
 from datetime import datetime
 from django.utils import timezone
 from django.contrib.postgres.fields import ArrayField
+from services.models import ServiceCategory
 
 class Profil(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)
@@ -24,6 +25,9 @@ class Profil(models.Model):
     foto = models.ImageField(null=True, blank=True, upload_to="profil_fotoları/%Y/%m/" )
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
+    
+    ref = models.CharField(max_length=260,default=None,blank=True,null=True,verbose_name='Referans')
+    ref_code = models.CharField(max_length=260,verbose_name='Referans Kodu')
     
     def __str__(self):
         return self.user.username
@@ -54,8 +58,22 @@ class InstagramAccounts(models.Model):
     ds_user_id = models.CharField(default="", max_length=250, blank=True, null=True)
     session_id = models.CharField(default="", max_length=250, blank=True, null=True)
     mid = models.CharField(default="", max_length=250, blank=True, null=True)
+
+    #yeni eklenen datalar
+    user_agent = models.CharField(default="", max_length=250, blank=True, null=True)
+    blokversion_id = models.CharField(default="", max_length=250, blank=True, null=True)
+    pigeon_id =  models.CharField(default="", max_length=250, blank=True, null=True)
+    android_id =models.CharField(default="", max_length=250, blank=True, null=True)
+    device_id =models.CharField(default="", max_length=250, blank=True, null=True)
+    phone_id = models.CharField(default="", max_length=250, blank=True, null=True)
+    waterfall_id = models.CharField(default="", max_length=250, blank=True, null=True)
+    guid = models.CharField(default="", max_length=250, blank=True, null=True)
+    adid = models.CharField(default="", max_length=250, blank=True, null=True)
+    ####################################################################################
+    
     shbid = models.CharField(default="", max_length=250, blank=True, null=True)
     shbts= models.CharField(default="", max_length=250, blank=True, null=True)
+
     region_hint= models.CharField(default="", max_length=250, blank=True, null=True)
     phone_number= models.CharField(default="", max_length=20, blank=True, null=True)
     country_code= models.IntegerField(default=0, blank=True, null=True)
@@ -87,7 +105,8 @@ class Services(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     comm = models.CharField(max_length=30, null=True,blank=True)
     type = models.CharField(max_length=200, default='Default')
-    category = models.CharField(max_length=200, blank=True)
+    category = models.CharField(max_length=200, blank=True,null=True,verbose_name='APP Kategori')
+    panel_category = models.ForeignKey(ServiceCategory,blank=True, null=True,verbose_name='Panel Kategori',on_delete=models.CASCADE,related_name='panel_category')
     rate = models.FloatField(blank=True, null=True) 
     min = models.IntegerField(default=1)
     max = models.IntegerField(default=99999)
@@ -118,11 +137,29 @@ class OrderList(models.Model):
     remains=models.IntegerField(default=0, null=True, blank=True)            #": "157",
     currency=models.CharField(max_length=3, default="TRY", null=True, blank=True )           #": "TRY"
     
+    #new fields
+    successful_value = models.IntegerField(default=0,verbose_name="Başarılı İşlem Miktarı")
+    process = models.IntegerField(default=0,verbose_name="İşlem Sayısı")
+    cancelled = models.BooleanField(default=False,verbose_name="İptal Durumu")
+    target = models.CharField(verbose_name='Hedef',max_length=500,blank=True,null=True)
+    user_order = models.BooleanField(default=False,verbose_name="Kullanıcı Siparişi")
+    auto_process = models.BooleanField(default=False,verbose_name="Oto İşlem")
+
     def difference(self):
         return self.quantity - self.remains
     class Meta:
         verbose_name_plural="order Listesi"
         ordering = ('-id', )
+
+class OrderUserLog(models.Model):
+    
+    order = models.ForeignKey(OrderList,on_delete=models.CASCADE,verbose_name='order')
+    user_id = models.CharField(verbose_name='user_id',max_length=50)
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name_plural = 'Sipariş Bot User Kayıtları'
+
 
 class InstagramVersions(models.Model):
     version=models.CharField(max_length=50, default="0.0.0")
@@ -190,12 +227,25 @@ class EarnList(models.Model):
     pdflink=models.CharField(max_length=200, null=True, blank=True)
     amount=models.FloatField(default=0.005)
     ghost=models.BooleanField(default=False)
+    ref_earn=models.BooleanField(default=False)
     operation_data=models.JSONField(default=dict, unique=True)
     time_stampt= models.DateTimeField(auto_now_add=True)
     
     class Meta:
         verbose_name_plural="Kazanc Tablosu"
-        ordering = ('-id', )        
+        ordering = ('-id', )
+
+
+class RefEarnList(models.Model):
+
+    normal_user = models.CharField( max_length=260,verbose_name='Kullanıcı')
+    ref_code = models.CharField( max_length=260,verbose_name='Referans Kullanıcı')
+    amount=models.FloatField(default=0.005)
+    time_stampt= models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name_plural="Referans Kazanc Tablosu"
+        ordering = ('-id', )    
 
 class BalanceRequest(models.Model):
     user= models.ForeignKey(User, on_delete=models.CASCADE, related_name='BalanceRequests') 

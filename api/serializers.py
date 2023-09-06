@@ -1,12 +1,13 @@
-from api.models import InstagramAccounts, Profil, ServicePrices, Services, EarnList, OrderList, BalanceRequest, InstagramVersions
+from api.models import InstagramAccounts, Profil, ServicePrices, Services, EarnList, OrderList, BalanceRequest, InstagramVersions,RefEarnList
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from rest_framework.authtoken.models import Token
-
+import uuid
 from dj_rest_auth.serializers  import PasswordResetSerializer
+from core.settings import ref_earn
 
 class InstagramSerializers(serializers.ModelSerializer):
     class Meta:
@@ -64,7 +65,30 @@ class EarnListSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def create(self, validated_data):                      
-        return EarnList.objects.create(**validated_data)  
+        earn = EarnList.objects.create(**validated_data)
+        if earn.user.profil.ref:
+            get_ref = Profil.objects.get(ref_code=earn.user.profil.ref)
+            ref_pay = earn.amount / 100 * ref_earn
+            earn.amount -= ref_pay
+
+            get_ref_earn = RefEarnList.objects.fitler(user=earn.user.username,ref_code=earn.user.profil.ref).last()
+            if get_ref_earn:
+                get_ref_earn.amount += ref_pay
+                get_ref_earn.save()
+            else:
+                RefEarnList.objects.create(user=earn.user.username,ref_code=earn.user.profil.ref,amount=ref_pay)
+
+            earn.save()
+            EarnList.objects.create(user=get_ref,amount=ref_pay,ref_earn=True)
+        return earn
+
+
+class RefEarnListSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
+    class Meta:
+        model = RefEarnList
+        fields = '__all__'
+        
       
 class BalanceRequestSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
@@ -106,11 +130,15 @@ class UserSerializers(serializers.ModelSerializer):
         token,_ = Token.objects.get_or_create(user=user)
         
         
-        if profile_data: 
-            profile_data.update({'token': token.key})
+        if profile_data:
+            while True:
+                create_ref_code = "{}#{}".format(user.username,str(uuid.uuid4().hex)[0:4].lower())
+                if Profil.objects.filter(ref_code=create_ref_code).count() == 0:
+                    break
+            
+            profile_data.update({'token': token.key,'ref_code':create_ref_code})
        
         Profil.objects.create(user=user, **profile_data)
-                            
         return user 
     
     def update(self, instance, validated_data):  

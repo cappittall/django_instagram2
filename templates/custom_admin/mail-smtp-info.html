@@ -1,0 +1,71 @@
+{% extends 'custom_admin/base.html' %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="container">
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix">
+                <div>
+                    {% if mailSend %}
+    
+                    {% if mailError %}
+                    
+                    <div class="style-msg errormsg">
+                        <div class="sb-msg"><i class="icon-remove"></i><strong>{% trans 'Hata' %}!</strong> {% trans 'Mail gönderilirken hata oluştu' %}.</div>
+                    </div>
+                    {% else %}
+                    <div class="style-msg successmsg">
+                        <div class="sb-msg"><i class="icon-success"></i><strong>{% trans 'Başarılı' %}!</strong> {% trans 'Mail başarıyla gönderildi' %}.</div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                {% if mail_smtp %}
+                <div class="text-right">
+                    <button data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg" class="btn btn-primary"><i class="icon-mail"></i>{% trans 'Mail Gönderim Testi' %}</button><br><br>
+                </div>
+                {% endif %}
+                {% if mailError == False %}
+                <form method="post" enctype="multipart/form-data">
+                    
+                    {% csrf_token %}
+                    {{ form|crispy }} <br><button class="btn btn-primary" type="submit" name="btnSave">{% trans 'Kaydet' %}</button>
+    
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    
+        {% if mail_smtp %}
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">{% trans 'Test Mail Gönder' %}</h4>
+                        <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST">
+                        {% csrf_token %}
+                        <label for="sending_subject">{% trans 'Başlık' %}*</label>
+                        <input type="text" required id="sending_subject" name="sending_subject" class="form-control">
+                        <label for="sending_content">{% trans 'İçerik' %}*</label>
+                        <input type="text" required id="sending_content" name="sending_content" class="form-control">
+                        <label for="sending_email">{% trans 'Email' %}*</label>
+                       <input type="email" required id="sending_email" name="sending_email" class="form-control">
+                        <br>
+                       <button class="btn btn-primary" name="btnSendTestMail">{% trans 'Gönder' %}</button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+</div>
+
+{% endblock %}

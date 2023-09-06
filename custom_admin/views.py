@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404, render,redirect
 from user.models import InstagramCookies,OtherInfo,UsersCategories
 from django.contrib.auth.models import User
 import threading
-from services.models import CountryCodes, Genders, HostKeys, Orders,Keys, ServiceCategory, Services, UserPackpages,ServicesSuccessfulLog,Affirmations
+from services.models import CountryCodes, Genders, HostKeys, Orders,Keys, ServiceCategory, UserPackpages,ServicesSuccessfulLog,Affirmations
 import binascii,os
 from .forms import ImportFileForm, UpdatePackpageform,UpdateServiceform, UserCategoriesForm,seoFilesForm,ArticleForm,MentionForm,UsersScannerForm
 from django.core.paginator import Paginator
@@ -25,23 +25,25 @@ from .forms import SmtpForm
 from .models import MailSMTPInfo
 
 import os
-
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 
 from custom_admin.models import AutoLikeUser
 import base64
 from .models import AutoFollowUser, ImportFiles,Proxy, SeoSettings,GetFollowDataLog,Article,Mentions, UsersScanner
 import datetime
-from core.settings import EMAIL_HOST_USER
+from core.settings import EMAIL_HOST_USER,site_url
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import EmailMessage
 from pathlib import Path
 from django.db.models import F
-
+from insta_scripts.follow import Follow
+from api.models import OrderUserLog
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 ## my codes hc
-from api.models import InstagramAccounts, OrderList, InstagramVersions, Profil
+from api.models import InstagramAccounts, OrderList, InstagramVersions, Profil,Services
 from collections import defaultdict
 from api.static.choices import choices
 from api.static.choices import apps_islemleri
@@ -57,6 +59,11 @@ from custom_admin.models import SmsLoginLog
 import random 
 from django.http import JsonResponse
 from custom_admin.models import SMSApi
+
+def sendMail(subject,content,email):
+    msg = EmailMultiAlternatives(subject,content,EMAIL_HOST_USER, email)
+    msg.attach_alternative(content, "text/html")
+    msg.send(fail_silently=False)
 
 def sendSMSCode(phone,request,code):
 
@@ -92,6 +99,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
 
 
 def ajax_view(request):
@@ -136,7 +144,8 @@ def ajax_view(request):
 
             }     
         print(response_data)
-        return JsonResponse(response_data)         
+        return JsonResponse(response_data)  
+           
 from datetime import datetime, timezone
 
 def ajax_view_verify(request):
@@ -437,9 +446,7 @@ def deleteOrder(request, id):
     OrderList.objects.filter(id=id).delete()
     return redirect('custom_admin:instagram-siparisler')
 
-def sendMail2(subject,content,email):
-    msg = EmailMessage(subject,content,EMAIL_HOST_USER, [email])
-    msg.send()
+
 
 
 def instagramApps(request):
@@ -658,7 +665,7 @@ def savePhotoView(request):
                 last_seo = SeoSettings.objects.all().last()
                 whileStatus = True
                 while whileStatus:
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -799,7 +806,7 @@ def sendWatchLiveView(request):
                 whileStatus = True
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -961,7 +968,7 @@ def sendLikeLiveView(request):
                 last_seo = SeoSettings.objects.all().last()   
                 whileStatus = True
                 while whileStatus:
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -1050,7 +1057,7 @@ def sendCommentLiveView(request):
                 whileStatus = True
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -1219,7 +1226,7 @@ def sendDMMessageView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -1668,7 +1675,7 @@ def sendDMTopluMessageView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -1749,7 +1756,7 @@ def sendDMReelTopluMessageView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -1830,7 +1837,7 @@ def sendDMIgTvTopluMessageView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -1913,7 +1920,7 @@ def sendDMVideoTopluMessageView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -1994,7 +2001,7 @@ def sendDMResimTopluMessageView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -2156,7 +2163,7 @@ def sendPostLikeView(request):
                 whileStatus = True
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -2319,7 +2326,7 @@ def sendPostCommentView(request):
                 last_seo = SeoSettings.objects.all().last() 
                 whileStatus = True
                 while whileStatus:
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -2372,13 +2379,164 @@ def sendPostCommentView(request):
         return render(request,'custom_admin/instagram_tools/send-postcomment.html',context)
 
 
-def multiRunFollow(us,auth_proxy,ip_port_proxy,x,user_order,quantity,total_quantity,follow_user,errorFile,textUser):
-     pass
+def multiRunFollow(us,auth_proxy,ip_port_proxy,x,user_order,quantity,total_quantity,follow_user,errorFile,textUser,users_categories):
+     
+
+    f = Follow(follow_user=follow_user)
+
+    successControl = True
+    exceptValue = 0
+    ok_status = False
+    while successControl:
+
+        if exceptValue > 0:
+
+            get_order_user_logs_id_list = list(OrderUserLog.objects.filter(order__id=user_order.id).values_list('user_id',flat=True))
+    
+            if users_categories:
+                
+                userCookies = InstagramAccounts.objects.all().exclude(id__in=get_order_user_logs_id_list).order_by('?')
+                
+                cleaned_up_list = []
+
+                for somemodel in userCookies:
+                    if somemodel not in cleaned_up_list:
+                        cleaned_up_list.append(somemodel)
+
+                userCookies = cleaned_up_list
+            
+            else:
+                userCookies = InstagramAccounts.objects.all().exclude(id__in=get_order_user_logs_id_list).order_by('?')
+
+            if len(userCookies) > 0:
+
+                us = random.choice(userCookies)
+                textUser = us.user.username
+                OrderUserLog.objects.create(order=user_order,user_id=us.id)
+            else:
+                break
+
+        try:
+            
+            #if ( int(time.time()) - us.last_process_time ) < 10:
+            #    print('user 10 saniye uykuya alindi arından isleme devam edecek...')
+            #    time.sleep(10)
+
+            #us.last_process_time = int(time.time()) + 3
+            #us.save()
+            print('start follow')
+            followStatus = f.followStart(cookie_user_id=us,auth_proxy=auth_proxy,ip_port_proxy=ip_port_proxy,db_androidid=us.androidid, db_authorization=us.authorization, db_claim=us.claim, db_deviceid=us.deviceid,
+                                    db_mid=us.mid, db_phoneid=us.phoneid, db_pigeonid=us.pigeonid, db_rur=us.rur, db_USER_AGENT=us.user_agent,
+                                    db_userid=us.userid, db_checksum=us.checksum,db_waterfallid=us.waterfallid,db_adid=us.adid,db_guid=us.guid,db_mykey=us.key)
+
+            print('status kontrol --------->>>>')           
+            if followStatus['status'] == False:
+
+                try:
+
+                    message = followStatus['message']
+                    print('message : ',followStatus)
+                    if message == 'feedback_required':
+                        print('feedback_required geldi... pasif olmali',us.user,us.id)
+                        us.feedback = True
+                        us.active = False
+
+                    elif message == 'challenge_required':
+                        print('challenge_required geldi... pasif olmali',us.user,us.id)
+
+                        us.challenge = True
+                        us.active = False
+
+                    elif message == 'checkpoint_required':
+                        print('checkpoint_required geldi... pasif olmali',us.user,us.id)
+
+                        us.checkpoint = True
+                        us.active = False
+
+                    elif message == 'login_required':
+                        print('login_required geldi... pasif olmali',us.user,us.id)
+                        us.login_required = True
+                        us.active = False
+                except Exception as e:
+                    print('hata : ',e)
+
+                exceptValue += 1
+                us.error_count +=1
+                us.save()
+
+            else:
+                ok_status = True
+                successControl = False
+
+            if x == 0:
+                user_order.start_count = int(f.follow_count_after)
+                print("follow_count_after : ",f.follow_count_after)
+        except:
+            exceptValue += 1
+            print('db hatası')
+
+    user_order.process +=1
+    if ok_status == False:
+        errorFile.write(textUser+'\n')
+
+    print("total islem : ",user_order.process)
+    if user_order.process == total_quantity:
+
+        readfile =  open(os.path.realpath(errorFile.name),'r')
+
+        errorFile.close()
+        errorCount = 0
+        for x in readfile.readlines():
+            if x:
+                errorCount += 1
+                icuser = InstagramCookies.objects.filter(user__username=x.replace('\n','')).last()
+                if icuser.error_count <= 3:
+                    print('hata kaydı yapıldı , ',icuser.user.username)
+                    icuser.error_count +=1
+                    icuser.save()
+                
+        try:
+            remove_path = os.path.realpath(readfile.name)
+            readfile.close()
+            os.remove(remove_path)
+        except:
+            pass
+        user_order.successful_value = total_quantity - errorCount
+        user_order.remains = quantity - user_order.successful_value
+        if user_order.remains > 0:
+            user_order.status = "Partial"
+        else:
+            user_order.status = "Completed"
+        user_order.save()
+        OrderUserLog.objects.filter(order=user_order).delete()
+
+        get_this_service_log = ServicesSuccessfulLog.objects.filter(service_id=str(user_order.service.service)).last()
+        
+        if get_this_service_log:
+            get_this_service_log.successful_value += int(user_order.successful_value)
+            get_this_service_log.save()
+        else:
+            ServicesSuccessfulLog.objects.create(service_id=user_order.service.service,service_name=user_order.service.name,successful_value=int(user_order.successful_value))
 
 
-def threadFollow(quantity,user_order,follow_user,users_categories):
+        print('order güncellendi',user_order.status)
+
+
+def threadFollow(quantity,user_order,follow_user,users_categories,subLocality,locality,country):
+    print('start threadFollow')
     followislemlog = {}
-    userCookies = InstagramCookies.objects.filter(user__otherinfo__category__id__in=users_categories,active=True).order_by('?')
+
+    if subLocality:
+        instagram_accounts= InstagramAccounts.objects.filter(subLocality=subLocality)
+    elif locality:
+        instagram_accounts= InstagramAccounts.objects.filter(locality=locality)
+    elif country:
+        instagram_accounts= InstagramAccounts.objects.filter(country=country)
+    else:
+        instagram_accounts= InstagramAccounts.objects.all()
+
+    userCookies = instagram_accounts
+    #userCookies = InstagramAccounts.objects.filter(user__otherinfo__category__id__in=users_categories).order_by('?')
     cleaned_up_list = []
 
     for somemodel in userCookies:
@@ -2409,7 +2567,7 @@ def threadFollow(quantity,user_order,follow_user,users_categories):
         user_order.save()
 
     for x in range(0, total_quantity):
-
+        print('process : ',x)
         process_ip_port_proxy = None
         process_auth_proxy = None
 
@@ -2460,13 +2618,20 @@ def sendFollowView(request):
     
     if request.user.is_authenticated and request.user.is_superuser:
         starting = False
+        instagram_accounts= InstagramAccounts.objects.all()
         get_user_categories = UsersCategories.objects.all()
         if "btnStart" in request.POST:
             
             insta_user= request.POST['username']
 
-            users_categories = request.POST.getlist('user_category')
+            users_categories = request.POST.getlist('user_category',[])
 
+            country_name = request.POST.get('country_name',None)
+            locality_name = request.POST.get('locality_name',None)
+            subLocality_name = request.POST.get('sublocality_name',None)
+            is_free = bool(request.POST['isFree']) if 'isFree' in request.POST else False
+            print('is free : ',is_free)
+            print(country_name,locality_name,subLocality_name)
             if insta_user.find('.com/') != -1:
                 insta_user = insta_user.split('.com/')[1].replace('/','')
                 insta_user = insta_user.split('?igshid')[0]
@@ -2477,16 +2642,19 @@ def sendFollowView(request):
 
 
             quantity = int(request.POST['quantity'])
-            sv = get_object_or_404(Services, category__category_name="Takipçi")
+            sv = get_object_or_404(Services, panel_category__category_name="Takipçi")
+            get_profile = Profil.objects.filter(user=request.user).last()
+            if get_profile is None:
+                get_profile = Profil.objects.create(user=request.user)
 
-            user_order = Orders.objects.create(user=request.user,target=insta_user,service=sv,charge=float(sv.rate),status="Pending",user_order=True)
+            user_order = OrderList.objects.create(user=get_profile,target=insta_user,service=sv,charge=float(sv.rate),status="Pending",user_order=True)
             
 
             def orderControl(user_order):
                 last_seo = SeoSettings.objects.all().last()
                 whileStatus = True
                 while whileStatus:
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -2496,9 +2664,9 @@ def sendFollowView(request):
                         whileStatus = False
                         break
 
-                    if Orders.objects.filter(status='In Progress').count() == 0 or last_seo.process_queue_disabled:
+                    if OrderList.objects.filter(status='In Progress').count() == 0 or last_seo.process_queue_disabled:
 
-                        orderLast = Orders.objects.filter(status='Pending').last()
+                        orderLast = OrderList.objects.filter(status='Pending').last()
                             
                         if user_order.id == orderLast.id or last_seo.process_queue_disabled:
 
@@ -2512,7 +2680,7 @@ def sendFollowView(request):
                             else:
                                 user_order.status = 'In Progress'
                                 user_order.save()
-                                t1 = threading.Thread(target=threadFollow,args=(quantity,user_order,insta_user,users_categories))
+                                t1 = threading.Thread(target=threadFollow,args=(quantity,user_order,insta_user,users_categories,subLocality_name,locality_name,country_name))
                                 t1.start()
                                 whileStatus = False
 
@@ -2528,6 +2696,13 @@ def sendFollowView(request):
             'title':'Takipçi Gönder',
             'starting':starting,
             'get_user_categories':get_user_categories,
+
+            'country': list(instagram_accounts.values('country').distinct()),
+            'locality': list(instagram_accounts.values('locality').distinct()),
+            'subLocality': list(instagram_accounts.values('subLocality').distinct()),
+            'instagram_accounts':json.dumps(list(InstagramAccounts.objects.values('country_code', 'country', 'locality', 'subLocality')))
+
+
         }
 
         return render(request,'custom_admin/instagram_tools/send-follow.html',context)
@@ -2830,11 +3005,11 @@ def apiOrdersView(request):
         if request.method == "GET":
             q = request.GET.get('q')
             if q:
-                orders = Orders.objects.filter(target=q)
+                orders = OrderList.objects.filter(target=q)
             else:
-                orders = Orders.objects.all()
+                orders = OrderList.objects.all()
         else:
-            orders = Orders.objects.all()
+            orders = OrderList.objects.all()
 
                     
         for x in orders:
@@ -3123,7 +3298,6 @@ def servicesview(request):
     if request.user.is_authenticated and request.user.is_superuser:
         user_packpages_db = UserPackpages.objects.all()
         category_db = ServiceCategory.objects.all()
-        
         all_services = Services.objects.all()
 
         for x in all_services:
@@ -3172,6 +3346,7 @@ def new_services_view(request):
     if request.user.is_authenticated and request.user.is_superuser:
         user_packpages_db = UserPackpages.objects.all()
         #category_db = ServiceCategory.objects.all()
+        get_panel_cats = ServiceCategory.objects.all()
         
         all_services = api_services.objects.all()
 
@@ -3189,15 +3364,17 @@ def new_services_view(request):
             min_ = request.POST['min']
             max_ = request.POST['max']
             rate_ = request.POST['rate']
-            category = request.POST['category']
+            category = request.POST.get('category',None)
+            panel_category = request.POST.get('category2',None)
 
+            get_panel_cat = get_object_or_404(ServiceCategory,id=panel_category)
 
             packpages = None
             if user_packpages:
 
                 packpages = get_object_or_404(UserPackpages,id=int(user_packpages))
 
-            api_services.objects.create(name=name,packpages=packpages,category=category,min=min_,max=max_,rate=rate_)
+            api_services.objects.create(name=name,packpages=packpages,comm=category,category=category,panel_category=get_panel_cat,min=min_,max=max_,rate=rate_)
             return redirect('custom_admin:new-services')
         
         context = {
@@ -3207,6 +3384,8 @@ def new_services_view(request):
             #'category_db':category_db,
             'service_lists':choices,
             'services':all_services,
+            'panel_cats':get_panel_cats,
+
         }
 
         return render(request,'custom_admin/services_new.html',context)
@@ -3656,14 +3835,13 @@ def smtpSettingsView(request):
     if request.user.is_authenticated and request.user.is_superuser:
         
         smtp_form = SmtpForm(request.POST or None, request.FILES or None)
-        last_seo = MailSMTPInfo.objects.all().last()
+        smtp_obj = MailSMTPInfo.objects.all().last()
         smtp_test_status = False
         mailSend = False
         mailError = False
 
-        if last_seo:
-            smtp_form = SmtpForm(request.POST or None, request.FILES or None,instance=last_seo)
-            smtp_test_status = True
+        smtp_form = SmtpForm(request.POST or None, request.FILES or None,instance=smtp_obj)
+        smtp_test_status = True
 
         if 'btnSave' in request.POST and smtp_form.is_valid():
             smtp_form.save()
@@ -3674,12 +3852,21 @@ def smtpSettingsView(request):
             subject = request.POST['sending_subject']
             content = request.POST['sending_content']
             email = request.POST['sending_email']
+
+            cont = {
+                'content':content,
+            }
+
+            template = render_to_string('email_templates/test-mail.html',cont)
             try:
-                sendMail2(subject,content,email)
+
+                sendMail(subject,template,[email])
                 return redirect('custom_admin:smtp-settings')
-            except Exception as e :
-                print(e)
+            except Exception as e:
+                print('hata : ',e)
                 mailError = True
+                
+         
 
         context = {
             'title':'SMTP Mail Ayarları',
@@ -4761,7 +4948,7 @@ def sendIgtvLinkDmView(request):
                     whileStatus = True
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -5157,7 +5344,7 @@ def sendReelLinkDmView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -5455,7 +5642,7 @@ def sendProfilMessageDmView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -5550,7 +5737,7 @@ def sendProfilMessageDmLinkView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -5732,7 +5919,7 @@ def sendPostVideoLinkDmView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -5921,7 +6108,7 @@ def sendPostImageLinkDmView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -6292,7 +6479,7 @@ def sendDMTopluMessageFollowersView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -6470,7 +6657,7 @@ def sendDMResimTopluMessageFollowersView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -6653,7 +6840,7 @@ def sendDMVideoTopluMessageFollowersView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -6840,7 +7027,7 @@ def sendDMIgtvTopluMessageFollowersView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -7024,7 +7211,7 @@ def sendDMReelTopluMessageFollowersView(request):
                 last_seo = SeoSettings.objects.all().last()
                 while whileStatus:
 
-                    user_order = get_object_or_404(Orders,id=user_order.id)
+                    user_order = get_object_or_404(OrderList,id=user_order.id)
                     print('kontroller sağlanıyor...',user_order.cancelled)
                     if user_order.cancelled:
                                                 
@@ -7204,7 +7391,7 @@ def sendPostImageLinkDmFollowersView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -7394,7 +7581,7 @@ def sendPostVideoLinkDmFollowersView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -7584,7 +7771,7 @@ def sendPostIGTVLinkDmFollowersView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -7773,7 +7960,7 @@ def sendPostReelLinkDmFollowersView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -7869,7 +8056,7 @@ def sendProfilMessageDmFollowersView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     
@@ -8063,7 +8250,7 @@ def sendProfilMessageDmLinkFollowersView(request):
                     last_seo = SeoSettings.objects.all().last()
                     while whileStatus:
 
-                        user_order = get_object_or_404(Orders,id=user_order.id)
+                        user_order = get_object_or_404(OrderList,id=user_order.id)
                         print('kontroller sağlanıyor...',user_order.cancelled)
                         if user_order.cancelled:
                                                     

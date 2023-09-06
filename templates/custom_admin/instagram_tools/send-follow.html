@@ -39,14 +39,52 @@
 </div>
 </div>
 <br>
-
-
+<div class="field">
+  <div class="control">
+    <input type="checkbox" id="isFree" name="isFree" value="0"  class="control">
+    <label for="isFree"> {% trans 'Ücretsiz işlem' %} </label>
+  </div>
+  </div>
+  <br>
+<!--
 <label>{% trans 'Kullanıcı kategorileri' %}</label>
 <select name="user_category" required style="width: 100%;" multiple id="">
   {% for x in get_user_categories %}
   <option value="{{ x.id }}">{{ x.category_name }}</option>
   {% endfor %}
 </select>
+-->
+<div id="ulke" class="field">
+  <label>{% trans 'Ülke ' %}</label>
+  <select  name="country_name"  style="width: 100%;" id="country_name" class="form-control">
+      <option value="">---</option>
+      {% for c in country %}
+          <option value="{{ c.country }}">{{ c.country }} </option>
+      {% endfor %}
+  </select>
+  </div>
+  
+  <div id="sehir" class="field" style="display:none;">
+  <label>{% trans 'Şehir ' %}</label>
+  <select  name="locality_name"   style="width: 100%;" id="locality_name" class="form-control">
+      <option value="">---</option>
+      {% for c in locality %}
+          <option value="{{ c.locality }}">{{ c.locality }} </option>
+      {% endfor %}
+  </select>
+  </div>
+  
+  <div id="bolge" class="field" style="display:none;">
+  <label>{% trans 'Bölge ' %}</label>
+  <select  name="sublocality_name"   style="width: 100%;" id="sublocality_name" class="form-control">
+      <option value="">---</option>
+      {% for c in subLocality %}
+          <option value="{{ c.subLocality }}">{{ c.subLocality }} </option>
+      {% endfor %}
+  </select>
+  </div>
+  <br>
+
 <div style="text-align: center;"><br>
 <button type="submit" name="btnStart" class="btn btn-primary">{% trans 'İşlemi Başlat' %}</button>
 
@@ -59,4 +97,80 @@
 </div>
 </div>
 
+
+<script>
+  const countElem = document.getElementById('start_count_input');
+  var instagram_accounts = JSON.parse('{{ instagram_accounts|escapejs }}')
+  const selectElement = document.getElementById('service_lists');
+  const countryElem = document.getElementById('country_name');
+  const localityElem = document.getElementById('locality_name');
+  const sublocalityElem = document.getElementById('sublocality_name');
+  const sehirElem = document.getElementById('sehir');
+  const bolgeElem = document.getElementById('bolge');
+
+  
+  countryElem.onchange = function() {
+      var selected_country_name = document.getElementById('country_name').value;
+      if (selected_country_name == '') {
+          sehirElem.style.display = 'none';
+          bolgeElem.style.display = 'none';
+          // unfilter all instagram accounts
+          var filtered_accounts = instagram_accounts
+      } else {
+          sehirElem.style.display = 'block';
+          // filter instagram accounts by country code
+          var filtered_accounts = instagram_accounts.filter(function(account) {
+              return account.country == selected_country_name;
+          });
+      }
+      
+      // write filtered length to context['title'] rendered above
+      document.getElementById('insta_start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+      countElem.value = filtered_accounts.length;
+  
+  };
+  localityElem.onchange = function() {
+      var selected_country_name = document.getElementById('country_name').value;
+      var selected_locality_name = document.getElementById('locality_name').value;
+  
+      if (selected_locality_name == '') {
+          bolgeElem.style.display = 'none';
+          var filtered_accounts = instangram_accounts.filter(function(account) {
+              return account.country == selected_country_name;
+          });
+      } else {
+          bolgeElem.style.display = 'block';
+          // filter instagram accounts by previous selected country code
+          var filtered_accounts = instagram_accounts.filter(function(account) {
+              return account.locality == selected_locality_name;
+          });
+
+      }
+      
+      // write filtered length to context['title'] rendered above
+      document.getElementById('insta_start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+      countElem.value = filtered_accounts.length;
+
+  };
+
+  sublocalityElem.onchange = function() {
+      var selected_locality_name = document.getElementById('locality_name').value;
+      var selected_sublocality_name = document.getElementById('sublocality_name').value;
+      
+      if (selected_sublocality_name == '') {
+          var filtered_accounts = instagram_accounts.filter(function(account) {
+              return account.locality == selected_locality_name;
+          });
+      } else {
+          // filter instagram accounts by previous selected country code
+          var filtered_accounts = instagram_accounts.filter(function(account) {
+              return account.subLocality == selected_sublocality_name;
+          });
+      }
+      // write filtered length to context['title'] rendered above
+      document.getElementById('insta_start_count').innerHTML = filtered_accounts.length + ' Kişi'; 
+      countElem.value = filtered_accounts.length;
+  };
+      
+</script>
   {% endblock %}

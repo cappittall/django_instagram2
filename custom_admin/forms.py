@@ -10,9 +10,7 @@ class SmtpForm(forms.ModelForm):
     
     class Meta:
         model = MailSMTPInfo
-
         fields  = '__all__'
-
 
 
 class UserCategoriesForm(forms.ModelForm):
@@ -73,7 +71,7 @@ class UpdateServiceform(forms.ModelForm):
 
     class Meta:
         model = api_services
-        fields  = ['packpages','name','min','max','rate']
+        fields  = ['packpages','name','min','max','rate','panel_category']
 
 
 class UpdatePackpageform(forms.ModelForm):

@@ -54,12 +54,25 @@
       </select>
     </div>
 
+    <div class="form-group">
+      <div class="row">
+        <div class="col-12">
+         <label>{% trans 'Panel Kategori' %}</label>
+         <select name="category2" class="form-control">
+           <option value selected>----------</option>
+           {% for x in panel_cats %}
+           <option value="{{ x.id }}">{{ x.category_name }} </option>
+           {% endfor %}
+         </select>
+        </div>
+      </div>
+    </div>
     
    <div class="form-group">
      <div class="row">
        <div class="col-12">
-        <label>{% trans 'Kategori' %}*</label>
-        <select name="category" required class="form-control">
+        <label>{% trans 'App Kategori' %}</label>
+        <select name="category" class="form-control">
           <option value selected>----------</option>
           {% for key, value in service_lists.items %}
           <option value="{{ key }}">{{ value }} </option>
@@ -68,6 +81,9 @@
        </div>
      </div>
    </div>
+
+
+
    <div class="form-group">
     <div class="row">
    
@@ -118,7 +134,8 @@
                <th>ID</th>
                <th >{% trans 'Servis İsmi' %}</th>
                <th>{% trans 'Kullanıcı Paketi' %}</th>
-               <th>{% trans 'Kategori' %}</th>
+               <th>{% trans 'App Kategori' %}</th>
+               <th>{% trans 'Panel Kategori' %}</th>
                <th>Type</th>
                <th>Min</th>
                <th>Max</th>
@@ -141,6 +158,9 @@
                </td>
                <td class="text-center">
                 {{service.category  }}
+               </td>
+               <td class="text-center">
+                {{service.panel_category  }}
                </td>
                <td class="text-center">
                 {{service.category.category_type.type_name  }}

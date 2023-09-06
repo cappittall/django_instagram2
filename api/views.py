@@ -24,8 +24,8 @@ from rest_framework.throttling import SimpleRateThrottle
 from api.permissions import CustomPermission
 from api.serializers import ChangePasswordSerializer, InstagramSerializers, ProfilSerializers, \
     UserSerializers, ProfilFotoSerializer, ServiceSerializers, ServicePriceSerializers, \
-    EarnListSerializer, OrdersSerializers, BalanceRequestSerializer, InstagramVersionsSerializers
-from api.models import InstagramAccounts, Profil, ServicePrices, EarnList, Services, OrderList, BalanceRequest, InstagramVersions
+    EarnListSerializer, OrdersSerializers, BalanceRequestSerializer, InstagramVersionsSerializers,RefEarnListSerializer
+from api.models import InstagramAccounts, Profil, ServicePrices, EarnList, Services, OrderList, BalanceRequest, InstagramVersions,RefEarnList
 from api.static.choices import choices
 import json
 import pandas as pd
@@ -241,7 +241,36 @@ class EarnListViewSet(ModelViewSet):
         if response.data:
             response.data['sum'] = self.get_queryset().aggregate(Sum('amount'))['amount__sum']
         return response
+
+
+class RefEarnListViewSet(ModelViewSet):
     
+    queryset= RefEarnList.objects.all()
+    serializer_class= RefEarnListSerializer
+    permissions_classes = [CustomPermission]
+    pagination_class = StandardResultsSetPagination
+    filter_backends = [DjangoFilterBackend]
+    
+    def perform_create(self, serializer):
+           
+        user = self.request.user
+        serializer.save(user=user) 
+        
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return RefEarnList.objects.filter(ref_code=user.profil.ref_code)
+    
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        if response.data:
+            response.data['sum'] = self.get_queryset().aggregate(Sum('amount'))['amount__sum']
+        return response
+
+
     
 #one user can create one record in a month
 class BalanceRequestThrottle(SimpleRateThrottle):

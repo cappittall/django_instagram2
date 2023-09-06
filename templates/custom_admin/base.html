@@ -80,7 +80,7 @@
                 <a href="#" class="nav-link"  onclick="toggleTreeview()">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
-                    {% trans 'Instagram İşlemleri' %} 
+                    {% trans 'App Instagram İşlemleri' %} 
                   </p>
                 </a>
                 <ul class="nav nav-treeview" id="treeview" style="display: block;">
@@ -105,6 +105,252 @@
                     
                 </ul>
               </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    {% trans 'Instagram İşlemleri' %} 
+                  </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:profile-visit' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans 'Profil Ziyaret' %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:video-view' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Video İzleme" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:send-follow' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Takipçi Gönderme" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:auto-follow' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Oto Takip Edileni Takip" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:post-like' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Beğeni Gönderme" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:auto-post-like' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Oto Beğeni Gönderme" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:post-comment' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Yorum Gönderme" %}</p>
+                    </a>
+                  </li>
+                 
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:save-photos' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Fotoğraf Kaydetme" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:watch-live' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Canlı Yayın İzlenme" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:like-live' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Canlı Yayın Beğeni" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:commnet-live' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Canlı Yayın Yorum" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dm-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Mesaj Gönderme" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dm-toplu-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu Link Mesaj" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dmresim-toplu-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu Resimli Mesaj" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dmvideo-toplu-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu Videolu Mesaj" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dmigtv-toplu-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu IGTV Mesaj" %}</p>
+                    </a>
+                  </li>     
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dmreel-toplu-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu Reel Video Mesaj" %}</p>
+                    </a>
+                  </li>    
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:profile-message-dm' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Profil + Mesaj DM" %}</p>
+                    </a>
+                  </li>      
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    {% trans "Instagram Özel İşlemler" %}
+                  </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:igtvlink-toplu-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Igtv Link Mesaj Toplu DM" %}</p>
+                    </a>
+                  </li>  
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:reellink-toplu-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Reel Link Mesaj Toplu DM" %}</p>
+                    </a>
+                  </li>  
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:postvideo-link-toplu-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Video Link Mesaj Toplu DM" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:postimage-link-toplu-message' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Resim Link Mesaj Toplu DM" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:profile-message-dm-link' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Profil + Mesaj + Link DM" %}</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    {% trans "Takipçi Taramalı İşlemler" %}
+                  </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dm-toplu-message-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu Link Mesaj" %}</p>
+                    </a>
+                  </li>  
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dmresim-toplu-message-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu Resimli Mesaj" %}</p>
+                    </a>
+                  </li>  
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dmvideo-toplu-message-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu Videolu Mesaj" %}</p>
+                    </a>
+                  </li>  
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dmigtv-toplu-message-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu IGTV Mesaj" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:dmreel-toplu-message-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "DM Toplu Reel Mesaj" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:profile-message-dm-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Profil + Mesaj DM<" %}/p>
+                    </a>
+                  </li>    
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    {% trans "Takipçi Taramalı Özel İşlemler" %}
+                  </p>
+                </a>
+                <ul class="nav nav-treeview" style="display: none;">
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:postimage-link-collective-message-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Resim Link Mesaj Toplu DM" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:postvideo-link-collective-message-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Video Link Mesaj Toplu DM" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:igtv-link-collective-message-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "IGTV Link Mesaj Toplu DM" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:reel-link-collective-message-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Reel Link Mesaj Toplu DM" %}</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{% url 'custom_admin:profile-message-dm-link-followers' %}" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>{% trans "Profil + Mesaj + Link DM" %}</p>
+                    </a>
+                  </li> 
+                </ul>
+              </li>
+
               <li class="nav-item">
                 <a href="{% url 'custom_admin:new-services' %}" class="nav-link">
                   <i class="nav-icon fa fa-plus-square"></i>
@@ -229,7 +475,7 @@
                   </p>
                 </a>
               </li>
-              <!--
+              
               <li class="nav-item">
                 <a href="{% url 'custom_admin:smtp-settings' %}" class="nav-link">
                   <i class="nav-icon fa fa-envelope"></i>
@@ -238,7 +484,7 @@
                   </p>
                 </a>
               </li>
-              -->
+             
                 <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:add-proxy' %}" class="nav-link">
@@ -249,7 +495,7 @@
                 </a>
               </li>
               -->
-                <!--
+                
               <li class="nav-item">
                 <a href="{% url 'custom_admin:api-orders' %}" class="nav-link">
                   <i class="nav-icon fa fa-suitcase"></i>
@@ -258,7 +504,7 @@
                   </p>
                 </a>
               </li>
-              -->
+            
                 <!--
               <li class="nav-item">
                 <a href="{% url 'custom_admin:api-order-affirmations' %}" class="nav-link">
